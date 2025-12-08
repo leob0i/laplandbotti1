@@ -6,18 +6,30 @@ import { sendTextMessage } from '../services/whatsappService.js';
 
 const router = Router();
 
+// WEBHOOK VERIFY (GET)
 router.get('/', (req, res) => {
   const mode = req.query['hub.mode'];
-  const token = req.query['hub.verify_token'];
+  const rawToken = req.query['hub.verify_token'];
   const challenge = req.query['hub.challenge'];
 
-  if (mode === 'subscribe' && token === config.whatsappVerifyToken) {
+  const token = typeof rawToken === 'string' ? rawToken.trim() : '';
+  const expected = (config.WHATSAPP_VERIFY_TOKEN || '').trim();
+
+  if (mode === 'subscribe' && token && expected && token === expected && challenge) {
+    console.log('[WHATSAPP] Webhook verify OK');
     return res.status(200).send(challenge);
   }
+
+  console.warn('[WHATSAPP] Webhook verify FAILED', {
+    mode,
+    tokenReceived: token,
+    expectedTokenLength: expected.length,
+  });
 
   return res.sendStatus(403);
 });
 
+// INCOMING MESSAGES (POST)
 router.post('/', async (req, res, next) => {
   try {
     const entry = req.body?.entry?.[0];
