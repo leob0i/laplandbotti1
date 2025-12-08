@@ -1,6 +1,6 @@
 import { config } from '../config.js';
 
-const WA_BASE_URL = 'https://graph.facebook.com/v21.0';
+const WA_BASE_URL = 'https://graph.facebook.com/v22.0';
 
 /**
  * Lähettää tekstiviestin WhatsApp Cloud API:n kautta.
