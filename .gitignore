@@ -1,0 +1,11 @@
+# Env secrets
+.env
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Optional
+.DS_Store

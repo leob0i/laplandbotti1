@@ -1,0 +1,20 @@
+[
+  {
+    "id": "pricing_basic",
+    "question": "Paljonko botti maksaa",
+    "answer": "Botti hinnoitellaan selkeästi: aloitusmaksu ja kuukausimaksu, jotka sovitaan yrityksesi tarpeen mukaan. Demon ja ensimmäisen version jälkeen saat tarkan tarjouksen.",
+    "tags": ["hinta", "pricing", "maksu"]
+  },
+  {
+    "id": "features_overview",
+    "question": "Mitä botti osaa",
+    "answer": "Botti vastaa yleisimpiin kysymyksiin FAQ-tiedoston pohjalta, hoitaa yövuoron, ja tarvittaessa siirtää keskustelun ihmiselle. Sama numero toimii sekä WhatsApp Business -apissa että bottina.",
+    "tags": ["ominaisuudet", "featuret", "mitä osaa"]
+  },
+  {
+    "id": "setup_time",
+    "question": "Kuinka nopeasti botti saadaan käyttöön",
+    "answer": "Perusversio saadaan yleensä käyttöön muutamassa päivässä, kun FAQ-materiaali ja WhatsApp Cloud API -yhteydet ovat kunnossa.",
+    "tags": ["asennus", "aloitus", "kuinka nopeasti"]
+  }
+]
