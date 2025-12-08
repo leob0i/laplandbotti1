@@ -32,6 +32,9 @@ router.get('/', (req, res) => {
 // INCOMING MESSAGES (POST)
 router.post('/', async (req, res, next) => {
   try {
+        // DEBUG: logataan koko raakadata, jotta nähdään mitä Meta oikeasti lähettää
+    console.log('[WhatsApp] RAW WEBHOOK BODY:', JSON.stringify(req.body));
+
     const entry = req.body?.entry?.[0];
     const change = entry?.changes?.[0];
     const value = change?.value;
