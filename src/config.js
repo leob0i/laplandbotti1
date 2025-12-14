@@ -15,8 +15,8 @@ export const config = {
   OPENAI_MODEL: process.env.OPENAI_MODEL || "gpt-4o-mini",
 
     // UUSI: pieniä säätöjä, turvalliset oletukset
-  OPENAI_TEMPERATURE: Number(process.env.OPENAI_TEMPERATURE ?? 0.2),
-  OPENAI_MAX_TOKENS: Number(process.env.OPENAI_MAX_TOKENS ?? 220),
+  OPENAI_TEMPERATURE: Number(process.env.OPENAI_TEMPERATURE ?? 0.3),
+  OPENAI_MAX_TOKENS: Number(process.env.OPENAI_MAX_TOKENS ?? 300),
 
   TIMEZONE: process.env.TIMEZONE || "Europe/Helsinki",
   BOT_ACTIVE_START: Number(process.env.BOT_ACTIVE_START ?? 21),

@@ -1,20 +1,503 @@
 [
   {
-    "id": "pricing_basic",
-    "question": "Paljonko botti maksaa",
-    "answer": "Botti hinnoitellaan selkeästi: aloitusmaksu ja kuukausimaksu, jotka sovitaan yrityksesi tarpeen mukaan. Demon ja ensimmäisen version jälkeen saat tarkan tarjouksen.",
-    "tags": ["hinta", "pricing", "maksu"]
+    "id": "company_overview",
+    "question": "Who are Lapland Explorers and what do you offer?",
+    "answer": "Lapland Explorers is a Lapland-based tour company specialising in Northern Lights tours from Rovaniemi and small-group adventure experiences. Their main focus is fully guaranteed aurora hunts led by local guides using real-time aurora and weather data. In addition to Northern Lights tours, they offer unique activities such as a Guided Ranua Wildlife Park Tour, a Family Aurora Barbecue, hiking in Riisitunturi National Park with photography, and a cozy Christmas card painting workshop in Rovaniemi.",
+    "tags": [
+      "about lapland explorers",
+      "company info",
+      "who are you",
+      "what do you do",
+      "northern lights tour rovaniemi",
+      "lapland tours",
+      "unique experiences rovaniemi",
+      "lapland explorers oy"
+    ]
   },
   {
-    "id": "features_overview",
-    "question": "Mitä botti osaa",
-    "answer": "Botti vastaa yleisimpiin kysymyksiin FAQ-tiedoston pohjalta, hoitaa yövuoron, ja tarvittaessa siirtää keskustelun ihmiselle. Sama numero toimii sekä WhatsApp Business -apissa että bottina.",
-    "tags": ["ominaisuudet", "featuret", "mitä osaa"]
+    "id": "northern_lights_what_are",
+    "question": "What are the Northern Lights?",
+    "answer": "The Northern Lights, or Aurora Borealis, are a natural light display in the Arctic sky. They appear when charged particles from the sun collide with gases in Earth’s atmosphere, creating waves of light that move and change shape. They are most often green, but can also appear in purple, pink or red. Lapland is one of the best places in the world to see them.",
+    "tags": [
+      "what are northern lights",
+      "what is aurora borealis",
+      "aurora explanation",
+      "revontulet selitys",
+      "northern lights colours",
+      "why do northern lights happen"
+    ]
   },
   {
-    "id": "setup_time",
-    "question": "Kuinka nopeasti botti saadaan käyttöön",
-    "answer": "Perusversio saadaan yleensä käyttöön muutamassa päivässä, kun FAQ-materiaali ja WhatsApp Cloud API -yhteydet ovat kunnossa.",
-    "tags": ["asennus", "aloitus", "kuinka nopeasti"]
+    "id": "why_choose_lapland_explorers",
+    "question": "Why should I choose Lapland Explorers for a Northern Lights tour in Rovaniemi?",
+    "answer": "Lapland Explorers highlights several reasons to choose them: tours are led by passionate local guides who know the Lapland wilderness very well; tour duration is flexible each night and adjusted based on real-time aurora activity and weather; guides use live aurora data and weather maps to select less-crowded, hidden viewing spots; you travel in a warm vehicle with hot drinks and traditional Lappish snacks; professional aurora photography is included; and they operate under a fair refund policy where they avoid going out when conditions look bad and apply a guaranteed 'no aurora, no pay' approach if the Northern Lights do not appear.",
+    "tags": [
+      "why choose lapland explorers",
+      "why your company",
+      "why book with you",
+      "local guides",
+      "flexible tour duration",
+      "hidden spots",
+      "no aurora no pay",
+      "revontuli retki miksi teidät"
+    ]
+  },
+  {
+    "id": "ratings_reviews",
+    "question": "What reviews and ratings does Lapland Explorers have?",
+    "answer": "On the homepage, Lapland Explorers shows a 4.9/5 rating on TripAdvisor based on 69 reviews and a 4.9/5 rating on GetYourGuide based on 450 reviews. Guest testimonials emphasise that guides are friendly, professional and very committed, often driving long distances into Swedish or Norwegian Lapland when necessary. Reviews also highlight transparent communication about weather, the possibility to change dates when conditions are poor, high-quality photos, and a generally memorable Northern Lights experience.",
+    "tags": [
+      "reviews",
+      "ratings",
+      "tripadvisor score",
+      "getyourguide rating",
+      "customer feedback",
+      "is this company reliable",
+      "onko teillä arvosteluja"
+    ]
+  },
+  {
+    "id": "discover_auroras_with_locals",
+    "question": "What does 'Discover Auroras With Locals' mean?",
+    "answer": "'Discover Auroras With Locals' describes their approach to aurora hunting: tours are led by local guides from the Rovaniemi area who know the region’s wilderness and hidden viewing spots very well. Instead of staying near the city or in crowded locations, they drive beyond the city lights into the Arctic silence, choosing the route using live aurora and weather data. Each night is treated as a personalised journey into the unknown, rather than a fixed bus route.",
+    "tags": [
+      "discover auroras with locals",
+      "local guides meaning",
+      "what does discover auroras mean",
+      "local experience",
+      "rovaniemi born guides",
+      "revontuliretki paikallisten kanssa"
+    ]
+  },
+  {
+    "id": "aurora_tours_overview",
+    "question": "What Northern Lights tours do you offer from Rovaniemi?",
+    "answer": "Lapland Explorers offers two main Northern Lights tours from Rovaniemi. The 'Guaranteed Northern Lights Group Tour with Photos' is the budget-friendly option, marked as very easy and lasting up to about 5 hours. It is guided by the same local aurora experts as the small-group tour and includes warm drinks, snacks and professional photos. The 'Guaranteed Northern Lights Small Group Tour with Photos' is the fully guaranteed flagship product, marked as very easy with a duration listed as 5–12 hours. This tour has no time or distance limits: the team will stay out as long as needed and drive wherever the aurora appears, even as far as Norway when that is where the clear skies are.",
+    "tags": [
+      "northern lights tours",
+      "aurora tour options",
+      "what tours do you have",
+      "group tour",
+      "small group tour",
+      "rovaniemi aurora hunts",
+      "revontuli retket vaihtoehdot"
+    ]
+  },
+  {
+    "id": "aurora_group_tour_details",
+    "question": "What is included in the Guaranteed Northern Lights Group Tour with Photos?",
+    "answer": "The Guaranteed Northern Lights Group Tour with Photos is presented as a budget-friendly option that still uses the same local aurora experts as the small-group tour. The tour is marked as very easy and lasts up to around 5 hours. It includes pickup and return transport in the Rovaniemi area, guidance from a local Northern Lights expert, warm drinks and snacks, and professional photos of your night under the stars. The description also notes that if conditions look poor, Lapland Explorers will contact you beforehand so you can choose between a full refund or switching to the more flexible small-group tour. The tour is covered by the same guaranteed policy as their other aurora hunts.",
+    "tags": [
+      "group tour details",
+      "group aurora tour",
+      "what is included group tour",
+      "budget northern lights tour",
+      "5 hour aurora tour",
+      "guaranteed northern lights group",
+      "edullinen revontuliretki"
+    ]
+  },
+  {
+    "id": "aurora_small_group_tour_details",
+    "question": "What is included in the Guaranteed Northern Lights Small Group Tour with Photos?",
+    "answer": "The Guaranteed Northern Lights Small Group Tour with Photos is described as a fully guaranteed aurora hunt with no time or distance limits. The tour is marked as very easy and the homepage lists the duration as 5–12 hours. The team stays out as long as needed and drives wherever the aurora appears, even to Norway when that is where clear skies are. Because it is a small-group tour, the route can be adjusted quickly, detours are possible, and the guide can choose remote viewing spots that large groups cannot reach. The tour includes pickup and return transport, a local expert guide, hot drinks and traditional snacks, professional aurora photography and flexible tour duration, all under the 'no aurora, no pay' guarantee.",
+    "tags": [
+      "small group tour details",
+      "unlimited aurora tour",
+      "no time limit tour",
+      "guaranteed northern lights small group",
+      "private style group",
+      "5 12 hours aurora",
+      "revontuli retki pieni ryhmä"
+    ]
+  },
+  {
+    "id": "aurora_tour_difficulty",
+    "question": "How physically demanding are the Northern Lights tours?",
+    "answer": "Both the Group Tour and the Small Group Tour are marked as 'Very easy' on the site. Most of the time is spent travelling in a warm vehicle and waiting comfortably at the chosen viewing location. A typical night includes a scenic drive into the wilderness, a campfire, hot drinks and Lappish snacks while you wait, and short walks to suitable viewing spots. The tours are designed to be low in physical difficulty for most guests, although the total time outside can range from a few hours up to a long night depending on conditions.",
+    "tags": [
+      "difficulty level",
+      "is the tour hard",
+      "physical demand",
+      "very easy tour",
+      "can anyone join",
+      "walking distance aurora tour",
+      "onko retki raskas"
+    ]
+  },
+  {
+    "id": "aurora_best_time",
+    "question": "When is the best time to see the Northern Lights?",
+    "answer": "According to the site’s FAQ, the best time to see the Northern Lights is from September to March. The solar activity is noted as being strongest during the spring period. Outside these months it is usually too bright in Lapland for reliable aurora viewing.",
+    "tags": [
+      "best time northern lights",
+      "when to see aurora",
+      "aurora season rovaniemi",
+      "revontulet milloin",
+      "september march northern lights",
+      "when should I book aurora tour"
+    ]
+  },
+  {
+    "id": "aurora_included",
+    "question": "What is included in an aurora hunt tour?",
+    "answer": "The FAQ states that an aurora hunt includes transportation and pickup within a 10 km range of Rovaniemi city center, a local guide, and hot drinks and snacks. In the 'We go the extra mile' section they add that you can expect a personalised small-group experience, expert local guidance, a data-driven approach where decisions are based on performance and real-time information, pickup and return transport, hot drinks plus traditional snacks, professional aurora photography and flexible tour duration.",
+    "tags": [
+      "what is included",
+      "aurora tour inclusions",
+      "pickup and snacks",
+      "transport and guide",
+      "professional photos included",
+      "revontuliretken sisältö",
+      "what do I get in the tour"
+    ]
+  },
+  {
+    "id": "aurora_duration",
+    "question": "How long do aurora hunt tours last?",
+    "answer": "The FAQ explains that aurora hunts typically last 3–5 hours, but they can sometimes last up to 12 hours if cloud coverage is high and the guides need to drive far away. They mention that the furthest they drove in the previous season was 380 km one way. On the homepage, the Group Tour is presented as up to about 5 hours, while the Small Group Tour is listed as 5–12 hours and is described as having no time or distance limits.",
+    "tags": [
+      "tour length",
+      "how long is aurora tour",
+      "aurora duration",
+      "3 5 hours 12 hours",
+      "380 km one way",
+      "how late back to hotel",
+      "kauanko retki kestää"
+    ]
+  },
+  {
+    "id": "aurora_what_to_bring",
+    "question": "What should I bring on an aurora hunt?",
+    "answer": "The FAQ recommends bringing a good attitude, warm clothes and possibly some extra food, noting that Lapland Explorers offers light snacks and warm drinks on the hunts. In the 'We go the extra mile' section they specify that to stay warm and comfortable you should bring your passport or ID, warm layers, a hat, gloves and waterproof outerwear. Good winter footwear and extra layers are strongly implied by the description of long nights outdoors in Arctic conditions.",
+    "tags": [
+      "what to bring",
+      "what should I wear",
+      "clothing recommendations",
+      "warm clothes",
+      "passport or id",
+      "revontuliretki varusteet",
+      "aurora tour packing list"
+    ]
+  },
+  {
+    "id": "aurora_guaranteed_hunt",
+    "question": "What does your Guaranteed Aurora Hunt mean?",
+    "answer": "The FAQ states that on a Guaranteed Aurora Hunt, Lapland Explorers will either give you a full refund or reschedule the hunt for a better day (if there is availability) if no Northern Lights are seen. In the 'Fair Refund Policy' section they also explain that they avoid going out when conditions look very poor, and when they do decide to go it is because they are confident you will see the aurora. This is summarised on the site as a 'no aurora, no pay' refund policy.",
+    "tags": [
+      "guaranteed aurora hunt",
+      "no aurora no pay",
+      "refund policy",
+      "what if we see nothing",
+      "money back guarantee",
+      "reschedule if no lights",
+      "takuu revontulista"
+    ]
+  },
+  {
+    "id": "aurora_tour_step_by_step",
+    "question": "How does a typical Northern Lights hunt work step by step?",
+    "answer": "The 'Tour Step by step' section explains that each night is different, but a typical hunt follows a clear structure. First, you are picked up from your hotel in Rovaniemi; the team will contact you with the exact pickup time based on the weather, usually between 17:00 and 21:00. Second, you take a scenic drive into the wilderness while the guide uses live aurora data and weather maps to select the best possible viewing spot. Third, you wait for the aurora: a small campfire is made, you enjoy Lappish snacks and hot drinks and can stay warm in the vehicle. Fourth, when the lights appear, your guide helps you enjoy the show and takes photos of you under the aurora. Finally, you are driven back to Rovaniemi; depending on the conditions, this might be after around 2 hours or after a much longer chase.",
+    "tags": [
+      "how tour works",
+      "step by step aurora hunt",
+      "tour itinerary",
+      "pickup time",
+      "campfire and snacks",
+      "return to rovaniemi",
+      "miten ilta etenee"
+    ]
+  },
+  {
+    "id": "aurora_pickup_details",
+    "question": "Where and when do you pick up guests for the aurora tour?",
+    "answer": "Lapland Explorers states that they offer pickup from your hotel in Rovaniemi and that tours include pickup within a 10 km range of Rovaniemi city center. They will contact you with the exact pickup time, which is usually between 17:00 and 21:00, based on the evening’s weather and aurora forecast. At the end of the night, they drive you back to Rovaniemi.",
+    "tags": [
+      "pickup location",
+      "hotel pickup",
+      "10km rovaniemi",
+      "pickup time 17 21",
+      "where do you pick us up",
+      "drop off details",
+      "nouto rovaniemi hotelli"
+    ]
+  },
+  {
+    "id": "aurora_how_far_drive",
+    "question": "How far can you drive during an aurora hunt?",
+    "answer": "In the FAQ, Lapland Explorers notes that hunts can last up to 12 hours when cloud coverage is high and they need to drive far away, mentioning that the furthest they drove in the previous season was 380 km one way. The Small Group Tour description adds that there are no time or distance limits, and that guides will go wherever the aurora appears, even to Norway when that is where clear skies are. Guest reviews describe nights where the team drove deep into Swedish Lapland to find clear skies, which matches this long-distance, chase-style approach.",
+    "tags": [
+      "how far do you drive",
+      "distance driven",
+      "380km one way",
+      "go to sweden or norway",
+      "do you chase clear skies",
+      "long drives possible",
+      "ajatteko kauas revontulien perässä"
+    ]
+  },
+  {
+    "id": "other_activities_overview",
+    "question": "What other activities do you offer besides Northern Lights tours?",
+    "answer": "On the 'Unique Experiences in Rovaniemi' page, Lapland Explorers presents several other activities designed to feel personal, authentic and away from the usual crowds. These include a Guided Ranua Wildlife Park Tour (a personalised day trip from Rovaniemi), a Family Aurora Barbecue (an Arctic evening experience where Santa Claus is your driver and guide), an 8-hour Hiking in Riisitunturi National Park with Photography experience, and a 2-hour Cozy Christmas Card Painting Workshop with hot chocolate in Rovaniemi.",
+    "tags": [
+      "other activities",
+      "what else do you offer",
+      "unique experiences rovaniemi",
+      "ranua wildlife tour",
+      "family aurora barbecue",
+      "riisitunturi hiking",
+      "christmas painting workshop",
+      "mitä muita aktiviteetteja teillä on kuin revontuliretket",
+    "muita aktiviteetteja kuin revontuliretket",
+    "muut aktiviteetit",
+    "muut elämykset"
+    ]
+  },
+  {
+    "id": "activity_ranua_wildlife_park",
+    "question": "What is the Guided Ranua Wildlife Park Tour?",
+    "answer": "The Guided Ranua Wildlife Park Tour is listed as a 6-hour, personalised day trip from Rovaniemi to the Ranua Wildlife Park. The description explains that you embark on a unique and personalised visit to discover the wild beauty of Lapland in the park. It is presented as one of the company’s 'Unique Experiences in Rovaniemi' and includes return travel and guiding around the park.",
+    "tags": [
+      "ranua wildlife park tour",
+      "ranua day trip",
+      "wildlife park from rovaniemi",
+      "6 hours ranua",
+      "guided ranua visit",
+      "ranua safari",
+      "ranua eläinpuisto retki"
+    ]
+  },
+  {
+    "id": "activity_family_aurora_bbq",
+    "question": "What is the Family Aurora Barbecue experience?",
+    "answer": "The Family Aurora Barbecue is listed as an 8-hour experience. The description invites you to step into a once-in-a-lifetime Arctic adventure where Santa Claus is your driver and guide. This exclusive Lapland Explorers experience combines the magic of Christmas with the beauty of the Northern Lights, creating a family-friendly evening with both aurora hunting and barbecue time outdoors.",
+    "tags": [
+      "family aurora barbecue",
+      "santa claus driver",
+      "family friendly northern lights",
+      "8 hour bbq tour",
+      "christmas and aurora",
+      "family activities rovaniemi",
+      "perhe revontuli grillaus"
+    ]
+  },
+  {
+    "id": "activity_riisitunturi_hike",
+    "question": "What is the Hiking in Riisitunturi National Park with Photography tour?",
+    "answer": "The Hiking in Riisitunturi Natural Park with Photography tour is listed as an 8-hour experience. You embark on a hiking adventure through Finland’s Riisitunturi National Park with a professional photographer as your guide. The description notes that you are immersed in spectacular scenery while learning how to capture breathtaking images, combining outdoor exploration with hands-on photography tips. Midway through the day, you gather around a campfire, grill sausages and enjoy the views before continuing.",
+    "tags": [
+      "riisitunturi hiking",
+      "riisitunturi photography tour",
+      "8 hour hike",
+      "national park tour",
+      "campfire and sausages",
+      "nature photography lapland",
+      "riisitunturi vaellus"
+    ]
+  },
+  {
+    "id": "activity_christmas_painting_workshop",
+    "question": "What is the Cozy Christmas Card Painting Workshop with Hot Chocolate?",
+    "answer": "The Cozy Christmas Card Painting Workshop with Hot Chocolate in Rovaniemi is a 2-hour activity. You paint your own Lapland-themed postcard while sipping hot chocolate and listening to Christmas music. The website specifies that Finnish chocolates and painting instructions are included, and that no prior painting experience is needed, making it a relaxed and accessible creative experience.",
+    "tags": [
+      "christmas card painting",
+      "painting workshop rovaniemi",
+      "hot chocolate activity",
+      "2 hour workshop",
+      "lapland postcard painting",
+      "indoor christmas activity",
+      "joulukortti maalaus"
+    ]
+  },
+  {
+    "id": "guides_overview",
+    "question": "Who are your Northern Lights guides?",
+    "answer": "The 'Our Team' section introduces several named aurora guides with their own roles and styles: Jesse, Janne, Daniel, Jasmin, Aarne, Witold and Jani. All are presented as dedicated aurora hunters who track weather and aurora conditions, drive long distances when needed and focus on creating personal, memorable experiences for guests rather than standard mass-tourism bus trips.",
+    "tags": [
+      "guides",
+      "who are the guides",
+      "our team",
+      "guide names",
+      "local aurora hunters",
+      "team lapland explorers",
+      "oppaita keitä teillä on"
+    ]
+  },
+  {
+    "id": "guide_jesse",
+    "question": "Who is Jesse?",
+    "answer": "On the 'Our Team' section, Jesse is described as 'The Aurora Strategist'. The text notes that he knows the sky extremely well, tracks solar storms and reads the weather like a map, consistently finding strong aurora spots. Guest reviews also mention Jesse as a calm but determined guide who is willing to drive long distances to chase clear skies.",
+    "tags": [
+      "jesse guide",
+      "aurora strategist",
+      "who is jesse",
+      "jesse lapland explorers",
+      "guide jesse reviews",
+      "jesse aurora hunter"
+    ]
+  },
+  {
+    "id": "guide_janne",
+    "question": "Who is Janne?",
+    "answer": "Janne is introduced as 'The Aurora Voyager'. The description calls him relentless, talkative and full of energy, and says that he does not rest until the Northern Lights reveal themselves. He is portrayed as the type of guide who keeps adjusting plans through the night to give guests the best chance of seeing the aurora.",
+    "tags": [
+      "janne guide",
+      "aurora voyager",
+      "who is janne",
+      "janne lapland explorers",
+      "persistent aurora guide",
+      "janne northern lights"
+    ]
+  },
+  {
+    "id": "guide_daniel",
+    "question": "Who is Daniel?",
+    "answer": "Daniel is presented as 'The Aurora Nomad'. He is described as calm, focused and quietly determined, acting as a steady force on Northern Lights hunts. The text explains that he approaches each night with patience and precision, carefully reading the skies to position guests in the best location.",
+    "tags": [
+      "daniel guide",
+      "aurora nomad",
+      "who is daniel",
+      "daniel lapland explorers",
+      "calm aurora guide",
+      "daniel northern lights"
+    ]
+  },
+  {
+    "id": "guide_jasmin",
+    "question": "Who is Jasmin?",
+    "answer": "Jasmin is introduced as 'Aurora Sage'. The description says she treats every aurora hunt like a promise to keep: if there is any chance of seeing the lights, she is checking forecasts, scanning the sky and pushing onward. Her profile emphasises commitment and careful monitoring of conditions.",
+    "tags": [
+      "jasmin guide",
+      "aurora sage",
+      "who is jasmin",
+      "jasmin lapland explorers",
+      "female aurora guide",
+      "jasmin northern lights"
+    ]
+  },
+  {
+    "id": "guide_aarne",
+    "question": "Who is Aarne?",
+    "answer": "Aarne is described as 'Aurora Backbone'. He is portrayed as calm, collected and built for long nights, a guide guests can count on. The text notes that he tracks the Northern Lights with patience, precision and relentless drive, staying focused on finding clear skies and good viewing conditions.",
+    "tags": [
+      "aarne guide",
+      "aurora backbone",
+      "who is aarne",
+      "aarne lapland explorers",
+      "patient aurora guide",
+      "aarne northern lights"
+    ]
+  },
+  {
+    "id": "guide_witold",
+    "question": "Who is Witold?",
+    "answer": "Witold is called 'Aurora Wanderer' in the team section. He is described as reliable, funny and persistent. The text explains that he keeps chasing clear skies until the Northern Lights appear and makes the hunt feel easy and enjoyable for guests.",
+    "tags": [
+      "witold guide",
+      "aurora wanderer",
+      "who is witold",
+      "witold lapland explorers",
+      "funny aurora guide",
+      "wito northern lights"
+    ]
+  },
+  {
+    "id": "guide_jani",
+    "question": "Who is Jani?",
+    "answer": "Jani is introduced as 'Aurora Scout'. According to the description, when you get Jani as your Northern Lights driver, he never gives up, constantly chasing clearer skies, adjusting the route quickly and keeping everyone comfortable during long nights on the road.",
+    "tags": [
+      "jani guide",
+      "aurora scout",
+      "who is jani",
+      "jani lapland explorers",
+      "driver northern lights",
+      "jani aurora hunter"
+    ]
+  },
+  {
+    "id": "photos_included",
+    "question": "Are professional photos included in the tours and how do I receive them?",
+    "answer": "Yes. Both the 'Why Choose Us' and 'We go the extra mile' sections emphasise that professional aurora photography is included in the tours. Guides act as photographers during the hunt, capturing high-quality images of you and the Northern Lights. Guest reviews mention that photos are later delivered digitally, often via an online link or email a few days after the tour, allowing you to download and keep them as a record of your experience.",
+    "tags": [
+      "photos included",
+      "do you take pictures",
+      "professional photography",
+      "how do I get my photos",
+      "aurora pictures delivery",
+      "photos after the tour",
+      "valokuvat sisältyy"
+    ]
+  },
+  {
+    "id": "reviews_what_people_say",
+    "question": "What do past guests say about their experience?",
+    "answer": "Guest testimonials describe Lapland Explorers as highly committed aurora hunters who are willing to drive far into Lapland, including to Sweden and sometimes towards Norway, when local skies are cloudy. Many reviews mention clear communication about weather, suggestions to change tour dates when conditions are bad, and the company’s willingness to offer another chance or a refund if the aurora is not visible. Guests also highlight friendly and attentive guides, comfortable vehicles, hot drinks and snacks, campfires, and professional photos that capture the experience.",
+    "tags": [
+      "guest feedback",
+      "what do people say",
+      "customer experiences",
+      "reviews summary",
+      "are the tours good",
+      "worth the money",
+      "asiakaskokemukset"
+    ]
+  },
+  {
+    "id": "contact_details",
+    "question": "How can I contact Lapland Explorers?",
+    "answer": "You can contact Lapland Explorers by email at info@laplandexplorers.com or by phone at +358 40 1824400. All main pages include a 'Contact Us' link in the FAQ section and in the footer. You can also use the 'Book now' or 'Book Your Spot' buttons on the website to start the booking process and then follow any additional instructions on the booking platform.",
+    "tags": [
+      "contact",
+      "email address",
+      "phone number",
+      "info@laplandexplorers.com",
+      "+358 40 1824400",
+      "contact us form",
+      "how to reach you",
+      "yhteystiedot"
+    ]
+  },
+  {
+    "id": "social_media",
+    "question": "Do you have social media channels?",
+    "answer": "Yes. The footer on the main pages displays icons linking to Lapland Explorers’ Instagram and Facebook profiles. You can access these social media pages by clicking the Instagram and Facebook icons on the website.",
+    "tags": [
+      "social media",
+      "instagram",
+      "facebook",
+      "where to follow you",
+      "social channels",
+      "lapland explorers instagram",
+      "some kanavat"
+    ]
+  },
+  {
+    "id": "terms_and_privacy",
+    "question": "Where can I find your terms and privacy policy?",
+    "answer": "Links to 'terms & conditions' and 'privacy & Cookies policy' are available in the footer on the main pages. You can click these links to read the detailed booking terms, conditions and privacy information used by Lapland Explorers.",
+    "tags": [
+      "terms and conditions",
+      "privacy policy",
+      "cookies policy",
+      "legal information",
+      "booking terms",
+      "where are your terms",
+      "ehdot ja tietosuoja"
+    ]
+  },
+  {
+    "id": "website_cookies",
+    "question": "Why do I see a cookie popup on your website and what does it mean?",
+    "answer": "The website uses cookies and shows a cookie popup explaining that by clicking 'Accept all cookies' you agree to storing cookies on your device to enhance site navigation, analyse site usage and assist in marketing, as described in their privacy policy. The popup also lists different categories such as strictly necessary cookies (always active), marketing cookies, personalisation cookies and analytics cookies. You can adjust your preferences in the cookie settings or accept all cookies.",
+    "tags": [
+      "cookies",
+      "cookie popup",
+      "why cookies",
+      "analytics and marketing cookies",
+      "privacy settings",
+      "accept all cookies",
+      "evästeet sivustolla"
+    ]
   }
 ]

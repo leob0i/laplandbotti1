@@ -17,7 +17,7 @@ const router = Router();
  * - jos AGENT_API_KEY on tyhjä → ei pakota authia (helpottaa dev/testikäyttöä)
  */
 router.use((req, res, next) => {
-  const expectedKey = config.AGENT_API_KEY;
+  const expectedKey = (config.AGENT_API_KEY || "").trim();
 
   // Jos avainta ei ole konffattu, ei laiteta lukkoa päälle
   if (!expectedKey) {
@@ -25,9 +25,8 @@ router.use((req, res, next) => {
   }
 
   const providedKey =
-    req.header("X-AGENT-KEY") ||
-    req.header("x-agent-key") ||
-    req.query.agentKey;
+    (req.header("X-AGENT-KEY") || req.header("x-agent-key") || "").trim() ||
+    (typeof req.query.agentKey === "string" ? req.query.agentKey.trim() : "");
 
   if (!providedKey || providedKey !== expectedKey) {
     return res.status(401).json({ error: "Unauthorized" });
@@ -37,7 +36,10 @@ router.use((req, res, next) => {
 });
 
 router.get('/conversations', (req, res) => {
-  const status = typeof req.query.status === 'string' ? req.query.status : undefined;
+  const statusRaw = typeof req.query.status === 'string' ? req.query.status.trim() : '';
+  const statusUpper = statusRaw ? statusRaw.toUpperCase() : undefined;
+  const status = (statusUpper === "AUTO" || statusUpper === "HUMAN") ? statusUpper : undefined;
+
   const limit = parsePositiveInt(req.query.limit, 50);
   const offset = parsePositiveInt(req.query.offset, 0);
 
@@ -66,6 +68,7 @@ router.post('/conversations/:id/reply', async (req, res, next) => {
       return res.status(400).json({ error: 'Missing text' });
     }
 
+    // COEXISTENCE: AGENT reply -> HUMAN (store tekee tämän jo, mutta pidetään varmistus)
     addMessage(conversation.id, 'AGENT', text);
     updateConversationStatus(conversation.id, 'HUMAN');
 
@@ -75,6 +78,28 @@ router.post('/conversations/:id/reply', async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+/**
+ * OPTIONAL but useful:
+ * PATCH /agent/conversations/:id/status
+ * Body: { status: "AUTO" | "HUMAN" }
+ */
+router.patch('/conversations/:id/status', (req, res) => {
+  const conversation = getConversationById(req.params.id);
+  if (!conversation) {
+    return res.status(404).json({ error: 'Conversation not found' });
+  }
+
+  const raw = typeof req.body?.status === "string" ? req.body.status.trim() : "";
+  const status = raw.toUpperCase();
+
+  if (status !== "AUTO" && status !== "HUMAN") {
+    return res.status(400).json({ error: 'Invalid status (use AUTO or HUMAN)' });
+  }
+
+  updateConversationStatus(conversation.id, status);
+  res.json({ ok: true, status });
 });
 
 function parsePositiveInt(value, fallback) {

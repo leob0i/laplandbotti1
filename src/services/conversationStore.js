@@ -1,17 +1,33 @@
 import crypto from 'node:crypto';
 
 const conversations = new Map(); // id -> conversation
+const conversationIdByPhone = new Map(); // normalizedPhone -> conversationId
+
 const messages = new Map(); // conversationId -> Message[]
+const waMessageIndex = new Map(); // waMessageId -> { conversationId, messageId }
+
+function normalizePhone(customerPhone) {
+  const raw = typeof customerPhone === 'string' ? customerPhone.trim() : '';
+  if (!raw) return null;
+
+  // WhatsApp-webhookit antavat usein numeron ilman +:aa.
+  // Normalisoidaan niin, että kaikki on pelkkiä numeroita.
+  const digitsOnly = raw.replace(/[^\d]/g, '');
+  return digitsOnly || null;
+}
 
 export function findOrCreateConversationByPhone(customerPhone) {
-  const phone = typeof customerPhone === 'string' ? customerPhone.trim() : '';
+  const phone = normalizePhone(customerPhone);
   if (!phone) return null;
 
-  const existing = [...conversations.values()].find((conv) => conv.customerPhone === phone);
-  if (existing) return existing;
+  const existingId = conversationIdByPhone.get(phone);
+  if (existingId) {
+    return conversations.get(existingId) || null;
+  }
 
   const id = crypto.randomUUID();
   const now = new Date();
+
   const conversation = {
     id,
     customerPhone: phone,
@@ -20,10 +36,12 @@ export function findOrCreateConversationByPhone(customerPhone) {
     createdAt: now,
     lastCustomerMessageAt: null,
     lastAgentReplyAt: null
-
   };
+
   conversations.set(id, conversation);
+  conversationIdByPhone.set(phone, id);
   messages.set(id, []);
+
   return conversation;
 }
 
@@ -51,6 +69,7 @@ export function updateConversationStatus(id, status) {
 
   const conversation = conversations.get(id);
   if (!conversation) return null;
+
   conversation.status = nextStatus;
   return conversation;
 }
@@ -59,12 +78,21 @@ export function addMessage(conversationId, from, text, waMessageId) {
   const conversation = conversations.get(conversationId);
   if (!conversation) return null;
 
+  // DEDUPE: WhatsApp/Meta voi retryttää saman eventin.
+  // Jos tämä waMessageId on jo tallessa, palautetaan se olemassa oleva viesti.
+  if (waMessageId && waMessageIndex.has(waMessageId)) {
+    const ref = waMessageIndex.get(waMessageId);
+    const bucket = messages.get(ref.conversationId) || [];
+    return bucket.find((m) => m.id === ref.messageId) || null;
+  }
+
   const bucket = messages.get(conversationId) || [];
   if (!messages.has(conversationId)) {
     messages.set(conversationId, bucket);
   }
 
   const now = new Date();
+
   const message = {
     id: crypto.randomUUID(),
     conversationId,
@@ -75,13 +103,21 @@ export function addMessage(conversationId, from, text, waMessageId) {
   };
 
   bucket.push(message);
+
+  if (waMessageId) {
+    waMessageIndex.set(waMessageId, { conversationId, messageId: message.id });
+  }
+
   conversation.lastMessageAt = now;
 
-  // UUSI: pidetään kirjaa asiakkaan ja agentin viimeisistä viesteistä
+  // pidetään kirjaa asiakkaan ja agentin viimeisistä viesteistä
   if (from === 'CUSTOMER') {
     conversation.lastCustomerMessageAt = now;
   } else if (from === 'AGENT') {
     conversation.lastAgentReplyAt = now;
+
+    // COEXISTENCE-KRIITTINEN: jos ihminen vastasi, botti hiljenee
+    conversation.status = 'HUMAN';
   }
 
   return message;
