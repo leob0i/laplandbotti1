@@ -35,7 +35,13 @@ export function findOrCreateConversationByPhone(customerPhone) {
     lastMessageAt: now,
     createdAt: now,
     lastCustomerMessageAt: null,
-    lastAgentReplyAt: null
+    lastAgentReplyAt: null,
+      // UUSI: peräkkäisten epävarmojen laskuri (1 = kysy tarkennus, 2 = HUMAN)
+    uncertainCount: 0,
+
+    // UUSI: (seuraavaa vaihetta varten) jos käyttäjä pyytää ihmistä, varmistetaan ensin kyllä/ei
+     handoffConfirmPending: false
+
   };
 
   conversations.set(id, conversation);
@@ -114,11 +120,16 @@ export function addMessage(conversationId, from, text, waMessageId) {
   if (from === 'CUSTOMER') {
     conversation.lastCustomerMessageAt = now;
   } else if (from === 'AGENT') {
-    conversation.lastAgentReplyAt = now;
+  conversation.lastAgentReplyAt = now;
 
-    // COEXISTENCE-KRIITTINEN: jos ihminen vastasi, botti hiljenee
-    conversation.status = 'HUMAN';
-  }
+  // COEXISTENCE-KRIITTINEN: jos ihminen vastasi, botti hiljenee
+  conversation.status = 'HUMAN';
+
+  // UUSI: agentti otti keissin -> nollataan botin "epävarmuus"-tila
+  conversation.uncertainCount = 0;
+  conversation.handoffConfirmPending = false;
+}
+
 
   return message;
 }

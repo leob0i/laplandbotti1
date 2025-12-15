@@ -90,3 +90,39 @@ export async function findBestFaqMatch(userQuestion) {
 
   return { faq: best, score: bestScore };
 }
+
+
+/**
+ * Find top FAQ candidates for a userQuestion.
+ * Returns [{ id, question, answer, tags, score }, ...] sorted by score desc.
+ */
+export async function findTopFaqCandidates(userQuestion, limit = 10) {
+  if (!faqItems.length) return [];
+
+  const scored = faqItems.map((item) => {
+    const baseScore = stringSimilarity(userQuestion, item.question);
+    let tagScore = 0;
+
+    if (item.tags && Array.isArray(item.tags)) {
+      for (const tag of item.tags) {
+        const s = stringSimilarity(userQuestion, tag);
+        if (s > tagScore) tagScore = s;
+      }
+    }
+
+    const score = Math.max(baseScore, tagScore);
+
+    return {
+      id: item.id,
+      question: item.question,
+      answer: item.answer,
+      tags: item.tags,
+      score,
+    };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+
+  const safeLimit = Math.max(1, Math.min(Number(limit) || 10, 25));
+  return scored.slice(0, safeLimit);
+}

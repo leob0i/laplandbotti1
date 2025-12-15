@@ -1,13 +1,141 @@
 // src/services/botService.js
 import { isBotActiveNow } from "./timeService.js";
-import { findBestFaqMatch } from "./faqService.js";
+import { findBestFaqMatch, findTopFaqCandidates } from "./faqService.js";
 import { sendTextMessage } from "./whatsappService.js";
-import {
-  addMessage,
-  updateConversationStatus,
-} from "./conversationStore.js";
+import { addMessage, updateConversationStatus } from "./conversationStore.js";
 import { config } from "../config.js";
-import { rewriteFaqAnswer } from "./openaiService.js";
+import { rewriteFaqAnswer, decideFaqAnswerFromCandidates } from "./openaiService.js";
+
+function detectLang(text) {
+  const t = (text || "").toLowerCase();
+
+  // kevyt heuristiikka: riittää clarify/handoff -viesteihin
+  const fiHints = [
+    "ä",
+    "ö",
+    "moi",
+    "hei",
+    "haluan",
+    "miten",
+    "paljon",
+    "kiitos",
+    "voinko",
+    "onko",
+  ];
+  const score = fiHints.reduce((s, w) => s + (t.includes(w) ? 1 : 0), 0);
+
+  return score >= 2 ? "fi" : "en";
+}
+
+function clarifyText(lang) {
+  return lang === "fi"
+    ? "Varmistaisitko vielä: mitä tarkalleen tarkoitat? (Esim. minkä palvelun/aktiviteetin tai asian kysymys koskee.)"
+    : "Could you clarify what you mean? (For example, which service/activity or topic your question is about.)";
+}
+
+function handoffText(lang) {
+  return lang === "fi"
+    ? "Kiitos. En ole tästä riittävän varma FAQ:n perusteella, joten ohjaan tämän ihmiselle. Saat vastauksen heti kun ihminen ehtii mukaan."
+    : "Thanks. I’m not confident based on the FAQ, so I’m handing this over to a human. You’ll get a reply as soon as a person joins.";
+}
+
+function isHumanRequest(text) {
+  const t = (text || "").toLowerCase();
+  return [
+    "haluan jutella ihmisen kanssa",
+    "haluan puhua ihmiselle",
+    "ihminen",
+    "asiakaspalvelija",
+    "agent",
+    "human",
+    "real person",
+    "talk to a human",
+    "speak to a human",
+    "customer service",
+  ].some((p) => t.includes(p));
+}
+
+function isYes(text) {
+  const t = (text || "").trim().toLowerCase();
+  // hyväksyy myös "kyll�" / "kylla" / "kyllä kiitos" jne.
+  return /^(yes|y|yeah|yep|ok|okay|sure|kyll|joo|juu)\b/.test(t);
+}
+
+function isNo(text) {
+  const t = (text || "").trim().toLowerCase();
+  return /^(no|n|nope|nah|ei|en)\b/.test(t);
+}
+
+
+function humanConfirmText(lang) {
+  return lang === "fi"
+    ? "Pyydänkö ihmisen tähän keskusteluun? Silloin saatat joutua odottamaan hetken, kunnes ihminen ehtii vastaamaan. (Vastaa: kyllä / ei)"
+    : "Do you want me to bring a human into this chat? You may need to wait a moment until a person replies. (Reply: yes / no)";
+}
+
+function stayWithBotText(lang) {
+  return lang === "fi"
+    ? "Selvä — jatketaan botin kanssa. Kerro vielä tarkemmin kysymyksesi."
+    : "Okay — we can continue with the bot. Please tell me your question in a bit more detail.";
+}
+
+function humanHandoffText(lang) {
+  return lang === "fi"
+    ? "Kiitos. Ohjaan keskustelun ihmiselle. Saat vastauksen heti kun ihminen ehtii mukaan."
+    : "Thanks. I’m handing this over to a human. You’ll get a reply as soon as a person joins.";
+}
+
+
+async function sendAndStoreBotMessage(conversation, text) {
+  await sendTextMessage(conversation.customerPhone, text);
+  addMessage(conversation.id, "BOT", text);
+}
+
+async function handleUncertain(conversation, messageText, clarifyOverride) {
+  const lang = detectLang(messageText);
+
+  const current = Number.isFinite(conversation.uncertainCount)
+    ? conversation.uncertainCount
+    : 0;
+
+  const next = current + 1;
+
+  // 2 epävarmaa peräkkäin -> HUMAN (ei varmistuskysymystä, koska käyttäjä ei pyytänyt ihmistä)
+  if (next >= 2) {
+    updateConversationStatus(conversation.id, "HUMAN");
+    conversation.status = "HUMAN";
+    conversation.uncertainCount = 0;
+
+    const text = handoffText(lang);
+    try {
+      await sendAndStoreBotMessage(conversation, text);
+    } catch (err) {
+      console.error(
+        `[Bot] Failed to send HUMAN handoff message to ${conversation.customerPhone}:`,
+        err?.message || err
+      );
+    }
+    return;
+  }
+
+  // 1 epävarma -> kysy tarkennus ja pysy AUTO-tilassa
+  const text =
+    typeof clarifyOverride === "string" && clarifyOverride.trim()
+      ? clarifyOverride.trim()
+      : clarifyText(lang);
+
+  try {
+    await sendAndStoreBotMessage(conversation, text);
+    conversation.uncertainCount = next; // kirjataan vasta onnistuneen lähetyksen jälkeen
+  } catch (err) {
+    console.error(
+      `[Bot] Failed to send clarify message to ${conversation.customerPhone}:`,
+      err?.message || err
+    );
+  }
+}
+
+
 
 /**
  * Main handler for new customer messages.
@@ -80,6 +208,64 @@ export async function handleIncomingCustomerMessage(conversation, messageText) {
     return;
   }
 
+    // 2.5) Jos odotetaan varmistusta ihmiseen siirrosta (kyllä/ei)
+  if (conversation.handoffConfirmPending) {
+    const lang = detectLang(messageText);
+
+    if (isYes(messageText)) {
+      conversation.handoffConfirmPending = false;
+      conversation.uncertainCount = 0;
+
+      updateConversationStatus(conversation.id, "HUMAN");
+      conversation.status = "HUMAN";
+
+      try {
+        await sendTextMessage(conversation.customerPhone, humanHandoffText(lang));
+        addMessage(conversation.id, "BOT", humanHandoffText(lang));
+      } catch (err) {
+        console.error(`[Bot] Failed to send human handoff confirm message:`, err?.message || err);
+      }
+      return;
+    }
+
+    if (isNo(messageText)) {
+      conversation.handoffConfirmPending = false;
+      conversation.uncertainCount = 0;
+
+      try {
+        await sendTextMessage(conversation.customerPhone, stayWithBotText(lang));
+        addMessage(conversation.id, "BOT", stayWithBotText(lang));
+      } catch (err) {
+        console.error(`[Bot] Failed to send stay-with-bot message:`, err?.message || err);
+      }
+      return;
+    }
+
+    // Jos vastaus ei ole selkeä kyllä/ei -> kysytään sama varmistus uudelleen
+    try {
+      await sendTextMessage(conversation.customerPhone, humanConfirmText(lang));
+      addMessage(conversation.id, "BOT", humanConfirmText(lang));
+    } catch (err) {
+      console.error(`[Bot] Failed to send human confirm prompt:`, err?.message || err);
+    }
+    return;
+  }
+
+  // 2.6) Jos käyttäjä pyytää ihmistä -> varmistetaan (ei lukita heti)
+  if (isHumanRequest(messageText)) {
+    const lang = detectLang(messageText);
+    conversation.handoffConfirmPending = true;
+
+    try {
+      await sendTextMessage(conversation.customerPhone, humanConfirmText(lang));
+      addMessage(conversation.id, "BOT", humanConfirmText(lang));
+    } catch (err) {
+      console.error(`[Bot] Failed to send human confirm prompt:`, err?.message || err);
+    }
+    return;
+  }
+
+
   // 3. Yritä FAQ-match
   const { faq, score } = await findBestFaqMatch(messageText);
 
@@ -89,28 +275,74 @@ export async function handleIncomingCustomerMessage(conversation, messageText) {
     )}, faqId=${faq?.id}`
   );
 
-  if (!faq || score < config.CONFIDENCE_THRESHOLD) {
-    // Ei tarpeeksi varma → annetaan ihmiselle
-    console.log(
-      `[Bot] Score too low or no FAQ (score=${score.toFixed(
-        3
-      )}, threshold=${config.CONFIDENCE_THRESHOLD}) -> marking ${conversation.id} as HUMAN.`
-    );
-    updateConversationStatus(conversation.id, "HUMAN");
+ if (!faq || score < config.CONFIDENCE_THRESHOLD) {
+  console.log(
+    `[Bot] Score too low or no FAQ (score=${score.toFixed(
+      3
+    )}, threshold=${config.CONFIDENCE_THRESHOLD}) -> trying OpenAI decider (count=${
+      conversation.uncertainCount || 0
+    }).`
+  );
+
+  // 1) hae top-N FAQ-ehdokkaat
+  const candidates = await findTopFaqCandidates(messageText, 10);
+
+  // 2) jos ei avainta tai ei ehdokkaita -> vanha käytös
+  if (!config.OPENAI_API_KEY || !candidates || candidates.length === 0) {
+    await handleUncertain(conversation, messageText);
     return;
   }
+
+  // 3) OpenAI päättää: answer vs clarify (FAQ-only)
+  const decision = await decideFaqAnswerFromCandidates(messageText, candidates);
+
+  // 4) jos OpenAI pystyy vastaamaan, vastaa heti ja nollaa uncertainCount
+  if (decision?.type === "answer" && typeof decision.text === "string" && decision.text.trim()) {
+    const replyText = decision.text.trim();
+
+    try {
+      await sendTextMessage(conversation.customerPhone, replyText);
+      console.log(
+        `[Bot] Sent decider reply to ${conversation.customerPhone} for conversation ${conversation.id}.`
+      );
+      conversation.uncertainCount = 0;
+    } catch (err) {
+      console.error(
+        `[Bot] Failed to send decider reply to ${conversation.customerPhone}:`,
+        err?.message || err
+      );
+      return;
+    }
+
+    addMessage(conversation.id, "BOT", replyText);
+    console.log(
+      `[Bot] Conversation ${conversation.id} remains in AUTO mode after decider reply.`
+    );
+    return;
+  }
+
+  // 5) muuten: clarify (1x) / HUMAN (2x) käyttäen deciderin kysymystä jos sellainen on
+  const clarifyOverride =
+    typeof decision?.text === "string" && decision.text.trim() ? decision.text.trim() : null;
+
+  await handleUncertain(conversation, messageText, clarifyOverride);
+  return;
+}
 
   // 4. Varma FAQ-osuma → OpenAI voi säätää sitä (Phase 5)
   let replyText = faq.answer;
 
   const rewritten = await rewriteFaqAnswer(messageText, faq.answer);
 
-  // Jos OpenAI sanoo että FAQ ei kata tätä → hiljaa ja HUMAN
+  // Jos OpenAI sanoo että FAQ ei kata tätä → clarify (1x) tai HUMAN (2x)
   if (rewritten === "NO_VALID_ANSWER") {
     console.log(
-      `[Bot] OpenAI returned NO_VALID_ANSWER for conversation ${conversation.id} -> marking as HUMAN.`
+      `[Bot] OpenAI returned NO_VALID_ANSWER for conversation ${conversation.id} -> uncertain (count=${
+        conversation.uncertainCount || 0
+      }).`
     );
-    updateConversationStatus(conversation.id, "HUMAN");
+
+    await handleUncertain(conversation, messageText);
     return;
   }
 
@@ -121,9 +353,12 @@ export async function handleIncomingCustomerMessage(conversation, messageText) {
 
   if (!replyText) {
     console.log(
-      `[Bot] replyText is empty after OpenAI rewrite for conversation ${conversation.id} -> marking as HUMAN.`
+      `[Bot] replyText is empty after OpenAI rewrite for conversation ${conversation.id} -> uncertain (count=${
+        conversation.uncertainCount || 0
+      }).`
     );
-    updateConversationStatus(conversation.id, "HUMAN");
+
+    await handleUncertain(conversation, messageText);
     return;
   }
 
@@ -133,6 +368,9 @@ export async function handleIncomingCustomerMessage(conversation, messageText) {
     console.log(
       `[Bot] Sent reply to ${conversation.customerPhone} for conversation ${conversation.id}.`
     );
+
+    // UUSI: onnistunut vastaus -> nollataan epävarmuuslaskuri
+    conversation.uncertainCount = 0;
   } catch (err) {
     console.error(
       `[Bot] Failed to send reply to ${conversation.customerPhone}:`,
