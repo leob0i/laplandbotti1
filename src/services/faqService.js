@@ -31,14 +31,25 @@ function loadFaq() {
   }
 }
 
-// Tiny helper: normalize text (lowercase, strip punctuation)
+// Tiny helper: normalize text (lowercase, strip punctuation + small typo fixes)
 function normalize(text = "") {
-  return String(text)
-    .toLowerCase()
-    .replace(/[.,!?]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+  let t = String(text).toLowerCase();
+
+  // common typos (add more later safely)
+  t = t.replace(/\bnorthen\b/g, "northern");
+
+  // normalize known key phrase (singular/plural -> one form)
+  t = t.replace(/\bnorthern\s+lights?\b/g, "northern lights");
+
+  // strip punctuation more broadly than just . , ! ?
+  t = t.replace(/[^a-z0-9äöå\s]/g, " ");
+
+  // collapse spaces
+  t = t.replace(/\s+/g, " ").trim();
+
+  return t;
 }
+
 
 // Simple string similarity: overlap of words (0..1)
 function stringSimilarity(a, b) {
