@@ -47,7 +47,8 @@
       "green purple pink red aurora",
       "revontulet selitys",
       "mikä on revontulet",
-      "miksi revontulia näkyy"
+      "miksi revontulia näkyy",
+      "what is northen light"
     ]
   },
   {
@@ -657,7 +658,8 @@
       "national park tour",
       "campfire and sausages",
       "nature photography lapland",
-      "riisitunturi vaellus"
+      "riisitunturi vaellus",
+      "riisitunturi"
     ]
   },
   {
@@ -845,7 +847,7 @@
   {
     "id": "social_media",
     "question": "Do you have social media channels?",
-    "answer": "Yes. The footer on the main pages displays icons linking to Lapland Explorers’ Instagram and Facebook profiles. You can access these social media pages by clicking the Instagram and Facebook icons on the website.",
+    "answer": "Our instagram is @laplandexplorers. Our Tiktok is @laplandexplorers. You can also find us on facebook: Lapland Explorers OY.",
     "tags": [
       "social media",
       "instagram",
@@ -855,7 +857,9 @@
       "lapland explorers instagram",
       "lapland explorers facebook",
       "some kanavat",
-      "seuratkaa somessa"
+      "seuratkaa somessa",
+      "some",
+      "somet"
     ]
   },
   {

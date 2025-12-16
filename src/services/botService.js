@@ -66,6 +66,28 @@ function isNo(text) {
   return /^(no|n|nope|nah|ei|en)\b/.test(t);
 }
 
+function isGreeting(text = "") {
+  // Tunnistaa "pelkän tervehdyksen" jotta "hi what is..." ei jää jumiin greetingiin
+  const t = String(text)
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9äöå\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  // hyväksytään lyhyet tervehdysviestit (1–3 sanaa)
+  const words = t ? t.split(" ") : [];
+  if (words.length === 0 || words.length > 3) return false;
+
+  return /^(hi|hello|hey|moi|hei|morjens|terve)$/.test(words[0]);
+}
+
+function greetingReply(lang) {
+  return lang === "fi"
+    ? "Hei! Voin auttaa retkiin, aikatauluihin, tapaamispaikkoihin, hintoihin ja varauksiin liittyvissä kysymyksissä. Mitä haluaisit tietää?"
+    : "Hi! I can help with questions about our tours, schedules, meeting points, pricing, and bookings. What would you like to know?";
+}
+
 
 function humanConfirmText(lang) {
   return lang === "fi"
@@ -87,7 +109,14 @@ function humanHandoffText(lang) {
 
 
 async function sendAndStoreBotMessage(conversation, text) {
-  await sendTextMessage(conversation.customerPhone, text);
+  try {
+    await sendTextMessage(conversation.customerPhone, text);
+  } catch (err) {
+    console.error(
+      `[Bot] sendTextMessage failed (storing anyway) to ${conversation.customerPhone}:`,
+      err?.message || err
+    );
+  }
   addMessage(conversation.id, "BOT", text);
 }
 
@@ -264,6 +293,24 @@ export async function handleIncomingCustomerMessage(conversation, messageText) {
     }
     return;
   }
+
+    // 2.7) Pelkkä tervehdys -> vastaa ammattimaisesti (ei FAQ/OpenAI)
+  if (isGreeting(messageText)) {
+    const lang = detectLang(messageText);
+    const text = greetingReply(lang);
+
+    try {
+      await sendAndStoreBotMessage(conversation, text);
+      conversation.uncertainCount = 0; // tervehdys ei ole "epävarma"
+    } catch (err) {
+      console.error(
+        `[Bot] Failed to send greeting to ${conversation.customerPhone}:`,
+        err?.message || err
+      );
+    }
+    return;
+  }
+
 
 
   // 3. Yritä FAQ-match
