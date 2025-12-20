@@ -2,6 +2,18 @@
 import OpenAI from "openai";
 import { config } from "../config.js";
 
+function toNumber(value, fallback) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : fallback;
+}
+
+function toInt(value, fallback) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.max(1, Math.floor(n));
+}
+
+
 /**
  * Kevyt kielivihje: riittää tähän vaiheeseen.
  * (Myöhemmin voidaan tehdä parempi tunnistus.)
@@ -80,14 +92,15 @@ export async function rewriteFaqAnswer(userQuestion, faqAnswer, languageHint) {
 
   try {
     const res = await client.chat.completions.create({
-      model: config.OPENAI_MODEL,
-      messages: [
-        { role: "system", content: system },
-        { role: "user", content: user },
-      ],
-      temperature: config.OPENAI_TEMPERATURE,
-      max_tokens: config.OPENAI_MAX_TOKENS,
-    });
+  model: config.OPENAI_MODEL,
+  messages: [
+    { role: "system", content: system },
+    { role: "user", content: user },
+  ],
+  temperature: toNumber(config.OPENAI_TEMPERATURE, 0.2),
+  max_tokens: toInt(config.OPENAI_MAX_TOKENS, 400),
+});
+
 
     const text = res?.choices?.[0]?.message?.content?.trim();
 
@@ -96,7 +109,8 @@ export async function rewriteFaqAnswer(userQuestion, faqAnswer, languageHint) {
     // Hard guard for the marker
     if (text === "NO_VALID_ANSWER") return text;
 
-    return text;
+    return stripFaqMetaPhrases(text);
+
   } catch (err) {
     console.error("[OpenAI] rewriteFaqAnswer failed:", err?.message || err);
     return faqAnswer;
@@ -119,6 +133,31 @@ function truncate(text, maxChars) {
   if (t.length <= maxChars) return t;
   return t.slice(0, Math.max(0, maxChars - 1)) + "…";
 }
+
+function stripFaqMetaPhrases(text = "") {
+  let t = String(text).trim();
+
+  // English
+  t = t.replace(/^(?:according to|as per)\s+(?:the\s+)?faq[:,\-\s]*/i, "");
+  t = t.replace(
+    /^(?:the\s+)?faq\s+(?:states|says|mentions|explains)(?:\s+that)?[:,\-\s]*/i,
+    ""
+  );
+
+  // Finnish (handles: "FAQ:n mukaan", "FAQ mukaan", "FAQ: ...")
+  t = t.replace(/^faq(?:[:\s-]*|['’]n\s+)?mukaan[:,\-\s]*/i, "");
+  t = t.replace(/^faq[:\s-]*/i, "");
+
+  // Finnish variants like "Usein kysytyt kysymykset ..." (rare but safe)
+  t = t.replace(
+    /^(?:usein\s+kysytyt\s+kysymykset|ukk)\s*(?:sano(?:vat|o)|kertoo|selittää|mukaan)?[:,\-\s]*/i,
+    ""
+  );
+
+  return t.trim();
+}
+
+
 
 function buildDeciderSystemPrompt(languageHint, maxFaqs) {
   return [
@@ -219,7 +258,8 @@ function validateAndNormalizeDecision(parsed, candidates, lang) {
   const confidence =
     typeof parsed.confidence === "number" ? Math.max(0, Math.min(1, parsed.confidence)) : 0.0;
 
-  const text = typeof parsed.text === "string" ? parsed.text.trim() : "";
+  const text = typeof parsed.text === "string" ? stripFaqMetaPhrases(parsed.text) : "";
+
   if (!text) return fallbackClarify;
 
   const maxFaqs = Math.max(1, Math.min(Number(config.OPENAI_DECIDER_MAX_FAQS) || 3, 5));
@@ -329,12 +369,12 @@ export async function decideFaqAnswerFromCandidates(userQuestion, candidates = [
         { role: "system", content: system },
         { role: "user", content: user },
       ],
-      temperature: Number.isFinite(config.OPENAI_DECIDER_TEMPERATURE)
-        ? config.OPENAI_DECIDER_TEMPERATURE
-        : 0.1,
-      max_tokens: Number.isFinite(config.OPENAI_DECIDER_MAX_TOKENS)
-        ? config.OPENAI_DECIDER_MAX_TOKENS
-        : Math.max(config.OPENAI_MAX_TOKENS || 300, 360),
+      temperature: toNumber(config.OPENAI_DECIDER_TEMPERATURE, 0.1),
+max_tokens: toInt(
+  config.OPENAI_DECIDER_MAX_TOKENS,
+  Math.max(toInt(config.OPENAI_MAX_TOKENS, 300), 360)
+),
+
     });
 
     const raw = res?.choices?.[0]?.message?.content?.trim();
