@@ -320,29 +320,40 @@
     ]
   },
   {
-    "id": "aurora_duration",
-    "question": "How long do aurora hunt tours last?",
-    "answer": "The FAQ explains that aurora hunts typically last 3–5 hours, but they can sometimes last up to 12 hours if cloud coverage is high and the guides need to drive far away. They mention that the furthest they drove in the previous season was 380 km one way. On the homepage, the Group Tour is presented as up to about 5 hours, while the Small Group Tour is listed as 5–12 hours and is described as having no time or distance limits.",
-    "tags": [
-      "tour length",
-      "tour duration",
-      "how long is aurora tour",
-      "how long does it last",
-      "aurora duration",
-      "3 5 hours",
-      "up to 12 hours",
-      "5-12 hours small group",
-      "group tour up to 5 hours",
-      "no time limit small group",
-      "no distance limit small group",
-      "how late do we get back",
-      "return time to hotel",
-      "380 km one way",
-      "kauanko retki kestää",
-      "kesto 3-5 tuntia",
-      "voiko kestää 12 tuntia"
-    ]
-  },
+  "id": "aurora_duration",
+  "question": "How long do aurora hunt tours last?",
+  "answer": "The FAQ explains that aurora hunts typically last 3–5 hours, but they can sometimes last up to 12 hours if cloud coverage is high and the guides need to drive far away. They mention that the furthest they drove in the previous season was 380 km one way. On the homepage, the Group Tour is presented as up to about 5 hours, while the Small Group Tour is listed as 5–12 hours and is described as having no time or distance limits.",
+  "tags": [
+    "tour length",
+    "tour duration",
+    "how long is aurora tour",
+    "how long does it last",
+    "aurora duration",
+    "3 5 hours",
+    "up to 12 hours",
+    "5-12 hours small group",
+    "group tour up to 5 hours",
+    "no time limit small group",
+    "no distance limit small group",
+    "how late do we get back",
+    "return time to hotel",
+    "380 km one way",
+    "sure and the tour lasts for 8 hours",
+    "does the tour last 8 hours",
+    "is it 8 hours",
+    "8hours",
+    "4-5 hours",
+    "can it be longer",
+    "depends on how far we drive",
+    "sometimes we wait for northern lights",
+    "kauanko retki kestää",
+    "kesto 3-5 tuntia",
+    "voiko kestää 12 tuntia",
+    "onko 8 tuntia",
+    "kestääkö 8h"
+  ]
+},
+
   {
     "id": "aurora_what_to_bring",
     "question": "What should I bring on an aurora hunt?",
@@ -417,30 +428,51 @@
       "retken kulku"
     ]
   },
-  {
-    "id": "aurora_pickup_and_return",
-    "question": "Where and when do you pick up guests for the aurora tour?",
-    "answer": "Lapland Explorers states that they offer pickup from your hotel in Rovaniemi and that tours include pickup within a 10 km range of Rovaniemi city center. They will contact you with the exact pickup time, which is usually between 17:00 and 21:00, based on the evening’s weather and aurora forecast. At the end of the night, they drive you back to Rovaniemi.",
-    "tags": [
-      "pickup location",
-      "pickup details",
-      "hotel pickup",
-      "do you pick up from hotel",
-      "do you pick up at accommodation",
-      "pickup within 10 km",
-      "10km rovaniemi",
-      "rovaniemi city center pickup",
-      "pickup time",
-      "pickup time 17 21",
-      "what time is pickup",
-      "when does it start",
-      "drop off details",
-      "return to rovaniemi",
-      "nouto rovaniemi hotelli",
-      "nouto 10km säteellä",
-      "mihin aikaan nouto"
-    ]
-  },
+ {
+  "id": "aurora_pickup_and_return",
+  "question": "Where and when do you pick up guests for the aurora tour?",
+  "answer": "Lapland Explorers states that they offer pickup from your hotel in Rovaniemi and that tours include pickup within a 10 km range of Rovaniemi city center. They will contact you with the exact pickup time, which is usually between 17:00 and 21:00, based on the evening’s weather and aurora forecast. As a guideline, many nights start around 19:00, but the exact time is confirmed on the hunt day. At the end of the night, they drive you back to Rovaniemi.",
+  "tags": [
+    "pickup location",
+    "pickup details",
+    "hotel pickup",
+    "do you pick up from hotel",
+    "do you pick up at accommodation",
+    "pickup within 10 km",
+    "10km rovaniemi",
+    "rovaniemi city center pickup",
+    "pickup time",
+    "pickup time 17 21",
+    "what time is pickup",
+    "when does it start",
+    "drop off details",
+    "return to rovaniemi",
+    "do you provide pick up",
+    "do you provide pickup",
+    "do you provide pick-up",
+    "pick up included",
+    "pickup included",
+    "and what time do you plan to start",
+    "what time do you plan to start",
+    "what time will we leave",
+    "around 19:00",
+    "around 7pm",
+    "19-21",
+    "will you text before you pick us up",
+    "will you message before pickup",
+    "will you let us know pickup time",
+    "booked for tonight pickup time",
+    "tonight pickup",
+    "tomorrow pickup time",
+    "nouto rovaniemi hotelli",
+    "nouto 10km säteellä",
+    "mihin aikaan nouto",
+    "aloitusaika",
+    "lähtöaika",
+    "laitatteko viestin ennen noutoa"
+  ]
+},
+
   {
     "id": "aurora_how_far_drive",
     "question": "How far can you drive during an aurora hunt?",
@@ -898,5 +930,30 @@
       "evästeet sivustolla",
       "evästeasetukset"
     ]
-  }
+  },
+  {
+  "id": "private_tour_start_time",
+  "question": "I booked a private tour. What time is best for us to start? Is 19:00 (7pm) okay?",
+  "answer": "A start around 19:00 (7pm) is usually a good guideline for private tours, but the exact timing is confirmed on the day based on weather and cloud coverage. We will message you with the confirmed pick-up/start time once the plan is set.",
+  "tags": [
+    "private tour",
+    "private northern lights tour",
+    "private booking",
+    "what time is best to start private tour",
+    "is 7pm okay",
+    "is 19:00 ok",
+    "private start time",
+    "private pickup time",
+    "confirm exact time tomorrow",
+    "confirm on the day",
+    "depends on the weather",
+    "depends on the clouds",
+    "we will let you know the exact time",
+    "yksityinen retki",
+    "yksityistour",
+    "aloitusaika yksityinen",
+    "onko klo 19 ok"
+  ]
+}
+
 ]
