@@ -290,7 +290,9 @@
       "real-time information",
       "flexible tour duration",
       "revontuliretken sisältö",
-      "mitä sisältyy retkeen"
+      "mitä sisältyy retkeen",
+      "retken sisältö",
+      "mitä revontuliretki sisältää"
     ]
   },
   {
@@ -316,7 +318,10 @@
       "onko tarjolla juotavaa",
       "kuumat juomat",
       "välipalat retkellä",
-      "tarjoilut revontuliretki"
+      "tarjoilut revontuliretki",
+      "mitä kaikkea syötävää retki sisältää",
+      "tarjoilu",
+      "snacks for tour"
     ]
   },
   {
@@ -931,28 +936,432 @@
       "evästeasetukset"
     ]
   },
+   {
+    "id": "private_tour_start_time",
+    "question": "I booked a private tour. What time is best for us to start? Is 19:00 (7pm) okay?",
+    "answer": "A start around 19:00 (7pm) is usually a good guideline for private tours, but the exact timing is confirmed on the day based on weather and cloud coverage. We will message you with the confirmed pick-up/start time once the plan is set.",
+    "tags": [
+      "private tour",
+      "private northern lights tour",
+      "private booking",
+      "what time is best to start private tour",
+      "is 7pm okay",
+      "is 19:00 ok",
+      "private start time",
+      "private pickup time",
+      "confirm exact time tomorrow",
+      "confirm on the day",
+      "depends on the weather",
+      "depends on the clouds",
+      "we will let you know the exact time",
+      "yksityinen retki",
+      "yksityistour",
+      "aloitusaika yksityinen",
+      "onko klo 19 ok"
+    ]
+  },
   {
-  "id": "private_tour_start_time",
-  "question": "I booked a private tour. What time is best for us to start? Is 19:00 (7pm) okay?",
-  "answer": "A start around 19:00 (7pm) is usually a good guideline for private tours, but the exact timing is confirmed on the day based on weather and cloud coverage. We will message you with the confirmed pick-up/start time once the plan is set.",
+    "id": "group_tour_guarantee_meaning",
+    "question": "What does the 'Guaranteed Northern Lights' promise mean on the Group Tour?",
+    "answer": "It means our goal is to take you out only when conditions look promising, and to give you a real Northern Lights experience with local aurora experts. If conditions look poor, we will inform you beforehand so you can choose a full refund or switch to our more flexible Small Group tour. If you join a guaranteed hunt and no Northern Lights are seen, we follow the 'no aurora, no pay' approach (refund or a new attempt depending on availability).",
+    "tags": [
+      "guaranteed northern lights group tour",
+      "group tour guarantee",
+      "what does guaranteed mean",
+      "is it really guaranteed",
+      "no aurora no pay group tour",
+      "refund if no aurora group tour",
+      "new attempt if no aurora",
+      "taattu revontuliretki ryhmä",
+      "mitä taattu tarkoittaa",
+      "saako rahat takaisin",
+      "uusi kierros jos ei näy"
+    ]
+  },
+  {
+    "id": "group_tour_bad_conditions_contact_beforehand",
+    "question": "What happens if the aurora forecast or weather looks poor for the Group Tour?",
+    "answer": "If conditions look poor, we contact you before the tour so you can choose between a full refund or switching to our more flexible Small Group tour instead. We aim to be transparent and avoid taking you out when the chances are low.",
+    "tags": [
+      "bad weather group tour",
+      "poor conditions group tour",
+      "aurora forecast poor",
+      "will you cancel group tour",
+      "full refund poor conditions",
+      "switch to small group option",
+      "huono sää ryhmäretki",
+      "mitä jos ennuste huono",
+      "ilmoitatteko etukäteen",
+      "täysi hyvitys"
+    ]
+  },
+  {
+    "id": "group_tour_refund_options",
+    "question": "Can I get a refund for the Group Tour if the conditions are bad?",
+    "answer": "Yes. If conditions look poor, we will inform you beforehand and you can choose a full refund or switch to the Small Group tour for more flexible routing.",
+    "tags": [
+      "group tour refund",
+      "refund group tour",
+      "full refund group tour",
+      "bad conditions refund",
+      "switch tour instead of refund",
+      "ryhmäretki hyvitys",
+      "rahat takaisin ryhmäretki",
+      "peruutus huonon sään takia"
+    ]
+  },
+  {
+    "id": "group_tour_switch_to_small_group",
+    "question": "If I booked the Group Tour, can I switch to the Small Group tour?",
+    "answer": "Yes—if conditions look poor, we may recommend switching to the more flexible Small Group tour. We will contact you beforehand so you can choose between a full refund or switching tours.",
+    "tags": [
+      "switch from group to small group",
+      "upgrade to small group tour",
+      "change tour type",
+      "group tour to small group",
+      "vaihto pienryhmään",
+      "voinko vaihtaa retkeä",
+      "päivitä pienryhmään"
+    ]
+  },
+  {
+    "id": "group_tour_is_it_worth_it_vs_small_group",
+    "question": "Should I choose the Group Tour or the Small Group tour if I really want the best chance to see the aurora?",
+    "answer": "If you want the most flexible routing and the highest level of adaptability, we recommend the Small Group tour. The Group Tour is the more budget-friendly option and still guided by the same local aurora experts, but it has a shorter duration (up to about 5 hours).",
+    "tags": [
+      "which tour should i choose",
+      "group tour or small group",
+      "best chance to see aurora",
+      "recommendation",
+      "budget vs flexible",
+      "kumpi kannattaa valita",
+      "paras mahdollisuus revontuliin",
+      "ryhmä vai pienryhmä"
+    ]
+  },
+  {
+    "id": "group_tour_guarantee_if_no_lights",
+    "question": "What if we don’t see the Northern Lights on the Guaranteed Group Tour?",
+    "answer": "On a guaranteed hunt, we follow the 'no aurora, no pay' approach. If no Northern Lights are seen, we offer a solution such as a refund or a new attempt (rescheduling) depending on availability and the situation.",
+    "tags": [
+      "no northern lights group tour",
+      "if we see nothing group tour",
+      "no aurora no pay",
+      "refund if no lights",
+      "reschedule if no lights",
+      "jos ei näy revontulia",
+      "saako hyvityksen",
+      "uusi yritys jos ei näy"
+    ]
+  },
+  {
+    "id": "group_tour_duration_limit_explained",
+    "question": "Does the Group Tour have a time limit?",
+    "answer": "Yes. The Guaranteed Northern Lights Group Tour is designed as a budget-friendly option and typically lasts up to about 5 hours. If you want the most flexible timing and routing, choose the Small Group tour with no time or distance limits.",
+    "tags": [
+      "group tour time limit",
+      "group tour duration up to 5 hours",
+      "is it 5 hours",
+      "time limit group tour",
+      "ryhmäretki kesto",
+      "kestääkö 5 tuntia",
+      "onko aikarajaa"
+    ]
+  },
+  {
+    "id": "group_tour_quality_experience_low_price",
+    "question": "Is the Group Tour still a quality experience even though it’s cheaper?",
+    "answer": "Yes. The Group Tour is a budget-friendly option, but it is still guided by the same local aurora experts. You will also get warm drinks, snacks, and professional photos of your night under the stars.",
+    "tags": [
+      "budget friendly group tour",
+      "is group tour good",
+      "quality experience group tour",
+      "same local aurora experts",
+      "warm drinks snacks photos included",
+      "edullinen revontuliretki",
+      "onko ryhmäretki hyvä",
+      "sisältyykö kuvat"
+    ]
+  },
+  {
+    "id": "small_group_guarantee_meaning",
+    "question": "What does 'fully guaranteed' mean on the Small Group tour?",
+    "answer": "It means this is our most flexible aurora hunt: there are no time or distance limits. We stay out as long as needed and go wherever the aurora appears—even to Norway if that’s where the skies are clearest. Our mission is simple: to find the Northern Lights for you.",
+    "tags": [
+      "fully guaranteed small group",
+      "small group guarantee meaning",
+      "no time limit",
+      "no distance limit",
+      "go to norway if needed",
+      "unlimited aurora hunt",
+      "täysin taattu pienryhmä",
+      "ei aikarajaa",
+      "ei kilometrirajaa",
+      "mennään norjaan tarvittaessa"
+    ]
+  },
+  {
+    "id": "small_group_why_best_chance",
+    "question": "Why does the Small Group tour give the best chance to see the Northern Lights?",
+    "answer": "Because it allows the most flexible routing. With a small group, we can change direction quickly, take detours, wait longer, and choose remote viewing spots away from crowds and city lights. We also have no time or distance limits on this tour.",
+    "tags": [
+      "best chance small group",
+      "why small group is better",
+      "flexible routing small group",
+      "remote viewing spots",
+      "away from crowds",
+      "paras mahdollisuus pienryhmä",
+      "miksi pienryhmä parempi",
+      "joustava reitti"
+    ]
+  },
+  {
+    "id": "small_group_go_to_norway_question",
+    "question": "Do you really drive to Norway on the Small Group tour?",
+    "answer": "If needed, yes. The Small Group tour has no time or distance limits, so we go wherever the skies are clearest and where the aurora appears—even to Norway if that gives the best chance for a successful night.",
+    "tags": [
+      "drive to norway",
+      "do you go to norway",
+      "norway aurora hunt",
+      "small group no distance limit",
+      "ajatteko norjaan",
+      "mennäänkö norjaan",
+      "revontulien perässä norjaan"
+    ]
+  },
+  {
+    "id": "small_group_personalised_experience",
+    "question": "Is the Small Group tour more personal than the Group Tour?",
+    "answer": "Yes. The Small Group tour is designed to feel personal, safe, and authentic. Because the group is smaller, the guide can adapt the night more quickly and take you to quieter, more remote locations away from crowds.",
+    "tags": [
+      "personalised small group tour",
+      "more personal experience",
+      "small group vs group tour",
+      "authentic experience",
+      "quiet locations",
+      "henkilökohtaisempi pienryhmä",
+      "aidompi kokemus",
+      "pienryhmä vs ryhmä"
+    ]
+  },
+  {
+    "id": "small_group_wait_longer_if_needed",
+    "question": "Can we stay out longer on the Small Group tour if the aurora hasn’t appeared yet?",
+    "answer": "Yes. The Small Group tour has no time limit. We can wait longer, change plans, and drive further if needed to find clear skies and aurora activity.",
+    "tags": [
+      "stay out longer small group",
+      "wait longer for aurora",
+      "no time limit small group",
+      "extend the tour",
+      "voidaanko odottaa pidempään",
+      "pienryhmä ei aikarajaa",
+      "voidaanko olla pidempään"
+    ]
+  },
+  {
+    "id": "small_group_refund_or_new_attempt_if_no_lights",
+    "question": "What happens if we still don’t see the Northern Lights on the Small Group guaranteed tour?",
+    "answer": "On a guaranteed hunt, we follow the 'no aurora, no pay' approach. If no Northern Lights are seen, we will offer a solution such as a refund or a new attempt (rescheduling), depending on availability and the situation.",
+    "tags": [
+      "no northern lights small group",
+      "if we see nothing small group",
+      "no aurora no pay small group",
+      "refund if no lights",
+      "reschedule if no lights",
+      "jos ei näy revontulia pienryhmä",
+      "saako rahat takaisin",
+      "uusi yritys"
+    ]
+  },
+  {
+    "id": "small_group_vs_group_time_distance",
+    "question": "What is the biggest difference between the Group Tour and the Small Group guaranteed tour?",
+    "answer": "The biggest difference is flexibility. The Group Tour is budget-friendly and lasts up to about 5 hours. The Small Group tour has no time or distance limits—we stay out as long as needed and can go wherever the aurora appears, even far from Rovaniemi if required.",
+    "tags": [
+      "biggest difference group vs small group",
+      "group vs small group",
+      "time limit vs no time limit",
+      "distance limit vs no distance limit",
+      "mikä isoin ero",
+      "ryhmä vs pienryhmä",
+      "aikaraja vs ei aikarajaa",
+      "kilometriraja vs ei kilometrirajaa"
+    ]
+  },
+  {
+    "id": "small_group_remote_spots_not_accessible_to_large_groups",
+    "question": "Why can the Small Group tour reach better viewing spots than larger groups?",
+    "answer": "Because with a small group we can change plans quickly, take detours, and access more remote viewing spots that larger groups and fixed routes typically cannot reach. This helps us avoid crowds and find clearer skies.",
+    "tags": [
+      "remote viewing spots",
+      "small group remote locations",
+      "avoid crowds",
+      "detours possible",
+      "small group flexible routing",
+      "syrjäiset katselupaikat",
+      "välttää ruuhkat",
+      "pienryhmä joustava"
+    ]
+  },
+  {
+    "id": "all_aurora_tours_guaranteed_policy_overview_en",
+    "question": "Are the Northern Lights guaranteed on all your aurora tours?",
+    "answer": "Yes—our Northern Lights hunts are sold as guaranteed experiences. If nature prevents seeing the aurora (for example very poor visibility due to weather/clouds) and no Northern Lights are seen, we follow a 'no aurora, no pay' policy: you will receive either a new attempt (rescheduled tour) or a full refund, depending on availability and the situation.",
+    "tags": [
+      "are northern lights guaranteed",
+      "guarantee on all tours",
+      "guaranteed aurora policy",
+      "no aurora no pay",
+      "refund or reschedule",
+      "what if no northern lights",
+      "taattu revontulet",
+      "revontulet taattu kaikilla retkillä",
+      "jos ei näy revontulia",
+      "uusi kierros tai rahat takaisin",
+      "hyvitys"
+    ]
+  },
+  {
+    "id": "no_aurora_no_pay_explained_en",
+    "question": "What does 'no aurora, no pay' mean?",
+    "answer": "'No aurora, no pay' means that if you join a guaranteed Northern Lights hunt and no Northern Lights are seen, you are not left with a failed experience. We will offer compensation in the form of a new attempt (rescheduling) or a full refund, depending on availability and the situation.",
+    "tags": [
+      "no aurora no pay meaning",
+      "what does no aurora no pay mean",
+      "guarantee explanation",
+      "refund policy aurora",
+      "reschedule policy aurora",
+      "mitä tarkoittaa no aurora no pay",
+      "taattu tai korvaus"
+    ]
+  },
+  {
+    "id": "bad_visibility_weather_prevents_aurora_en",
+    "question": "What if the weather is so bad that we can’t see anything?",
+    "answer": "If visibility is very poor due to weather/cloud coverage and no Northern Lights are seen on a guaranteed hunt, we follow the 'no aurora, no pay' policy. You will receive compensation as either a new attempt (rescheduled tour) or a full refund, depending on availability and the situation.",
+    "tags": [
+      "bad weather no visibility",
+      "cloudy all night",
+      "weather prevents aurora",
+      "what if we can’t see anything",
+      "refund if weather is bad",
+      "reschedule due to weather",
+      "huono näkyvyys sää",
+      "pilvistä koko yön",
+      "sää estää revontulet"
+    ]
+  },
+  {
+    "id": "advance_notice_poor_conditions_en",
+    "question": "Will you let us know in advance if the conditions look very poor?",
+    "answer": "Yes. We aim to be transparent and avoid taking you out when the chances are very low. If conditions look poor, we will contact you beforehand so you can choose the best option (such as a full refund or switching to a more flexible tour type).",
+    "tags": [
+      "inform beforehand",
+      "contact before tour",
+      "poor conditions notice",
+      "will you cancel if forecast is bad",
+      "transparent communication",
+      "ilmoitatteko etukäteen",
+      "huono ennuste",
+      "peruutatteko jos sää huono"
+    ]
+  },
+  {
+    "id": "choose_refund_or_new_attempt_en",
+    "question": "If we don’t see the Northern Lights, can I choose between a refund and a new attempt?",
+    "answer": "If no Northern Lights are seen on a guaranteed hunt, we will offer compensation as either a new attempt (rescheduling) or a full refund. The available option can depend on availability and the situation, and we will guide you to the best solution.",
+    "tags": [
+      "choose refund or reschedule",
+      "can i choose refund",
+      "new attempt or money back",
+      "reschedule vs refund",
+      "voinko valita hyvityksen",
+      "uusi kierros vai rahat takaisin"
+    ]
+  },
+  {
+    "id": "what_counts_as_no_aurora_en",
+    "question": "What counts as 'no aurora' for the guarantee?",
+    "answer": "In simple terms, 'no aurora' means you did not see the Northern Lights during the hunt. If the night is unsuccessful due to conditions and no aurora is seen, we follow the 'no aurora, no pay' policy and offer compensation (new attempt or refund depending on availability and the situation).",
+    "tags": [
+      "what counts as no aurora",
+      "definition of no aurora",
+      "guarantee conditions",
+      "no northern lights seen",
+      "mikä lasketaan ettei näy revontulia",
+      "takuu ehdot"
+    ]
+  },
+  {
+    "id": "how_compensation_is_handled_en",
+    "question": "How does the compensation work if we don’t see the Northern Lights?",
+    "answer": "If no Northern Lights are seen on a guaranteed hunt, we will handle it with our 'no aurora, no pay' policy. You will receive compensation as either a rescheduled new attempt or a full refund, depending on availability and the situation. We will provide clear next steps after the tour.",
+    "tags": [
+      "how compensation works",
+      "process refund reschedule",
+      "what happens after no aurora",
+      "next steps no aurora",
+      "miten hyvitys toimii",
+      "toimintatapa jos ei näy"
+    ]
+  },
+  {
+    "id": "guarantee_applies_group_and_small_group_en",
+    "question": "Does the guarantee apply to both the Group Tour and the Small Group tour?",
+    "answer": "Yes. Both tours are sold as guaranteed Northern Lights hunts with a 'no aurora, no pay' policy. If no Northern Lights are seen, compensation is provided as a new attempt (rescheduling) or a refund, depending on availability and the situation.",
+    "tags": [
+      "does guarantee apply to group tour",
+      "does guarantee apply to small group",
+      "group and small group guarantee",
+      "both tours guaranteed",
+      "koskeeko takuu ryhmäretkeä",
+      "koskeeko takuu pienryhmää",
+      "molemmat taattu"
+    ]
+  },
+  {
+    "id": "revontulet_taattu_kaikilla_retikilla_fi",
+    "question": "Onko revontulet taattu kaikilla revontuliretkillä?",
+    "answer": "Kyllä – revontuliretket myydään taattuina. Jos luonto estää näkyvyyden (esim. todella huono näkyvyys sään/pilvisyyden takia) eikä revontulia nähdä, käytössä on 'no aurora, no pay' -periaate: saat hyvityksenä joko uuden kierroksen (uudelleenvaraus) tai rahat takaisin tilanteen ja saatavuuden mukaan.",
+    "tags": [
+      "revontulet taattu",
+      "onko revontulet taattu",
+      "taattu revontuliretki",
+      "no aurora no pay",
+      "uusi kierros tai rahat takaisin",
+      "hyvitys jos ei näy"
+    ]
+  },
+  {
+    "id": "jos_ei_nay_revontulia_hyvitys_fi",
+    "question": "Mitä jos revontulia ei näy – saanko uuden kierroksen tai rahat takaisin?",
+    "answer": "Kyllä. Jos taatulla retkellä revontulia ei nähdä (esimerkiksi sään ja näkyvyyden vuoksi), tarjoamme hyvityksenä joko uuden kierroksen (uudelleenvaraus) tai rahat takaisin tilanteen ja saatavuuden mukaan.",
+    "tags": [
+      "mitä jos revontulia ei näy",
+      "saako rahat takaisin",
+      "saako uuden kierroksen",
+      "hyvitys",
+      "uusi yritys",
+      "uudelleenvaraus"
+    ]
+  },
+
+
+  {
+  "id": "customer_cancellation_policy",
+  "question": "What is your cancellation policy and are there cancellation fees?",
+  "answer": "Customer cancellation and change terms (including any fees and deadlines) are described in our Terms & Conditions. You can find the 'terms & conditions' link in the footer on the main pages.",
   "tags": [
-    "private tour",
-    "private northern lights tour",
-    "private booking",
-    "what time is best to start private tour",
-    "is 7pm okay",
-    "is 19:00 ok",
-    "private start time",
-    "private pickup time",
-    "confirm exact time tomorrow",
-    "confirm on the day",
-    "depends on the weather",
-    "depends on the clouds",
-    "we will let you know the exact time",
-    "yksityinen retki",
-    "yksityistour",
-    "aloitusaika yksityinen",
-    "onko klo 19 ok"
+    "peruutus",
+    "peruutusehdot",
+    "varauksen peruutus",
+    "voinko perua varauksen",
+    "onko peruutusmaksu",
+    "peruutusmaksu",
+    "cancel booking",
+    "cancellation policy",
+    "cancellation fee",
+    "change booking"
   ]
 }
 
