@@ -10,13 +10,18 @@ export const config = {
   OPENAI_API_KEY: process.env.OPENAI_API_KEY || "",
 
   // UUSI: valittava malli envillä
-  // Defaultiksi kevyt ja edullinen tekstimalli.
-  // GPT-4o mini on saatavilla myös Chat Completions APIssa. Mut GPT-4o toimii hyvin. :contentReference[oaicite:3]{index=3}
   OPENAI_MODEL: process.env.OPENAI_MODEL || "gpt-4o-mini",
 
-    // UUSI: pieniä säätöjä, turvalliset oletukset
+  // Yleiset OpenAI-asetukset
   OPENAI_TEMPERATURE: Number(process.env.OPENAI_TEMPERATURE ?? 0.3),
   OPENAI_MAX_TOKENS: Number(process.env.OPENAI_MAX_TOKENS ?? 300),
+
+  // Decider-asetukset (Grounded RAG)
+  OPENAI_DECIDER_TOPK: Number(process.env.OPENAI_DECIDER_TOPK ?? 10),
+  OPENAI_DECIDER_MAX_FAQS: Number(process.env.OPENAI_DECIDER_MAX_FAQS ?? 3),
+  OPENAI_DECIDER_MIN_CONFIDENCE: Number(process.env.OPENAI_DECIDER_MIN_CONFIDENCE ?? 0.65),
+  OPENAI_DECIDER_TEMPERATURE: Number(process.env.OPENAI_DECIDER_TEMPERATURE ?? 0.1),
+  OPENAI_DECIDER_MAX_TOKENS: Number(process.env.OPENAI_DECIDER_MAX_TOKENS ?? 420),
 
   TIMEZONE: process.env.TIMEZONE || "Europe/Helsinki",
   BOT_ACTIVE_START: Number(process.env.BOT_ACTIVE_START ?? 21),
@@ -24,13 +29,12 @@ export const config = {
 
   FAQ_FILE_PATH: process.env.FAQ_FILE_PATH || "./data/faq.json",
 
-  // Confidence threshold for FAQ match
+  // Confidence threshold for FAQ match (string similarity)
   CONFIDENCE_THRESHOLD: Number(process.env.CONFIDENCE_THRESHOLD ?? 0.85),
 
-    // Kuinka monen minuutin jälkeen botti saa ottaa keissin takaisin HUMAN-tilasta. Jos arvo on tyhjä tai 0, botti ei ota keisseja takaisin. Arvo pitää paivittaa myos .env
+  // Kuinka monen minuutin jälkeen botti saa ottaa keissin takaisin HUMAN-tilasta.
+  // Jos arvo on tyhjä tai 0, botti ei ota keisseja takaisin.
   HUMAN_TIMEOUT_MINUTES: Number(process.env.HUMAN_TIMEOUT_MINUTES ?? 0),
 
-
   AGENT_API_KEY: process.env.AGENT_API_KEY || process.env.X_AGENT_KEY || "",
-
 };

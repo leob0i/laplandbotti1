@@ -332,7 +332,8 @@ export async function handleIncomingCustomerMessage(conversation, messageText) {
   );
 
   // 1) hae top-N FAQ-ehdokkaat
-  const candidates = await findTopFaqCandidates(messageText, 10);
+const candidates = await findTopFaqCandidates(messageText, config.OPENAI_DECIDER_TOPK);
+
 
   // 2) jos ei avainta tai ei ehdokkaita -> vanha käytös
   if (!config.OPENAI_API_KEY || !candidates || candidates.length === 0) {
@@ -342,31 +343,48 @@ export async function handleIncomingCustomerMessage(conversation, messageText) {
 
   // 3) OpenAI päättää: answer vs clarify (FAQ-only)
   const decision = await decideFaqAnswerFromCandidates(messageText, candidates);
+  const minConf = Number(config.OPENAI_DECIDER_MIN_CONFIDENCE ?? 0.65);
+const hasIds = Array.isArray(decision?.faqIdsUsed) && decision.faqIdsUsed.length > 0;
+
 
   // 4) jos OpenAI pystyy vastaamaan, vastaa heti ja nollaa uncertainCount
-  if (decision?.type === "answer" && typeof decision.text === "string" && decision.text.trim()) {
-    const replyText = decision.text.trim();
+  if (
+  decision?.type === "answer" &&
+  typeof decision?.confidence === "number" &&
+  decision.confidence >= minConf &&
+  hasIds &&
+  typeof decision.text === "string" &&
+  decision.text.trim()
+) {
+  const replyText = decision.text.trim();
 
-    try {
-      await sendTextMessage(conversation.customerPhone, replyText);
-      console.log(
-        `[Bot] Sent decider reply to ${conversation.customerPhone} for conversation ${conversation.id}.`
-      );
-      conversation.uncertainCount = 0;
-    } catch (err) {
-      console.error(
-        `[Bot] Failed to send decider reply to ${conversation.customerPhone}:`,
-        err?.message || err
-      );
-      return;
-    }
+  console.log(
+    `[Bot] Decider ANSWER for ${conversation.id}: confidence=${decision.confidence.toFixed(
+      2
+    )}, faqIdsUsed=${decision.faqIdsUsed.join(",")}`
+  );
 
-    addMessage(conversation.id, "BOT", replyText);
+  try {
+    await sendTextMessage(conversation.customerPhone, replyText);
     console.log(
-      `[Bot] Conversation ${conversation.id} remains in AUTO mode after decider reply.`
+      `[Bot] Sent decider reply to ${conversation.customerPhone} for conversation ${conversation.id}.`
+    );
+    conversation.uncertainCount = 0;
+  } catch (err) {
+    console.error(
+      `[Bot] Failed to send decider reply to ${conversation.customerPhone}:`,
+      err?.message || err
     );
     return;
   }
+
+  addMessage(conversation.id, "BOT", replyText);
+  console.log(
+    `[Bot] Conversation ${conversation.id} remains in AUTO mode after decider reply.`
+  );
+  return;
+}
+
 
   // 5) muuten: clarify (1x) / HUMAN (2x) käyttäen deciderin kysymystä jos sellainen on
   const clarifyOverride =

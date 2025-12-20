@@ -11,7 +11,11 @@ function detectLanguageHint(text = "") {
 
   // Finnish-ish signals
   if (/[äöå]/i.test(text)) return "fi";
-  if (/\b(mitä|paljonko|kuinka|missä|milloin|voiko|hinta|maksaa|tarjous|aloitus)\b/.test(t)) {
+  if (
+    /\b(mitä|paljonko|kuinka|missä|milloin|voiko|hinta|maksaa|tarjous|aloitus|varaus|peruutus)\b/.test(
+      t
+    )
+  ) {
     return "fi";
   }
 
@@ -19,17 +23,20 @@ function detectLanguageHint(text = "") {
   return "en";
 }
 
+function getDefaultClarifyText(lang) {
+  return lang === "fi"
+    ? "Varmistaisitko vielä: mitä tarkalleen tarkoitat? (Esim. minkä palvelun/retken tai asian kysymys koskee.)"
+    : "Could you clarify what you mean? (For example, which service/tour or topic your question is about.)";
+}
+
 function buildSystemPrompt(languageHint) {
-  const langLine =
-    languageHint === "fi"
-      ? "Reply in Finnish."
-      : "Reply in English.";
+  const langLine = languageHint === "fi" ? "Reply in Finnish." : "Reply in English.";
 
   return [
     "You are a customer service FAQ assistant.",
     "You MUST only use the provided FAQ answer content.",
     "Do NOT add new facts, prices, policies, or promises.",
-    "If the FAQ answer does not cover the user's question, output exactly: NO_VALID_ANSWER",
+    'If the FAQ answer does not cover the user\'s question, output exactly: NO_VALID_ANSWER',
     "Keep the reply concise and friendly.",
     langLine,
   ].join(" ");
@@ -89,28 +96,66 @@ export async function rewriteFaqAnswer(userQuestion, faqAnswer, languageHint) {
   }
 }
 
+/* =========================
+   Decider (Grounded RAG)
+   ========================= */
 
+function normalizeForContains(text = "") {
+  return String(text)
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
-function buildDeciderSystemPrompt() {
+function truncate(text, maxChars) {
+  const t = String(text || "");
+  if (t.length <= maxChars) return t;
+  return t.slice(0, Math.max(0, maxChars - 1)) + "…";
+}
+
+function buildDeciderSystemPrompt(languageHint, maxFaqs) {
   return [
     "You are a customer service assistant.",
     "You MUST answer using ONLY the provided FAQ entries (questions + answers).",
-    "You may combine multiple FAQ answers if needed, but you must NOT add any new facts.",
+    "You MAY combine information from up to the allowed number of FAQ entries if needed.",
+    "You must NOT add any new facts, prices, policies, or promises.",
     "If you cannot answer from the provided FAQ entries, ask EXACTLY ONE short clarifying question.",
     "Do not mention handing off to a human (the app handles escalation).",
     "",
-    "Return ONLY valid JSON in this schema:",
-    '{ "type": "answer" | "clarify", "confidence": number, "faqIdsUsed": string[], "text": string }',
+    "Return ONLY valid JSON in this exact schema (no code fences, no extra text):",
+    '{ "type": "answer" | "clarify", "confidence": number, "faqIdsUsed": string[], "text": string, "support": { "faqId": string, "quote": string }[] }',
     "",
-    "Language rule: Reply in the same language as the customer message (Finnish in Finnish, English in English). Do not mix languages.",
-    "confidence must be between 0.0 and 1.0.",
+    "Rules:",
+    `- If type is 'answer': faqIdsUsed must include 1..${maxFaqs} ids from the provided FAQ list.`,
+    "- If type is 'answer': support MUST include at least one item per faqIdUsed.",
+    "- Each support.quote MUST be an exact verbatim substring from the corresponding FAQ answer text (do not translate the quote).",
+    "- If type is 'clarify': faqIdsUsed must be empty and support must be empty.",
+    "- Language rule: Reply in the same language as the customer message (Finnish in Finnish, English in English). Do not mix languages.",
+    "- confidence must be between 0.0 and 1.0.",
   ].join("\n");
 }
 
 function buildDeciderUserPrompt(userQuestion, candidates) {
-  const lines = (candidates || [])
+  const safeCandidates = (candidates || [])
     .filter((c) => c && c.id && c.question && c.answer)
-    .map((c, i) => `#${i + 1} id=${c.id}\nQ: ${c.question}\nA: ${c.answer}`);
+    .slice(0, Math.max(1, Math.min(Number(config.OPENAI_DECIDER_TOPK) || 10, 25)));
+
+  const lines = safeCandidates.map((c) => {
+    // Vastaukset voivat olla pitkiä -> rajataan, jotta tokenit pysyvät kurissa.
+    const a = truncate(c.answer, 1400);
+    const q = truncate(c.question, 300);
+    const tags = Array.isArray(c.tags) ? c.tags.slice(0, 8).join(", ") : "";
+
+    return [
+      `BEGIN_FAQ_ENTRY id=${c.id}`,
+      `Q: ${q}`,
+      `A: ${a}`,
+      tags ? `TAGS: ${tags}` : "",
+      `END_FAQ_ENTRY id=${c.id}`,
+    ]
+      .filter(Boolean)
+      .join("\n");
+  });
 
   return [
     "Customer message:",
@@ -134,24 +179,122 @@ function extractLikelyJson(raw) {
   return t.slice(first, last + 1);
 }
 
+function validateAndNormalizeDecision(parsed, candidates, lang) {
+  const fallbackClarify = {
+    type: "clarify",
+    confidence: 0.0,
+    faqIdsUsed: [],
+    text: getDefaultClarifyText(lang),
+    support: [],
+  };
+
+  if (!parsed || typeof parsed !== "object") return fallbackClarify;
+
+  const type = parsed.type === "answer" ? "answer" : "clarify";
+  const confidence =
+    typeof parsed.confidence === "number" ? Math.max(0, Math.min(1, parsed.confidence)) : 0.0;
+
+  const text = typeof parsed.text === "string" ? parsed.text.trim() : "";
+  if (!text) return fallbackClarify;
+
+  const maxFaqs = Math.max(1, Math.min(Number(config.OPENAI_DECIDER_MAX_FAQS) || 3, 5));
+
+  const candidateById = new Map();
+  for (const c of candidates || []) {
+    if (c && c.id && typeof c.answer === "string") candidateById.set(c.id, c);
+  }
+
+  const faqIdsUsedRaw = Array.isArray(parsed.faqIdsUsed) ? parsed.faqIdsUsed : [];
+  const faqIdsUsed = [...new Set(faqIdsUsedRaw.map((x) => String(x || "").trim()).filter(Boolean))];
+
+  const supportRaw = Array.isArray(parsed.support) ? parsed.support : [];
+  const support = supportRaw
+    .map((s) => ({
+      faqId: String(s?.faqId || "").trim(),
+      quote: typeof s?.quote === "string" ? s.quote.trim() : "",
+    }))
+    .filter((s) => s.faqId && s.quote);
+
+  // Clarify: ei käytetä faq-id:tä eikä supportia
+  if (type === "clarify") {
+    return {
+      type: "clarify",
+      confidence,
+      faqIdsUsed: [],
+      text,
+      support: [],
+    };
+  }
+
+  // Answer: pitää käyttää 1..maxFaqs faq-id:tä
+  if (faqIdsUsed.length < 1 || faqIdsUsed.length > maxFaqs) return fallbackClarify;
+
+  // Kaikkien id:iden pitää olla shortlistissa
+  for (const id of faqIdsUsed) {
+    if (!candidateById.has(id)) return fallbackClarify;
+  }
+
+  // confidence-minimi: jos liian matala -> fail closed -> clarify
+  const minConf = Math.max(0, Math.min(1, Number(config.OPENAI_DECIDER_MIN_CONFIDENCE) || 0.65));
+  if (confidence < minConf) return fallbackClarify;
+
+  // Support-quote: vähintään 1 per käytetty faq-id ja quote pitää löytyä vastaustekstistä
+  const normSupportById = new Map();
+  for (const s of support) {
+    if (!normSupportById.has(s.faqId)) normSupportById.set(s.faqId, []);
+    normSupportById.get(s.faqId).push(s.quote);
+  }
+
+  for (const id of faqIdsUsed) {
+    const quotes = normSupportById.get(id) || [];
+    if (quotes.length < 1) return fallbackClarify;
+
+    const ans = candidateById.get(id)?.answer || "";
+    const ansNorm = normalizeForContains(ans);
+
+    // jokaiselle id:lle riittää että vähintään yksi quote löytyy
+    const ok = quotes.some((q) => {
+      const qNorm = normalizeForContains(q);
+      if (!qNorm) return false;
+      // rajoitetaan epäilyttävän lyhyet lainaukset
+      if (qNorm.length < 12) return false;
+      return ansNorm.includes(qNorm);
+    });
+
+    if (!ok) return fallbackClarify;
+  }
+
+  return {
+    type: "answer",
+    confidence,
+    faqIdsUsed,
+    text,
+    support,
+  };
+}
+
 /**
  * Decide an FAQ-based reply from top candidates.
- * Returns { type: "answer"|"clarify", confidence, faqIdsUsed, text }
+ * Returns { type: "answer"|"clarify", confidence, faqIdsUsed, text, support }
  */
 export async function decideFaqAnswerFromCandidates(userQuestion, candidates = []) {
+  const lang = detectLanguageHint(userQuestion);
+
   // Fail-closed if missing key
   if (!config.OPENAI_API_KEY) {
     return {
       type: "clarify",
       confidence: 0.0,
       faqIdsUsed: [],
-      text: "Could you clarify your question?",
+      text: getDefaultClarifyText(lang),
+      support: [],
     };
   }
 
   const client = new OpenAI({ apiKey: config.OPENAI_API_KEY });
 
-  const system = buildDeciderSystemPrompt();
+  const maxFaqs = Math.max(1, Math.min(Number(config.OPENAI_DECIDER_MAX_FAQS) || 3, 5));
+  const system = buildDeciderSystemPrompt(lang, maxFaqs);
   const user = buildDeciderUserPrompt(userQuestion, candidates);
 
   try {
@@ -161,41 +304,49 @@ export async function decideFaqAnswerFromCandidates(userQuestion, candidates = [
         { role: "system", content: system },
         { role: "user", content: user },
       ],
-      temperature: 0.2,
-      max_tokens: Math.max(config.OPENAI_MAX_TOKENS || 300, 300),
+      temperature: Number.isFinite(config.OPENAI_DECIDER_TEMPERATURE)
+        ? config.OPENAI_DECIDER_TEMPERATURE
+        : 0.1,
+      max_tokens: Number.isFinite(config.OPENAI_DECIDER_MAX_TOKENS)
+        ? config.OPENAI_DECIDER_MAX_TOKENS
+        : Math.max(config.OPENAI_MAX_TOKENS || 300, 360),
     });
 
     const raw = res?.choices?.[0]?.message?.content?.trim();
     const jsonText = extractLikelyJson(raw);
 
     if (!jsonText) {
-      return { type: "clarify", confidence: 0.0, faqIdsUsed: [], text: "Could you clarify your question?" };
+      return {
+        type: "clarify",
+        confidence: 0.0,
+        faqIdsUsed: [],
+        text: getDefaultClarifyText(lang),
+        support: [],
+      };
     }
 
     let parsed;
     try {
       parsed = JSON.parse(jsonText);
     } catch {
-      return { type: "clarify", confidence: 0.0, faqIdsUsed: [], text: "Could you clarify your question?" };
+      return {
+        type: "clarify",
+        confidence: 0.0,
+        faqIdsUsed: [],
+        text: getDefaultClarifyText(lang),
+        support: [],
+      };
     }
 
-    const type = parsed?.type === "answer" ? "answer" : "clarify";
-    const confidence = typeof parsed?.confidence === "number" ? parsed.confidence : 0.0;
-    const faqIdsUsed = Array.isArray(parsed?.faqIdsUsed) ? parsed.faqIdsUsed.filter(Boolean) : [];
-    const text = typeof parsed?.text === "string" ? parsed.text.trim() : "";
-
-    if (!text) {
-      return { type: "clarify", confidence: 0.0, faqIdsUsed: [], text: "Could you clarify your question?" };
-    }
-
-    return {
-      type,
-      confidence: Math.max(0, Math.min(1, confidence)),
-      faqIdsUsed,
-      text,
-    };
+    return validateAndNormalizeDecision(parsed, candidates, lang);
   } catch (err) {
     console.error("[OpenAI] decideFaqAnswerFromCandidates failed:", err?.message || err);
-    return { type: "clarify", confidence: 0.0, faqIdsUsed: [], text: "Could you clarify your question?" };
+    return {
+      type: "clarify",
+      confidence: 0.0,
+      faqIdsUsed: [],
+      text: getDefaultClarifyText(lang),
+      support: [],
+    };
   }
 }
