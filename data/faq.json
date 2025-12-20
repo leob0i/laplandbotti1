@@ -32,7 +32,7 @@
   },
   {
     "id": "northern_lights_what_are",
-    "question": "What are the Northern Lights?",
+    "question": "what is northen light (meaning)",
     "answer": "The Northern Lights, or Aurora Borealis, are a natural light display in the Arctic sky. They appear when charged particles from the sun collide with gases in Earth’s atmosphere, creating waves of light that move and change shape. They are most often green, but can also appear in purple, pink or red. Lapland is one of the best places in the world to see them.",
     "tags": [
       "what are northern lights",
@@ -966,6 +966,7 @@
     "answer": "It means our goal is to take you out only when conditions look promising, and to give you a real Northern Lights experience with local aurora experts. If conditions look poor, we will inform you beforehand so you can choose a full refund or switch to our more flexible Small Group tour. If you join a guaranteed hunt and no Northern Lights are seen, we follow the 'no aurora, no pay' approach (refund or a new attempt depending on availability).",
     "tags": [
       "guaranteed northern lights group tour",
+      "guarantee policy",
       "group tour guarantee",
       "what does guaranteed mean",
       "is it really guaranteed",
@@ -1044,15 +1045,18 @@
     "question": "What if we don’t see the Northern Lights on the Guaranteed Group Tour?",
     "answer": "On a guaranteed hunt, we follow the 'no aurora, no pay' approach. If no Northern Lights are seen, we offer a solution such as a refund or a new attempt (rescheduling) depending on availability and the situation.",
     "tags": [
-      "no northern lights group tour",
-      "if we see nothing group tour",
-      "no aurora no pay",
-      "refund if no lights",
-      "reschedule if no lights",
-      "jos ei näy revontulia",
-      "saako hyvityksen",
-      "uusi yritys jos ei näy"
-    ]
+  "guarantee policy",
+  "is it guaranteed",
+  "no northern lights group tour",
+  "if we see nothing group tour",
+  "no aurora no pay",
+  "refund if no lights",
+  "reschedule if no lights",
+  "jos ei näy revontulia",
+  "saako hyvityksen",
+  "uusi yritys jos ei näy"
+]
+
   },
   {
     "id": "group_tour_duration_limit_explained",
@@ -1163,15 +1167,18 @@
     "question": "What happens if we still don’t see the Northern Lights on the Small Group guaranteed tour?",
     "answer": "On a guaranteed hunt, we follow the 'no aurora, no pay' approach. If no Northern Lights are seen, we will offer a solution such as a refund or a new attempt (rescheduling), depending on availability and the situation.",
     "tags": [
-      "no northern lights small group",
-      "if we see nothing small group",
-      "no aurora no pay small group",
-      "refund if no lights",
-      "reschedule if no lights",
-      "jos ei näy revontulia pienryhmä",
-      "saako rahat takaisin",
-      "uusi yritys"
-    ]
+  "guarantee policy",
+  "is it guaranteed",
+  "no northern lights small group",
+  "if we see nothing small group",
+  "no aurora no pay small group",
+  "refund if no lights",
+  "reschedule if no lights",
+  "jos ei näy revontulia pienryhmä",
+  "saako rahat takaisin",
+  "uusi yritys"
+]
+
   },
   {
     "id": "small_group_vs_group_time_distance",
@@ -1210,6 +1217,9 @@
     "tags": [
       "are northern lights guaranteed",
       "guarantee on all tours",
+      "guarantee policy",
+      "northern lights guaranteed",
+      "is it guaranteed",
       "guaranteed aurora policy",
       "no aurora no pay",
       "refund or reschedule",
@@ -1219,6 +1229,7 @@
       "jos ei näy revontulia",
       "uusi kierros tai rahat takaisin",
       "hyvitys"
+      
     ]
   },
   {
@@ -1347,22 +1358,247 @@
   },
 
 
-  {
-  "id": "customer_cancellation_policy",
-  "question": "What is your cancellation policy and are there cancellation fees?",
-  "answer": "Customer cancellation and change terms (including any fees and deadlines) are described in our Terms & Conditions. You can find the 'terms & conditions' link in the footer on the main pages.",
-  "tags": [
-    "peruutus",
-    "peruutusehdot",
-    "varauksen peruutus",
-    "voinko perua varauksen",
-    "onko peruutusmaksu",
-    "peruutusmaksu",
-    "cancel booking",
-    "cancellation policy",
-    "cancellation fee",
-    "change booking"
-  ]
-}
+    {
+    "id": "customer_cancellation_policy",
+    "question": "What is your cancellation policy and are there cancellation fees?",
+    "answer": "Customer cancellation and change terms (including any fees and deadlines) are described in our Terms & Conditions. You can find the 'terms & conditions' link in the footer on the main pages.",
+    "tags": [
+      "peruutus",
+      "peruutusehdot",
+      "varauksen peruutus",
+      "voinko perua varauksen",
+      "onko peruutusmaksu",
+      "peruutusmaksu",
+      "cancel booking",
+      "cancellation policy",
+      "cancellation fee",
+      "change booking"
+    ]
+  },
 
+  {
+    "id": "booking_and_payment_policy",
+    "question": "How does booking and payment work? Do I need to pay immediately?",
+    "answer": "You may reserve a spot without immediate payment. Full payment must be completed before the start of the tour. Prices are listed in euros (EUR) and include applicable taxes. All bookings are subject to confirmation by Lapland Explorers Oy.",
+    "tags": [
+      "booking and payment",
+      "payment policy",
+      "pay later",
+      "reserve without payment",
+      "when do i pay",
+      "full payment before tour",
+      "prices in eur",
+      "tax included",
+      "booking confirmation",
+      "maksu",
+      "maksuehdot",
+      "varaus ja maksu",
+      "pitääkö maksaa heti",
+      "maksaako etukäteen",
+      "hinta euroissa"
+    ]
+  },
+
+  {
+    "id": "customer_cancellation_24h_refund_policy",
+    "question": "What is your cancellation policy? Can I cancel and get a refund?",
+    "answer": "Cancellations made 24 hours or more before the tour start time are eligible for a full refund. Cancellations made less than 24 hours before departure are non-refundable.",
+    "tags": [
+      "cancellation policy",
+      "cancel booking",
+      "refund policy",
+      "24 hours cancellation",
+      "full refund 24h",
+      "non-refundable under 24h",
+      "peruutusehdot",
+      "peruutus",
+      "rahat takaisin",
+      "24h ennen",
+      "alle 24h ei hyvitystä"
+    ]
+  },
+
+  {
+    "id": "company_cancellation_weather_or_safety",
+    "question": "What happens if Lapland Explorers cancels the tour due to weather or safety?",
+    "answer": "If Lapland Explorers cancels the tour due to unsafe weather or poor aurora conditions, you will receive a full refund or may reschedule, subject to availability.",
+    "tags": [
+      "company cancels",
+      "tour cancelled by company",
+      "unsafe weather",
+      "poor aurora conditions",
+      "refund or reschedule",
+      "full refund if cancelled",
+      "peruttu yrityksen toimesta",
+      "huono sää",
+      "turvallisuus",
+      "uudelleenvaraus tai rahat takaisin"
+    ]
+  },
+
+  {
+    "id": "aurora_guarantee_refund_terms",
+    "question": "Aurora Guarantee: what if the Northern Lights are not visible during the tour?",
+    "answer": "If the Northern Lights are not visible during your tour despite our guide’s best efforts, we will refund your tour fee in full. Guests may choose to contribute a voluntary fee to cover base expenses (e.g., fuel, snacks), but this is optional.",
+    "tags": [
+      "aurora guarantee",
+      "refund if no aurora",
+      "full refund if no northern lights",
+      "voluntary fee",
+      "optional contribution",
+      "fuel snacks costs",
+      "takuu",
+      "hyvitys jos ei näy",
+      "vapaaehtoinen maksu",
+      "polttoaine välipalat"
+    ]
+  },
+
+  {
+    "id": "tour_duration_variation_terms",
+    "question": "Can the tour duration vary?",
+    "answer": "Yes. Tour duration may vary depending on aurora activity and weather. Departure time ranges between 17:00 and 21:00 and is determined on the day to maximize aurora visibility. The itinerary and stops are flexible and may change based on safety, weather, and aurora forecasts.",
+    "tags": [
+      "tour duration may vary",
+      "2 to 10 hours",
+      "flexible itinerary",
+      "departure time 17 to 21",
+      "weather dependent",
+      "aurora forecast dependent",
+      "kesto vaihtelee",
+      "lähtöaika 17 21",
+      "reitti muuttuu",
+      "säästä riippuen",
+      "turvallisuus"
+    ]
+  },
+
+  {
+    "id": "max_group_size_8_participants",
+    "question": "How many people are on the tour? Is there a group size limit?",
+    "answer": "The tour is limited to a maximum of 8 participants.",
+    "tags": [
+      "max 8 participants",
+      "group size limit",
+      "small group size",
+      "how many people",
+      "capacity",
+      "max group",
+      "maksimi 8",
+      "ryhmäkoko",
+      "montako osallistujaa"
+    ]
+  },
+
+  {
+    "id": "children_under_12_policy",
+    "question": "Can children join the tour? Are there rules for children under 12?",
+    "answer": "Children under 12 must be accompanied by an adult and are only allowed upon prior approval.",
+    "tags": [
+      "children policy",
+      "kids under 12",
+      "under 12 approval",
+      "family rules",
+      "must be accompanied by adult",
+      "lapsi alle 12",
+      "lapset retkelle",
+      "aikuinen mukana",
+      "ennakkohyväksyntä"
+    ]
+  },
+
+  {
+    "id": "participant_fitness_requirement",
+    "question": "Do I need to be physically fit to join the tour?",
+    "answer": "Participants must be in adequate physical condition for light outdoor walking and standing in cold temperatures.",
+    "tags": [
+      "physical condition",
+      "fitness requirement",
+      "light walking",
+      "standing in cold",
+      "is it suitable for everyone",
+      "fyysinen kunto",
+      "kevyt kävely",
+      "seisominen kylmässä",
+      "vaatimukset"
+    ]
+  },
+
+  {
+    "id": "required_clothing_and_refusal_policy",
+    "question": "What clothing is required, and what if I’m not dressed warmly enough?",
+    "answer": "Participants are responsible for bringing appropriate winter clothing, including an insulated jacket and trousers, hat, gloves, thermal layers, and snow boots or sturdy footwear. Failure to dress appropriately may result in refusal of participation without refund.",
+    "tags": [
+      "required clothing",
+      "winter clothing required",
+      "insulated jacket trousers",
+      "hat gloves thermal layers",
+      "snow boots",
+      "refusal without refund",
+      "pukeutuminen",
+      "talvivaatteet",
+      "lämpimät varusteet",
+      "ei pääse mukaan ilman hyvitystä"
+    ]
+  },
+
+  {
+    "id": "inclusions_and_exclusions_terms",
+    "question": "What is included and excluded in the tour price (Terms & Conditions)?",
+    "answer": "Inclusions: expert English- and Finnish-speaking guide, transport to and from Rovaniemi, hot drinks and traditional snacks, professional aurora photography, and a personalized experience in a small group setting. Exclusions: the tour price does not include travel insurance, meals beyond snacks, or additional activities not specified.",
+    "tags": [
+      "inclusions",
+      "exclusions",
+      "what's included terms",
+      "what's excluded terms",
+      "travel insurance not included",
+      "meals not included",
+      "guide english finnish",
+      "hot drinks snacks included",
+      "photos included",
+      "sisältyy",
+      "ei sisälly",
+      "matkavakuutus",
+      "ruokailu"
+    ]
+  },
+
+  {
+    "id": "liability_and_force_majeure_terms",
+    "question": "Do you have liability limitations and force majeure terms?",
+    "answer": "Lapland Explorers is not liable for loss, injury, damage, delay, or inconvenience caused by weather or natural occurrences, missed pickup due to inaccurate information, participant negligence or failure to follow guide instructions, equipment malfunction, or third-party service interruptions. Participation is at your own risk and we recommend personal travel insurance. Lapland Explorers is also not responsible for disruptions or cancellations due to unforeseen events such as natural disasters, strikes or transportation failures, government restrictions, or emergency declarations (force majeure).",
+    "tags": [
+      "liability",
+      "limitation of liability",
+      "force majeure",
+      "participation at your own risk",
+      "travel insurance recommended",
+      "not liable for weather",
+      "missed pickup",
+      "participant negligence",
+      "government restrictions",
+      "vastuunrajoitus",
+      "force majeure",
+      "omat riskit",
+      "matkavakuutus suositus"
+    ]
+  },
+
+  {
+    "id": "privacy_gdpr_booking_data_use",
+    "question": "How do you use my personal data and do you follow GDPR?",
+    "answer": "Personal information provided during booking is used solely for organizing and delivering your tour experience. We respect your privacy and comply with GDPR regulations. Please refer to our Privacy Policy for more details.",
+    "tags": [
+      "privacy",
+      "gdpr",
+      "personal data",
+      "how do you use my data",
+      "booking data",
+      "privacy policy",
+      "tietosuoja",
+      "gdpr",
+      "henkilötiedot",
+      "mihin tietoja käytetään"
+    ]
+  }
 ]

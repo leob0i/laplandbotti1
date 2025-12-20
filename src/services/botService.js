@@ -88,6 +88,87 @@ function greetingReply(lang) {
     : "Hi! I can help with questions about our tours, schedules, meeting points, pricing, and bookings. What would you like to know?";
 }
 
+function isLikelyFollowUp(text = "") {
+  const t = String(text).trim().toLowerCase();
+  if (!t) return false;
+
+  // tyypillisesti follow-upit ovat lyhyitä
+  if (t.length > 45) return false;
+
+  const signals = [
+    "it",
+    "this",
+    "that",
+    "guarantee",
+    "guaranteed",
+    "quaranteed",
+    "really",
+    "yes",
+    "no",
+    "ok",
+    "okay",
+    "sure",
+    "taattu",
+    "takuu",
+    "hyvitys",
+    "rahanpalautus",
+    "uusinta",
+  ];
+
+  return signals.some((s) => t.includes(s));
+}
+
+function looksLikeGuaranteeIntent(text = "") {
+  const t = String(text).toLowerCase();
+  return [
+    "guarantee",
+    "guaranteed",
+    "quaranteed",
+    "100%",
+    "refund",
+    "money back",
+    "rebook",
+    "retry",
+    "taattu",
+    "takuu",
+    "hyvitys",
+    "rahanpalautus",
+    "uusinta",
+  ].some((k) => t.includes(k));
+}
+
+/**
+ * Rakentaa "tehokkaamman" FAQ-hakutekstin:
+ * - follow-up: yhdistää edellisen merkityksellisen viestin
+ * - intent boost: jos kysymys on guarantee-tyyppinen, lisätään vahvistavat sanat
+ */
+function buildFaqQueryText(messageText, prevMeaningfulText) {
+  const clean = String(messageText || "").trim();
+  let q = clean;
+
+  if (prevMeaningfulText && isLikelyFollowUp(clean)) {
+    q = `${String(prevMeaningfulText).trim()} ${clean}`;
+  }
+
+    if (looksLikeGuaranteeIntent(clean)) {
+    // yleinen "guarantee/refund/retry" intentti
+    q = `${q} guarantee policy`;
+
+    // Lisää "northern lights" vain jos kontekstissa viitataan auroraan/revontuliin
+    const context = `${clean} ${String(prevMeaningfulText || "")}`.toLowerCase();
+    if (
+      context.includes("aurora") ||
+      context.includes("northern lights") ||
+      context.includes("revontul")
+    ) {
+      q = `${q} northern lights`;
+    }
+  }
+
+
+  return q;
+}
+
 
 function humanConfirmText(lang) {
   return lang === "fi"
@@ -234,6 +315,7 @@ export async function handleIncomingCustomerMessage(conversation, messageText) {
       `[Bot] Outside bot active hours, marking conversation ${conversation.id} as HUMAN (no auto reply).`
     );
     updateConversationStatus(conversation.id, "HUMAN");
+    conversation.status = "HUMAN";
     return;
   }
 
@@ -311,10 +393,21 @@ export async function handleIncomingCustomerMessage(conversation, messageText) {
     return;
   }
 
+  // 2.8) Tallennetaan "merkityksellinen" viimeisin käyttäjäviesti follow-up-kontekstia varten.
+  // Huom: Tätä EI tehdä greeting/handoffConfirmPending/humanRequest -poluissa, koska niistä palataan jo aiemmin.
+  const prevMeaningfulText = conversation.lastMeaningfulUserText || null;
+  conversation.lastMeaningfulUserText = messageText;
+  conversation.lastUserAt = new Date();
+
+  // Follow-up + intent-boost -hakuteksti (ei muuta HUMAN/coexistence-logiikkaa)
+  const faqQueryText = buildFaqQueryText(messageText, prevMeaningfulText);
+  console.log(
+    `[Bot] FAQ query for ${conversation.id}: "${faqQueryText}" (orig="${messageText}")`
+  );
 
 
   // 3. Yritä FAQ-match
-  const { faq, score } = await findBestFaqMatch(messageText);
+  const { faq, score } = await findBestFaqMatch(faqQueryText);
 
   console.log(
     `[Bot] FAQ match for ${conversation.id}: score=${score.toFixed(
@@ -332,7 +425,8 @@ export async function handleIncomingCustomerMessage(conversation, messageText) {
   );
 
   // 1) hae top-N FAQ-ehdokkaat
-const candidates = await findTopFaqCandidates(messageText, config.OPENAI_DECIDER_TOPK);
+const candidates = await findTopFaqCandidates(faqQueryText, config.OPENAI_DECIDER_TOPK);
+
 
 
   // 2) jos ei avainta tai ei ehdokkaita -> vanha käytös
@@ -342,7 +436,8 @@ const candidates = await findTopFaqCandidates(messageText, config.OPENAI_DECIDER
   }
 
   // 3) OpenAI päättää: answer vs clarify (FAQ-only)
-  const decision = await decideFaqAnswerFromCandidates(messageText, candidates);
+  const decision = await decideFaqAnswerFromCandidates(faqQueryText, candidates);
+
   const minConf = Number(config.OPENAI_DECIDER_MIN_CONFIDENCE ?? 0.65);
 const hasIds = Array.isArray(decision?.faqIdsUsed) && decision.faqIdsUsed.length > 0;
 
@@ -393,6 +488,66 @@ const hasIds = Array.isArray(decision?.faqIdsUsed) && decision.faqIdsUsed.length
   await handleUncertain(conversation, messageText, clarifyOverride);
   return;
 }
+
+// 3.5) Guarantee / follow-up -> prefer decider even if FAQ match is strong.
+// Reason: decider can safely combine multiple FAQ entries (with grounding rules).
+if (
+  config.OPENAI_API_KEY &&
+  (looksLikeGuaranteeIntent(faqQueryText) || isLikelyFollowUp(messageText))
+) {
+  console.log(
+    `[Bot] Intent path -> using OpenAI decider for ${conversation.id} even though FAQ score is ${score.toFixed(
+      3
+    )} (faqId=${faq?.id}).`
+  );
+
+  const candidates = await findTopFaqCandidates(
+    faqQueryText,
+    config.OPENAI_DECIDER_TOPK
+  );
+
+  if (candidates && candidates.length > 0) {
+    const decision = await decideFaqAnswerFromCandidates(faqQueryText, candidates);
+
+    const minConf = Number(config.OPENAI_DECIDER_MIN_CONFIDENCE ?? 0.65);
+    const hasIds = Array.isArray(decision?.faqIdsUsed) && decision.faqIdsUsed.length > 0;
+
+    if (
+      decision?.type === "answer" &&
+      typeof decision?.confidence === "number" &&
+      decision.confidence >= minConf &&
+      hasIds &&
+      typeof decision.text === "string" &&
+      decision.text.trim()
+    ) {
+      const replyText = decision.text.trim();
+
+      console.log(
+        `[Bot] Decider ANSWER (intent path) for ${conversation.id}: confidence=${decision.confidence.toFixed(
+          2
+        )}, faqIdsUsed=${decision.faqIdsUsed.join(",")}`
+      );
+
+      try {
+        await sendTextMessage(conversation.customerPhone, replyText);
+        addMessage(conversation.id, "BOT", replyText);
+        conversation.uncertainCount = 0;
+        return;
+      } catch (err) {
+        console.error(
+          `[Bot] Failed to send decider reply (intent path) to ${conversation.customerPhone}:`,
+          err?.message || err
+        );
+        // Jos lähetys epäonnistui, pudotaan varman FAQ-osuman rewrite-polkuun (ei muuteta statusta)
+      }
+    } else {
+      console.log(
+        `[Bot] Decider did not produce an answer on intent path (type=${decision?.type}, conf=${decision?.confidence}). Falling back to rewriteFaqAnswer.`
+      );
+    }
+  }
+}
+
 
   // 4. Varma FAQ-osuma → OpenAI voi säätää sitä (Phase 5)
   let replyText = faq.answer;
