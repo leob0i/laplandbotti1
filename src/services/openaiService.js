@@ -131,6 +131,10 @@ export async function rewriteFaqAnswer(userQuestion, faqAnswer, languageHint) {
 function normalizeForContains(text = "") {
   return String(text)
     .toLowerCase()
+    // normalize different dash characters to hyphen
+    .replace(/[–—−]/g, "-")
+    // strip punctuation but keep letters, numbers, spaces and hyphen
+    .replace(/[^a-z0-9äöå\s-]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -339,7 +343,7 @@ function validateAndNormalizeDecision(parsed, candidates, lang) {
       const qNorm = normalizeForContains(q);
       if (!qNorm) return false;
       // rajoitetaan epäilyttävän lyhyet lainaukset
-      if (qNorm.length < 12) return false;
+      if (qNorm.length < 8) return false;
       return ansNorm.includes(qNorm);
     });
 

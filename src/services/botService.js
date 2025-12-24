@@ -481,12 +481,39 @@ const hasIds = Array.isArray(decision?.faqIdsUsed) && decision.faqIdsUsed.length
 }
 
 
-  // 5) muuten: clarify (1x) / HUMAN (2x) käyttäen deciderin kysymystä jos sellainen on
-  const clarifyOverride =
-    typeof decision?.text === "string" && decision.text.trim() ? decision.text.trim() : null;
+ // 5) muuten: jos meillä on jo kohtalainen FAQ-osuma, vastaa sillä (soft fallback)
+// Tämä vähentää turhaa clarify-tilaa silloin kun decider failaa validoinnissa.
+const SOFT_FALLBACK_SCORE = Number(config.SOFT_FALLBACK_SCORE ?? 0.40);
 
-  await handleUncertain(conversation, messageText, clarifyOverride);
-  return;
+if (faq && typeof score === "number" && score >= SOFT_FALLBACK_SCORE) {
+  console.log(
+    `[Bot] Decider fallback -> replying with best FAQ (faqId=${faq.id}, score=${score.toFixed(3)})`
+  );
+
+  const rewritten = await rewriteFaqAnswer(messageText, faq.answer);
+  if (rewritten === "NO_VALID_ANSWER") {
+    // jos rewrite ei voi vastata FAQ:sta, mennään epävarmaan polkuun
+  } else {
+    const replyText = (rewritten && typeof rewritten === "string")
+      ? rewritten.trim()
+      : String(faq.answer || "").trim();
+
+    if (replyText) {
+      await sendTextMessage(conversation.customerPhone, replyText);
+      addMessage(conversation.id, "BOT", replyText);
+      conversation.uncertainCount = 0;
+      return;
+    }
+  }
+}
+
+// muuten: clarify/handoff kuten ennen
+const clarifyOverride =
+  typeof decision?.text === "string" && decision.text.trim() ? decision.text.trim() : null;
+
+await handleUncertain(conversation, messageText, clarifyOverride);
+return;
+
 }
 
 // 3.5) Guarantee / follow-up -> prefer decider even if FAQ match is strong.

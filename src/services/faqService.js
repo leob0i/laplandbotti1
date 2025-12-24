@@ -25,10 +25,12 @@ function loadFaq() {
       faqItems = data.map((item) => {
         const tags = Array.isArray(item.tags) ? item.tags : [];
         return {
-          ...item,
-          _q: normalize(item.question || ""),
-          _tags: tags.map((t) => normalize(t)),
-        };
+  ...item,
+  _q: normalize(item.question || ""),
+  _tags: tags.map((t) => normalize(t)),
+  _a: normalize(item.answer || ""),
+};
+
       });
 
       fuse = null; // rebuild index
@@ -97,9 +99,12 @@ function getFuse() {
     distance: 200,
     minMatchCharLength: 2,
     keys: [
-      { name: "_q", weight: 0.7 },
-      { name: "_tags", weight: 0.3 },
-    ],
+  { name: "_q", weight: 0.6 },
+  { name: "_tags", weight: 0.25 },
+  { name: "_a", weight: 0.15 },
+],
+
+      
   });
 
   console.log(`[FAQ] Fuse index built for ${faqItems.length} items.`);
