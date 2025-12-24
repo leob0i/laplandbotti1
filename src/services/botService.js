@@ -188,6 +188,13 @@ function humanHandoffText(lang) {
     : "Thanks. I’m handing this over to a human. You’ll get a reply as soon as a person joins.";
 }
 
+function markHumanOwnershipStart(conversation) {
+  // Käytetään lastAgentReplyAt-kenttää myös silloin, kun botti itse siirtää HUMANiin,
+  // jotta HUMAN_TIMEOUT_MINUTES voi palauttaa AUTOon.
+  conversation.lastAgentReplyAt = new Date();
+}
+
+
 
 async function sendAndStoreBotMessage(conversation, text) {
   try {
@@ -215,6 +222,9 @@ async function handleUncertain(conversation, messageText, clarifyOverride) {
     updateConversationStatus(conversation.id, "HUMAN");
     conversation.status = "HUMAN";
     conversation.uncertainCount = 0;
+
+    markHumanOwnershipStart(conversation);
+
 
     const text = handoffText(lang);
     try {
@@ -273,21 +283,22 @@ export async function handleIncomingCustomerMessage(conversation, messageText) {
       return;
     }
 
-    const lastAgentReplyAt = conversation.lastAgentReplyAt;
+let lastAgentReplyAt = conversation.lastAgentReplyAt;
 
-    if (!lastAgentReplyAt) {
-      // Ei tietoa agentin vastauksista → oletetaan että ihminen "omistaa" keissin
-      console.log(
-        `[Bot] Conversation ${conversation.id} in HUMAN mode but no lastAgentReplyAt -> bot stays silent.`
-      );
-      return;
-    }
+if (!lastAgentReplyAt) {
+  console.log(
+    `[Bot] Conversation ${conversation.id} in HUMAN mode but no lastAgentReplyAt -> starting timeout window now.`
+  );
+  markHumanOwnershipStart(conversation);
+  lastAgentReplyAt = conversation.lastAgentReplyAt; // tärkeä: päivitä arvo
+}
 
-    const now = new Date();
-    const lastAgentDate =
-      lastAgentReplyAt instanceof Date
-        ? lastAgentReplyAt
-        : new Date(lastAgentReplyAt);
+const now = new Date();
+const lastAgentDate =
+  lastAgentReplyAt instanceof Date
+    ? lastAgentReplyAt
+    : new Date(lastAgentReplyAt);
+
 
     const diffMs = now.getTime() - lastAgentDate.getTime();
     const timeoutMs = timeoutMinutes * 60 * 1000;
@@ -316,6 +327,9 @@ export async function handleIncomingCustomerMessage(conversation, messageText) {
     );
     updateConversationStatus(conversation.id, "HUMAN");
     conversation.status = "HUMAN";
+
+    markHumanOwnershipStart(conversation);
+
     return;
   }
 
@@ -329,6 +343,9 @@ export async function handleIncomingCustomerMessage(conversation, messageText) {
 
       updateConversationStatus(conversation.id, "HUMAN");
       conversation.status = "HUMAN";
+
+      markHumanOwnershipStart(conversation);
+
 
       try {
         await sendTextMessage(conversation.customerPhone, humanHandoffText(lang));
