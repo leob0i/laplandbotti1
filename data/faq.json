@@ -32,7 +32,7 @@
   },
   {
     "id": "northern_lights_what_are",
-    "question": "what is northen light (meaning)",
+    "question": "what is northern light (meaning)",
     "answer": "The Northern Lights, or Aurora Borealis, are a natural light display in the Arctic sky. They appear when charged particles from the sun collide with gases in Earth’s atmosphere, creating waves of light that move and change shape. They are most often green, but can also appear in purple, pink or red. Lapland is one of the best places in the world to see them.",
     "tags": [
       "what are northern lights",
@@ -122,7 +122,13 @@
       "personalised journey",
       "not a fixed bus route",
       "revontuliretki paikallisten kanssa",
-      "mitä tarkoittaa discover auroras with locals"
+      "mitä tarkoittaa discover auroras with locals",
+      "cloudy everywhere",
+      "do you change location",
+      "change locations",
+      "chase clear skies",
+      "go further if needed"
+      
     ]
   },
   {
@@ -227,7 +233,7 @@
   {
     "id": "aurora_tour_difficulty",
     "question": "How physically demanding are the Northern Lights tours?",
-    "answer": "Both the Group Tour and the Small Group Tour are marked as 'Very easy' on the site. Most of the time is spent travelling in a warm vehicle and waiting comfortably at the chosen viewing location. A typical night includes a scenic drive into the wilderness, a campfire, hot drinks and Lappish snacks while you wait, and short walks to suitable viewing spots. The tours are designed to be low in physical difficulty for most guests, although the total time outside can range from a few hours up to a long night depending on conditions.",
+    "answer": "Both the Group Tour and the Small Group Tour are marked as 'Very easy' on the site. Most of the time is spent travelling in a warm vehicle and waiting comfortably at the chosen viewing location. A typical night includes a scenic drive into the wilderness, a campfire, hot drinks and Lappish snacks while you wait, and short walks to suitable viewing spots. The tours are designed to be low in physical difficulty for most guests, although the total time outside can range from a few hours up to a long night depending on conditions. When the aurora appears, we typically spend time outside for viewing and photos, but you can warm up in the vehicle during waiting periods.",
     "tags": [
       "difficulty level",
       "how hard is the tour",
@@ -244,7 +250,15 @@
       "hot drinks and snacks",
       "onko retki raskas",
       "onko retki helppo",
-      "fyysinen rasitus"
+      "fyysinen rasitus",
+      "how long outside",
+      "are we outside a lot",
+      "outside for photos",
+      "campfire outside",
+      "kuinka kauan ulkona",
+      "ollaananko paljon ulkona",
+      "kuvat ulkona",
+      "nuotio ulkona"
     ]
   },
   {
@@ -327,7 +341,7 @@
   {
   "id": "aurora_duration",
   "question": "How long do aurora hunt tours last?",
-  "answer": "The FAQ explains that aurora hunts typically last 3–5 hours, but they can sometimes last up to 12 hours if cloud coverage is high and the guides need to drive far away. They mention that the furthest they drove in the previous season was 380 km one way. On the homepage, the Group Tour is presented as up to about 5 hours, while the Small Group Tour is listed as 5–12 hours and is described as having no time or distance limits.",
+  "answer": "The FAQ explains that aurora hunts typically last 3–5 hours, but they can sometimes last up to 12 hours if cloud coverage is high and the guides need to drive far away. They mention that the furthest they drove in the previous season was 380 km one way. On the homepage, the Group Tour is presented as up to about 5 hours, while the Small Group Tour is listed as 5–12 hours and is described as having no time or distance limits. Because the tour adapts to conditions, we cannot guarantee an exact return time. If you have an early flight or a strict deadline, please tell us in advance so we can advise the best option.",
   "tags": [
     "tour length",
     "tour duration",
@@ -355,7 +369,19 @@
     "kesto 3-5 tuntia",
     "voiko kestää 12 tuntia",
     "onko 8 tuntia",
-    "kestääkö 8h"
+    "kestääkö 8h",
+    "return time",
+    "what time do we get back",
+    "back by 1am",
+    "back by 2am",
+    "need to be back early",
+    "early flight",
+    "airport in the morning",
+    "paluu aika",
+    "mihin aikaan palataan",
+    "pitää olla takaisin klo 1",
+    "pitää olla takaisin klo 2",
+    "aikainen lento"
   ]
 },
 
@@ -378,13 +404,20 @@
       "aurora tour packing list",
       "revontuliretki varusteet",
       "mitä mukaan",
-      "mitä päälle"
+      "mitä päälle",
+      "what to wear",
+      "how cold is it",
+      "winter boots",
+      "thermal layers",
+      "hat gloves",
+      "overall suit"
+    
     ]
   },
   {
     "id": "aurora_refund_reschedule_policy",
     "question": "What happens if the weather is bad or we don’t see the Northern Lights? Do you offer refunds or rescheduling?",
-    "answer": "In the 'Fair Refund Policy' section, Lapland Explorers explains that they avoid going out when conditions look very poor, and when they do decide to go it is because they are confident you will see the aurora. If conditions look poor, they will contact you beforehand so you can choose between a full refund or switching to the more flexible small-group option. If no Northern Lights are seen on a Guaranteed Aurora Hunt, the FAQ states that they will either give you a full refund or reschedule the hunt for a better day (if there is availability). This is summarised on the site as a 'no aurora, no pay' refund policy.",
+    "answer": "In the 'Fair Refund Policy' section, Lapland Explorers explains that they avoid going out when conditions look very poor, and when they do decide to go it is because they are confident you will see the aurora. If conditions look poor, they will contact you beforehand so you can choose between a full refund or switching to the more flexible small-group option. If no Northern Lights are seen on a Guaranteed Aurora Hunt, the FAQ states that they will either give you a full refund or reschedule the hunt for a better day (if there is availability). This is summarised on the site as a 'no aurora, no pay' refund policy. Rescheduling is always subject to availability and the applicable booking terms (e.g., booking platform rules).",
     "tags": [
       "refund policy",
       "fair refund policy",
@@ -406,7 +439,19 @@
       "peruutus huonon sään takia",
       "uudelleenvaraus",
       "täysi hyvitys",
-      "takuu revontulista"
+      "takuu revontulista",
+       "reschedule",
+    "change date",
+    "move to tomorrow",
+    "switch to another day",
+    "better day for aurora",
+    "forecast tomorrow",
+    "can we change the date",
+    "siirtää päivää",
+    "siirtää huomiseen",
+    "uudelleenvaraus huomiselle",
+    "voiko vaihtaa päivää",
+    "mikä päivä parempi"
     ]
   },
   {
@@ -430,13 +475,19 @@
       "photos taken by guide",
       "return to rovaniemi",
       "miten ilta etenee",
-      "retken kulku"
+      "retken kulku",
+       "confirm pickup time",
+    "exact pickup time",
+    "when will you confirm time",
+    "pickup time confirmation",
+    "milloin noutoaika varmistuu",
+    "noutoajan varmistus"
     ]
   },
  {
   "id": "aurora_pickup_and_return",
   "question": "Where and when do you pick up guests for the aurora tour?",
-  "answer": "Lapland Explorers states that they offer pickup from your hotel in Rovaniemi and that tours include pickup within a 10 km range of Rovaniemi city center. They will contact you with the exact pickup time, which is usually between 17:00 and 21:00, based on the evening’s weather and aurora forecast. As a guideline, many nights start around 19:00, but the exact time is confirmed on the hunt day. At the end of the night, they drive you back to Rovaniemi.",
+  "answer": "We offer pickup from your hotel in Rovaniemi and that tours include pickup within a 10 km range of Rovaniemi city center. They will contact you with the exact pickup time, which is usually between 17:00 and 21:00, based on the evening’s weather and aurora forecast. As a guideline, many nights start around 19:00, but the exact time is confirmed on the hunt day. At the end of the night, they drive you back to Rovaniemi. Pickup/departure time can be adjusted even on the day based on weather and route planning",
   "tags": [
     "pickup location",
     "pickup details",
@@ -474,7 +525,26 @@
     "mihin aikaan nouto",
     "aloitusaika",
     "lähtöaika",
-    "laitatteko viestin ennen noutoa"
+    "laitatteko viestin ennen noutoa",
+    "pickup time changed",
+    "departure time changed",
+    "time changed",
+    "schedule changed",
+    "ticket shows different time",
+    "my voucher shows a different time",
+    "18:05 vs 18:15",
+    "which time is correct",
+    "follow latest message",
+    "latest pickup message",
+    "email update",
+    "getyourguide message",
+    "whatsapp message",
+    "noutoaika muuttui",
+    "lähtöaika muuttui",
+    "aikataulu muuttui",
+    "lipussa eri aika",
+    "kumpi aika on oikein",
+    "seuraa viimeisintä viestiä"
   ]
 },
 
@@ -496,7 +566,12 @@
       "swedish lapland",
       "norwegian lapland",
       "ajatteko kauas revontulien perässä",
-      "kuinka pitkälle ajetaan"
+      "kuinka pitkälle ajetaan",
+      "how far will you go",
+    "will you go far tonight",
+    "how far for clear skies",
+    "kuinka kauas mennään tänään",
+    "ajomatka riippuu säästä"
     ]
   },
   {
@@ -543,7 +618,12 @@
       "tuleeko taukoja",
       "voiko pysähtyä välillä",
       "reitti vaihtelee",
-      "säästä riippuen"
+      "säästä riippuen",
+      "route changes",
+    "stops depend on weather",
+    "change route",
+    "reitti muuttuu",
+    "pysähdykset riippuu säästä"
     ]
   },
   {
@@ -593,7 +673,7 @@
   {
     "id": "large_group_10_people_request",
     "question": "We’re a group of 10 (including kids/teens). Can we go together?",
-    "answer": "Please contact us with your group size, dates, and any special needs, and we’ll recommend the best tour option and arrangements. You can reach us at info@laplandexplorers.com or by phone at +358 40 1824400.",
+    "answer": "Please contact us with your group size, dates, and any special needs, and we’ll recommend the best tour option and arrangements. Larger groups may require multiple vehicles; tell us your exact group size and preference (e.g., keeping families together) and we will confirm the best arrangement. You can reach us at info@laplandexplorers.com or by phone at +358 40 1824400.",
     "tags": [
       "group of 10 aurora tour",
       "large group booking",
@@ -610,7 +690,17 @@
       "ryhmä 10 henkilöä",
       "iso porukka revontuliretki",
       "yhdessä samaan retkeen",
-      "kysely iso ryhmä"
+      "kysely iso ryhmä",
+       "group of 12",
+    "group of 13",
+    "10-13 people",
+    "multiple vehicles",
+    "split into two cars",
+    "ryhmä 12",
+    "ryhmä 13",
+    "10-13 henkilöä",
+    "useampi auto",
+    "kahteen autoon"
     ]
   },
   {
@@ -1243,7 +1333,20 @@
       "refund policy aurora",
       "reschedule policy aurora",
       "mitä tarkoittaa no aurora no pay",
-      "taattu tai korvaus"
+      "taattu tai korvaus",
+      "guaranteed aurora meaning",
+    "what does guaranteed mean",
+    "no aurora no pay",
+    "refund if no aurora",
+    "new attempt if no aurora",
+    "does it apply to all tours",
+    "getyourguide guarantee",
+    "gyg booking",
+    "mitä taattu tarkoittaa",
+    "no aurora no pay selitys",
+    "saako hyvityksen jos ei näy",
+    "koskeeko kaikkia retkiä",
+    "getyourguide varaus"
     ]
   },
   {
@@ -1432,7 +1535,12 @@
       "peruttu yrityksen toimesta",
       "huono sää",
       "turvallisuus",
-      "uudelleenvaraus tai rahat takaisin"
+      "uudelleenvaraus tai rahat takaisin",
+      "tour cancelled due to weather",
+    "cancelled tonight",
+    "is today's tour cancelled",
+    "peruttiinko tämän illan retki",
+    "onko tämän päivän retki peruttu"
     ]
   },
 
@@ -1450,7 +1558,12 @@
       "takuu",
       "hyvitys jos ei näy",
       "vapaaehtoinen maksu",
-      "polttoaine välipalat"
+      "polttoaine välipalat",
+       "voluntary fee",
+    "optional contribution",
+    "fuel snacks optional",
+    "vapaaehtoinen maksu",
+    "vapaaehtoinen osallistumismaksu"
     ]
   },
 
@@ -1468,8 +1581,16 @@
       "kesto vaihtelee",
       "lähtöaika 17 21",
       "reitti muuttuu",
-      "säästä riippuen",
-      "turvallisuus"
+      "turvallisuus",
+       "meeting time not fixed",
+    "time window",
+    "schedule may change",
+    "weather window",
+    "operational change",
+    "aikaikkuna",
+    "lähtöaika vaihtelee",
+    "aikataulu voi muuttua",
+    "säästä riippuen"
     ]
   },
 
@@ -1486,7 +1607,15 @@
       "max group",
       "maksimi 8",
       "ryhmäkoko",
-      "montako osallistujaa"
+      "montako osallistujaa",
+      "vehicle capacity",
+    "how many seats",
+    "minivan seats",
+    "can we fit in one car",
+    "auton kapasiteetti",
+    "montako mahtuu",
+    "minibussi paikat",
+    "sama auto"
     ]
   },
 
@@ -1538,7 +1667,12 @@
       "pukeutuminen",
       "talvivaatteet",
       "lämpimät varusteet",
-      "ei pääse mukaan ilman hyvitystä"
+      "ei pääse mukaan ilman hyvitystä",
+       "not dressed warmly enough",
+    "refuse participation",
+    "not warm clothing",
+    "jos ei ole tarpeeksi lämpimät vaatteet",
+    "voidaanko evätä osallistuminen"
     ]
   },
 
@@ -1559,7 +1693,12 @@
       "sisältyy",
       "ei sisälly",
       "matkavakuutus",
-      "ruokailu"
+      "ruokailu",
+      "meals not included",
+    "dinner not included",
+    "only snacks included",
+    "ruoka ei sisälly",
+    "vain välipalat sisältyy"
     ]
   },
 
@@ -1600,5 +1739,508 @@
       "henkilötiedot",
       "mihin tietoja käytetään"
     ]
+  },
+{
+  "id": "availability_and_last_minute",
+  "question": "Do you have availability for tonight/tomorrow? How can I check if there are seats left?",
+  "answer": "Availability depends on the date and tour type. For the fastest confirmation, check the booking page for your selected tour/date. If you want us to check for you, send your preferred date, number of people, and tour type, and we will confirm availability if possible.",
+  "tags": [
+    "availability",
+    "seats left",
+    "is it sold out",
+    "last minute booking",
+    "tonight availability",
+    "tomorrow availability",
+    "do you have a slot",
+    "onko tilaa",
+    "vapaita paikkoja",
+    "loppuunmyyty",
+    "viime hetken varaus",
+    "onko huomiselle tilaa",
+    "onko tälle illalle tilaa"
+  ]
+},
+{
+  "id": "late_arrival_and_missed_pickup",
+  "question": "What if we are late for the pickup/meeting time? Can you wait?",
+  "answer": "If you are running late, contact us as soon as possible. We will do our best to advise, but we may not be able to delay the schedule significantly because the route is planned for the whole group and conditions can change quickly.",
+  "tags": [
+    "running late",
+    "late for pickup",
+    "missed pickup",
+    "can you wait",
+    "we are delayed",
+    "myöhässä",
+    "myöhässä noudosta",
+    "myöhästyy",
+    "odotatteko",
+    "nouto meni ohi"
+  ]
+},
+{
+  "id": "aurora_peak_time_unpredictable",
+  "question": "What time do the Northern Lights usually appear? Is there a peak time?",
+  "answer": "There is no fixed peak time—the Northern Lights are a natural phenomenon and can appear at any time during the night when conditions are right. We plan the route and timing using real-time aurora and weather data to maximize your chances.",
+  "tags": [
+    "best time tonight",
+    "peak time",
+    "what time will we see aurora",
+    "when do northern lights appear",
+    "mihin aikaan revontulet näkyy",
+    "revontulien paras aika",
+    "peak aika",
+    "milloin revontulet alkaa"
+  ]
+},
+
+
+  {
+    "id": "gyg_cancellations_refunds_overview",
+    "question": "Can I cancel and get a refund if I booked via GetYourGuide?",
+    "answer": "If you booked through GetYourGuide, cancellation and refund handling is primarily managed by GetYourGuide according to their policy (including deadlines). Please contact GetYourGuide customer support for cancellations, refund eligibility, and timing. If you share your booking reference, we can still help confirm your tour details and the latest operational instructions.",
+    "tags": [
+      "getyourguide",
+      "gyg",
+      "cancel",
+      "cancellation",
+      "refund",
+      "refund policy",
+      "deadline",
+      "terms",
+      "customer support",
+      "booking platform",
+      "peruutus",
+      "hyvitys",
+      "rahat takaisin",
+      "gyg peruutus",
+      "gyg refund"
+    ]
+  },
+  {
+    "id": "gyg_refund_past_deadline",
+    "question": "Can I get a refund if I’m past the cancellation deadline on GetYourGuide?",
+    "answer": "For GetYourGuide bookings, refund decisions after the deadline are made by GetYourGuide under their policy. Please contact GetYourGuide customer support and provide your booking details.",
+    "tags": [
+      "getyourguide",
+      "gyg",
+      "refund",
+      "late cancellation",
+      "past deadline",
+      "cancellation deadline",
+      "support",
+      "after deadline",
+      "myöhässä",
+      "deadline ohi"
+    ]
+  },
+  {
+    "id": "gyg_payment_charged_booking_not_confirmed",
+    "question": "I was charged on GetYourGuide but my booking was not confirmed. What should I do?",
+    "answer": "If your payment was deducted on GetYourGuide but the booking did not confirm, this must be handled by GetYourGuide support because payments are processed on their platform. Please contact GetYourGuide customer support and share your payment/booking details.",
+    "tags": [
+      "getyourguide",
+      "gyg",
+      "payment",
+      "charged",
+      "deducted",
+      "booking failed",
+      "not confirmed",
+      "credit card",
+      "support",
+      "veloitettiin",
+      "ei vahvistunut"
+    ]
+  },
+  {
+    "id": "gyg_supplier_limits_payments_and_booking_issues",
+    "question": "Can Lapland Explorers manage my GetYourGuide payment or booking issues?",
+    "answer": "We are a supplier on GetYourGuide and we do not process GetYourGuide payments directly. For payment issues, booking confirmation issues, or platform-side changes, you need to contact GetYourGuide customer support.",
+    "tags": [
+      "getyourguide",
+      "gyg",
+      "supplier",
+      "payment",
+      "booking issue",
+      "customer support",
+      "platform",
+      "maksu",
+      "varausongelma"
+    ]
+  },
+  {
+    "id": "gyg_operator_cancel_refund_flow",
+    "question": "My tour was cancelled. How does the refund work if I booked via GetYourGuide?",
+    "answer": "If you booked via GetYourGuide and the tour is cancelled, the cancellation/refund flow is handled in GetYourGuide. In many cases you need to accept the cancellation in GetYourGuide, after which GetYourGuide processes the refund according to their system and policy.",
+    "tags": [
+      "getyourguide",
+      "gyg",
+      "tour cancelled",
+      "operator cancelled",
+      "refund process",
+      "accept cancellation",
+      "canceled",
+      "cancelled",
+      "peruttu",
+      "gyg hyvitys"
+    ]
+  },
+  {
+    "id": "gyg_messages_ticket_updates_and_visibility",
+    "question": "I can’t see your message in GetYourGuide / my ticket didn’t update after changes. What should I do?",
+    "answer": "Sometimes GetYourGuide messages or ticket details may not appear immediately after changes. Please follow the latest instructions we send (via GetYourGuide messaging and/or WhatsApp). If you share your GetYourGuide booking reference, we can confirm your current schedule and resend the information.",
+    "tags": [
+      "getyourguide",
+      "gyg",
+      "message",
+      "cant see",
+      "not visible",
+      "ticket not updated",
+      "reschedule",
+      "changed date",
+      "booking reference",
+      "confirm",
+      "chat",
+      "viesti ei näy",
+      "lippu ei päivity"
+    ]
+  },
+  {
+    "id": "gyg_refund_processed_to_same_payment_method",
+    "question": "If a refund is approved for a GetYourGuide booking, how is it paid back?",
+    "answer": "If you booked via GetYourGuide and a refund is approved, GetYourGuide processes the refund back to the same payment method/card used for the booking (according to their system).",
+    "tags": [
+      "getyourguide",
+      "gyg",
+      "refund",
+      "same card",
+      "payment method",
+      "refund process",
+      "credit card",
+      "palautus samalle kortille"
+    ]
+  },
+  {
+    "id": "gyg_add_extra_participants",
+    "question": "Can I add more people to my GetYourGuide booking (e.g., add one more friend)?",
+    "answer": "GetYourGuide bookings cannot always be modified by us. If you need an additional spot, the simplest option is usually to book an extra seat separately (for example via our website). We will provide the latest meeting/pick-up instructions before the tour.",
+    "tags": [
+      "getyourguide",
+      "gyg",
+      "add friend",
+      "increase people",
+      "modify booking",
+      "extra seat",
+      "book separately",
+      "lisää henkilö",
+      "kaveri mukaan"
+    ]
+  },
+  {
+    "id": "confirm_booking_gyg_reference_and_name",
+    "question": "Can you confirm my GetYourGuide booking is still valid?",
+    "answer": "Yes. Please send your GetYourGuide booking reference code and the booking name, and we can confirm that your booking is in place and verify the latest instructions.",
+    "tags": [
+      "getyourguide",
+      "gyg",
+      "confirm booking",
+      "booking confirmation",
+      "reference code",
+      "booking name",
+      "still valid",
+      "varausvahvistus"
+    ]
+  },
+  {
+    "id": "verify_operator_and_booking",
+    "question": "How can I confirm whether my tour is actually with Lapland Explorers (and not another operator)?",
+    "answer": "Send your booking reference and the platform you booked through (for example GetYourGuide). We can confirm whether your reservation is with Lapland Explorers and provide the correct instructions.",
+    "tags": [
+      "confirm operator",
+      "verify booking",
+      "lapland explorers",
+      "booking reference",
+      "getyourguide",
+      "gyg",
+      "verification",
+      "onko tämä teidän retki",
+      "operaattori"
+    ]
+  },
+  {
+    "id": "direct_booking_vs_gyg",
+    "question": "Is it better to book directly on your website or via GetYourGuide?",
+    "answer": "Booking directly on our website is often simpler for us to manage and may offer better pricing. Some guests still prefer GetYourGuide due to their own discounts, bundles, or platform preference.",
+    "tags": [
+      "book direct",
+      "website booking",
+      "getyourguide",
+      "gyg",
+      "better price",
+      "discount",
+      "platform preference",
+      "suora varaus",
+      "gyg vai suoraan"
+    ]
+  },
+  {
+    "id": "promo_codes_and_campaigns",
+    "question": "Do you have a discount code or campaign price?",
+    "answer": "We sometimes run campaigns for selected products. If you have a promo code, you can use it on our website during checkout. If you don’t have one, you can ask us if there is a currently active campaign.",
+    "tags": [
+      "discount",
+      "promo code",
+      "campaign",
+      "voucher",
+      "deal",
+      "code",
+      "coupon",
+      "alennus",
+      "kampanja",
+      "promokoodi"
+    ]
+  },
+  {
+    "id": "photo_delivery_timeframe_and_channel_master",
+    "question": "When will we receive our tour photos, and how will they be sent?",
+    "answer": "Photos are delivered after editing and are typically shared as a download link (often by email). In many cases delivery happens within a few days; depending on workload/season it can take longer (for example around 4–7 days). If you booked via GetYourGuide, the link may also be shared via the GetYourGuide chat depending on the booking flow. We send the link as soon as the photos are ready.",
+    "tags": [
+      "photos",
+      "pictures",
+      "photo delivery",
+      "when",
+      "how",
+      "download link",
+      "email",
+      "few days",
+      "4-7 days",
+      "5-7 days",
+      "editing",
+      "busy season",
+      "getyourguide",
+      "gyg chat",
+      "valokuvat",
+      "kuvat",
+      "kuvien toimitus"
+    ]
+  },
+  {
+    "id": "photo_link_delivery_multiple_channels",
+    "question": "Can you send the photo link via WhatsApp or to multiple email addresses?",
+    "answer": "Yes—if needed, we can share the photo download/album link via WhatsApp, and we can also send it to the email address(es) you provide. Please ensure the email addresses are correct.",
+    "tags": [
+      "photos",
+      "photo link",
+      "multiple emails",
+      "two emails",
+      "whatsapp",
+      "send link",
+      "delivery",
+      "kuvalinkki",
+      "whatsapp kuvat"
+    ]
+  },
+  {
+    "id": "photos_album_link_drive_option",
+    "question": "Can you send our tour photos as a photo album link (for example a Google Drive folder)?",
+    "answer": "Yes. We can share edited photos as a photo album link (for example a Google Drive folder). If needed, we can also send the album link via WhatsApp.",
+    "tags": [
+      "photos",
+      "photo album",
+      "google drive",
+      "drive folder",
+      "album link",
+      "link",
+      "whatsapp",
+      "kuva-albumi",
+      "drive link"
+    ]
+  },
+  {
+    "id": "verify_email_for_photos_and_missing_email",
+    "question": "I didn’t receive the confirmation/photo email. What should I do?",
+    "answer": "Please check your spam/junk/trash folders first. If you still cannot find the message, send your booking reference (and the tour date/name) and the email address you want us to use, and we will confirm the correct delivery details.",
+    "tags": [
+      "email",
+      "confirmation",
+      "not received",
+      "spam",
+      "junk",
+      "trash",
+      "photos",
+      "booking reference",
+      "confirm email",
+      "missing email",
+      "sähköposti",
+      "roskaposti",
+      "ei tullut viestiä"
+    ]
+  },
+  {
+    "id": "photo_quality_feedback_process",
+    "question": "I’m not satisfied with the photo quality—what can I do?",
+    "answer": "Please contact us with your booking reference and (if possible) share 1–2 example images you are referring to. This helps us review the specific case accurately and advise the best next step.",
+    "tags": [
+      "photo quality",
+      "not satisfied",
+      "complaint",
+      "examples",
+      "review photos",
+      "booking reference",
+      "photos issue",
+      "kuvien laatu",
+      "reklamaatio"
+    ]
+  },
+  {
+    "id": "pickup_verify_correct_vehicle_safety",
+    "question": "Someone asked my name at pick-up—how do I make sure I’m getting into the correct vehicle?",
+    "answer": "Before getting in, confirm the company name (Lapland Explorers), the guide/driver name if provided, and the vehicle description (for example a van/minivan). If anything feels unclear, message or call us immediately and ask the driver what company they represent.",
+    "tags": [
+      "pickup",
+      "wrong car",
+      "verify",
+      "company name",
+      "guide name",
+      "driver",
+      "vehicle description",
+      "safety",
+      "turvallisuus",
+      "väärä auto"
+    ]
+  },
+  {
+    "id": "pickup_driver_identification_and_location_help",
+    "question": "How do we recognize the driver/guide at the pick-up point?",
+    "answer": "Drivers may not always have a uniform. If needed, we can help you locate the vehicle by confirming where it is and what it looks like. If there is confusion, you can also share a photo of your exact location so we can guide the driver to you quickly.",
+    "tags": [
+      "pickup",
+      "recognize driver",
+      "uniform",
+      "guide",
+      "find vehicle",
+      "help locate",
+      "photo location",
+      "driver",
+      "nouto",
+      "mistä tunnistaa"
+    ]
+  },
+  {
+    "id": "pickup_delay_what_to_do",
+    "question": "My pick-up time has passed. Where is the driver/van and what should I do?",
+    "answer": "Minor delays can happen due to route logistics and locating other guests. Please stay ready at the agreed pick-up location and keep your phone available. If you message us, we can check the driver’s status and share an updated ETA when possible.",
+    "tags": [
+      "pickup late",
+      "late pickup",
+      "delay",
+      "where is the van",
+      "eta",
+      "driver status",
+      "waiting",
+      "scheduled time",
+      "pickup location",
+      "nouto myöhässä",
+      "missä auto"
+    ]
+  },
+  {
+    "id": "pickup_outside_standard_area_extra_fee",
+    "question": "Do you do pick-ups outside Rovaniemi (for example 40 km away)?",
+    "answer": "Standard pick-ups are typically available within about a 10 km range of Rovaniemi. If you are farther away, pick-up may be possible for an extra fee depending on distance and schedule. We confirm feasibility case-by-case.",
+    "tags": [
+      "pickup",
+      "outside rovaniemi",
+      "10km",
+      "40km",
+      "extra fee",
+      "distance",
+      "transport",
+      "nouto kauempaa",
+      "lisämaksu"
+    ]
+  },
+  {
+    "id": "booking_cancelled_but_still_messaged_sync_delay",
+    "question": "Why are you messaging me about pick-up if I already cancelled?",
+    "answer": "Sometimes a cancelled booking can still appear temporarily in internal lists due to system synchronization delays. If you believe you cancelled, share your booking details and we will verify the current status.",
+    "tags": [
+      "cancelled booking",
+      "still showing",
+      "system delay",
+      "sync",
+      "verify status",
+      "booking details",
+      "peruttu mutta viestitte",
+      "järjestelmäviive"
+    ]
+  },
+  {
+    "id": "kids_must_have_own_seat_no_lap",
+    "question": "Can my small child sit on a lap during the tour (to avoid booking a seat)?",
+    "answer": "No. All children must have their own reserved seat for safety and compliance. Lap seating is not allowed.",
+    "tags": [
+      "kids",
+      "child",
+      "lap",
+      "no lap",
+      "seat required",
+      "reserved seat",
+      "safety",
+      "regulations",
+      "lapsi sylissä",
+      "oma paikka"
+    ]
+  },
+  {
+    "id": "toddler_suitability_long_aurora_hunt",
+    "question": "Can a 2-year-old (toddler) join the Northern Lights hunting tour?",
+    "answer": "In many cases, a long Northern Lights hunting tour is not suitable for very small children because it may involve long driving, late hours, and cold conditions. Please contact us with the child’s age and your booking details so we can advise what is possible.",
+    "tags": [
+      "2 year old",
+      "toddler",
+      "small child",
+      "can kids join",
+      "not suitable",
+      "long driving",
+      "late hours",
+      "cold",
+      "taapero",
+      "2-vuotias"
+    ]
+  },
+  {
+    "id": "child_car_seat_does_not_guarantee_suitability",
+    "question": "We have our own child car seat—can kids join then?",
+    "answer": "Having your own child seat does not automatically make the tour suitable for very small children. On long aurora hunts with extensive driving and late hours, we may still not be able to take very young children due to safety and the nature of the tour.",
+    "tags": [
+      "child seat",
+      "car seat",
+      "own car seat",
+      "kids",
+      "safety",
+      "long hunt",
+      "driving",
+      "not a children tour",
+      "turvaistuin",
+      "pieni lapsi"
+    ]
+  },
+  {
+    "id": "refund_balance_processing_and_receipt",
+    "question": "I have a remaining balance to be refunded. When will it be processed and will I get a receipt/confirmation?",
+    "answer": "If there is a remaining balance to be refunded, we can confirm the refund amount and provide confirmation/receipt once the refund is initiated. Refund timing depends on the payment method/provider/platform.",
+    "tags": [
+      "balance refund",
+      "partial refund",
+      "refund amount",
+      "receipt",
+      "confirmation",
+      "payment provider",
+      "timing",
+      "osittainen hyvitys",
+      "kuitti"
+    ]
   }
 ]
+
+
