@@ -3,6 +3,11 @@ import "dotenv/config";
 export const config = {
   PORT: Number(process.env.PORT || 3000),
 
+  ENABLE_PER_USER_QUEUE: process.env.ENABLE_PER_USER_QUEUE !== "false",
+  ENABLE_INBOUND_DEDUPE: process.env.ENABLE_INBOUND_DEDUPE !== "false",
+  INBOUND_DEDUPE_TTL_MINUTES: Number(process.env.INBOUND_DEDUPE_TTL_MINUTES || 60),
+
+
   WHATSAPP_VERIFY_TOKEN: process.env.WHATSAPP_VERIFY_TOKEN || "",
   WHATSAPP_ACCESS_TOKEN: process.env.WHATSAPP_ACCESS_TOKEN || "",
   WHATSAPP_PHONE_NUMBER_ID: process.env.WHATSAPP_PHONE_NUMBER_ID || "",

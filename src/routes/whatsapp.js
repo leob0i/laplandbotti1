@@ -6,6 +6,9 @@ import {
 } from "../services/conversationStore.js";
 import { handleIncomingCustomerMessage } from "../services/botService.js";
 import { sendTextMessage } from "../services/whatsappService.js";
+import { enqueueConversation } from "../utils/conversationQueue.js";
+import { isDuplicateWaMessageId } from "../services/conversationStore.js";
+
 
 const router = Router();
 
@@ -38,6 +41,20 @@ function shouldLogRawWebhook() {
   return v === "1" || v.toLowerCase() === "true";
 }
 
+function normalizeQueueKey(phone) {
+  // 1) string + trim
+  let p = String(phone || "").trim();
+
+  // 2) poista välilyönnit, sulut, viivat yms (jätä vain numerot ja mahdollinen alun '+')
+  p = p.replace(/[^\d+]/g, "");
+
+  // 3) poista alusta '+' jotta "+358..." ja "358..." ovat sama key
+  p = p.replace(/^\+/, "");
+
+  return p || "unknown";
+}
+
+
 async function processWebhookEntries(entries) {
   // 1) COEXISTENCE echo:t (ihminen vastasi WA Business -apista)
   //    -> tallennetaan AGENT-viestinä ja store vaihtaa status HUMAN:ksi
@@ -49,29 +66,52 @@ async function processWebhookEntries(entries) {
       const value = change?.value;
       const echoes = Array.isArray(value?.message_echoes) ? value.message_echoes : [];
 
-      for (const echo of echoes) {
-        const toPhone = echo?.to;     // asiakasnumero
-        const waMessageId = echo?.id; // wamid...
-        const type = echo?.type;
+    for (const echo of echoes) {
+  const toPhone = echo?.to;     // asiakasnumero
+  const waMessageId = echo?.id; // wamid...
+  const type = echo?.type;
 
-        let text = "";
-        if (type === "text") text = typeof echo?.text?.body === "string" ? echo.text.body : "";
-        else text = `[${type || "unknown"} message from business app]`;
+  let text = "";
+  if (type === "text") text = typeof echo?.text?.body === "string" ? echo.text.body : "";
+  else text = `[${type || "unknown"} message from business app]`;
 
-        const cleanText = String(text || "").trim();
-        if (!toPhone || !waMessageId) continue;
+  const cleanText = String(text || "").trim();
+if (!toPhone || !waMessageId) continue;
 
-        const conversation = findOrCreateConversationByPhone(toPhone);
-        if (!conversation) continue;
+// 1) Laske queueKey heti tähän
+const queueKey = normalizeQueueKey(toPhone);
 
-        addMessage(conversation.id, "AGENT", cleanText, waMessageId);
+// 2) Sitten määrittele run() joka käyttää queueKey:tä
+const run = async () => {
+  if (config.ENABLE_INBOUND_DEDUPE && isDuplicateWaMessageId(waMessageId)) {
+    console.log("[WHATSAPP] DEDUPED SMB echo", { to: toPhone, queueKey, waMessageId, type });
+    return;
+  }
 
-        console.log("[WHATSAPP] SMB echo stored as AGENT", {
-          to: toPhone,
-          waMessageId,
-          type,
-        });
-      }
+  const conversation = findOrCreateConversationByPhone(queueKey);
+
+  if (!conversation) return;
+
+  addMessage(conversation.id, "AGENT", cleanText, waMessageId);
+
+  console.log("[WHATSAPP] SMB echo stored as AGENT", {
+    to: toPhone,
+    queueKey,
+    waMessageId,
+    type,
+  });
+};
+
+// 3) Aja jonon kautta (tai suoraan jos queue off)
+if (config.ENABLE_PER_USER_QUEUE) {
+  await enqueueConversation(queueKey, run);
+} else {
+  await run();
+}
+
+
+}
+
     }
   }
 
@@ -93,25 +133,48 @@ async function processWebhookEntries(entries) {
 
         const cleanText = String(messageText || "").trim();
 
-        console.log("Incoming WhatsApp message", {
-          messageId,
-          from: customerPhone,
-          type,
-          hasText: Boolean(cleanText),
-        });
-
         if (!customerPhone || !messageId) continue;
 
-        const conversation = findOrCreateConversationByPhone(customerPhone);
-        if (!conversation) continue;
+// 1) Laske queueKey heti
+const queueKey = normalizeQueueKey(customerPhone);
 
-        // Tallennetaan aina inboxiin (myös non-text placeholder)
-        addMessage(conversation.id, "CUSTOMER", cleanText, messageId);
+// 2) (Valinnainen) logiin myös queueKey
+console.log("Incoming WhatsApp message", {
+  messageId,
+  from: customerPhone,
+  queueKey,
+  type,
+  hasText: Boolean(cleanText),
+});
 
-        // Bottilogiikka ajetaan vain tekstille
-        if (type === "text" && cleanText) {
-          await handleIncomingCustomerMessage(conversation, cleanText);
-        }
+// 3) Kääri koko käsittely run()-funktioon
+const run = async () => {
+  // Dedupe (ettei sama viesti käsitellä kahdesti)
+  if (config.ENABLE_INBOUND_DEDUPE && isDuplicateWaMessageId(messageId)) {
+    console.log("[WHATSAPP] DEDUPED CUSTOMER inbound", { from: customerPhone, queueKey, messageId, type });
+    return;
+  }
+
+  const conversation = findOrCreateConversationByPhone(queueKey);
+
+  if (!conversation) return;
+
+  // Tallennetaan aina inboxiin (myös non-text placeholder)
+  addMessage(conversation.id, "CUSTOMER", cleanText, messageId);
+
+  // Bottilogiikka ajetaan vain tekstille
+  if (type === "text" && cleanText) {
+    await handleIncomingCustomerMessage(conversation, cleanText);
+  }
+};
+
+// 4) Aja jonon kautta (tai suoraan)
+if (config.ENABLE_PER_USER_QUEUE) {
+  await enqueueConversation(queueKey, run);
+} else {
+  await run();
+}
+
       }
     }
   }

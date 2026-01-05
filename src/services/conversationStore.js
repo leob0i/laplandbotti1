@@ -1,10 +1,35 @@
 import crypto from 'node:crypto';
+import { config } from '../config.js';
 
 const conversations = new Map(); // id -> conversation
 const conversationIdByPhone = new Map(); // normalizedPhone -> conversationId
 
 const messages = new Map(); // conversationId -> Message[]
-const waMessageIndex = new Map(); // waMessageId -> { conversationId, messageId }
+const waMessageIndex = new Map(); // waMessageId -> { conversationId, messageId, seenAt }
+
+// waMessageIndex: Map<waMessageId, { conversationId, messageId, seenAt }>
+let lastPruneAt = 0;
+
+function pruneWaMessageIndex(now = Date.now()) {
+  const ttlMinutes = config.INBOUND_DEDUPE_TTL_MINUTES || 60;
+  const ttlMs = ttlMinutes * 60_000;
+
+  // prune max kerran minuutissa, ettei joka viesti tee O(n) loopin
+  if (now - lastPruneAt < 60_000) return;
+  lastPruneAt = now;
+
+  for (const [waId, rec] of waMessageIndex.entries()) {
+    if (!rec?.seenAt || now - rec.seenAt > ttlMs) {
+      waMessageIndex.delete(waId);
+    }
+  }
+}
+
+export function isDuplicateWaMessageId(waMessageId) {
+  if (!waMessageId) return false;
+  pruneWaMessageIndex();
+  return waMessageIndex.has(waMessageId);
+}
 
 function normalizePhone(customerPhone) {
   const raw = typeof customerPhone === 'string' ? customerPhone.trim() : '';
@@ -36,12 +61,11 @@ export function findOrCreateConversationByPhone(customerPhone) {
     createdAt: now,
     lastCustomerMessageAt: null,
     lastAgentReplyAt: null,
-      // UUSI: peräkkäisten epävarmojen laskuri (1 = kysy tarkennus, 2 = HUMAN)
+    // UUSI: peräkkäisten epävarmojen laskuri (1 = kysy tarkennus, 2 = HUMAN)
     uncertainCount: 0,
 
     // UUSI: (seuraavaa vaihetta varten) jos käyttäjä pyytää ihmistä, varmistetaan ensin kyllä/ei
-     handoffConfirmPending: false
-
+    handoffConfirmPending: false
   };
 
   conversations.set(id, conversation);
@@ -81,6 +105,8 @@ export function updateConversationStatus(id, status) {
 }
 
 export function addMessage(conversationId, from, text, waMessageId) {
+  pruneWaMessageIndex();
+
   const conversation = conversations.get(conversationId);
   if (!conversation) return null;
 
@@ -88,8 +114,15 @@ export function addMessage(conversationId, from, text, waMessageId) {
   // Jos tämä waMessageId on jo tallessa, palautetaan se olemassa oleva viesti.
   if (waMessageId && waMessageIndex.has(waMessageId)) {
     const ref = waMessageIndex.get(waMessageId);
-    const bucket = messages.get(ref.conversationId) || [];
-    return bucket.find((m) => m.id === ref.messageId) || null;
+
+    if (ref?.conversationId && ref?.messageId) {
+      const bucket = messages.get(ref.conversationId) || [];
+      const existing = bucket.find((m) => m.id === ref.messageId) || null;
+      if (existing) return existing;
+    }
+
+    // jos indexissä on roskaviite, siivotaan ja jatketaan normaalisti
+    waMessageIndex.delete(waMessageId);
   }
 
   const bucket = messages.get(conversationId) || [];
@@ -111,7 +144,11 @@ export function addMessage(conversationId, from, text, waMessageId) {
   bucket.push(message);
 
   if (waMessageId) {
-    waMessageIndex.set(waMessageId, { conversationId, messageId: message.id });
+    waMessageIndex.set(waMessageId, {
+      conversationId,
+      messageId: message.id,
+      seenAt: Date.now()
+    });
   }
 
   conversation.lastMessageAt = now;
@@ -120,16 +157,15 @@ export function addMessage(conversationId, from, text, waMessageId) {
   if (from === 'CUSTOMER') {
     conversation.lastCustomerMessageAt = now;
   } else if (from === 'AGENT') {
-  conversation.lastAgentReplyAt = now;
+    conversation.lastAgentReplyAt = now;
 
-  // COEXISTENCE-KRIITTINEN: jos ihminen vastasi, botti hiljenee
-  conversation.status = 'HUMAN';
+    // COEXISTENCE-KRIITTINEN: jos ihminen vastasi, botti hiljenee
+    conversation.status = 'HUMAN';
 
-  // UUSI: agentti otti keissin -> nollataan botin "epävarmuus"-tila
-  conversation.uncertainCount = 0;
-  conversation.handoffConfirmPending = false;
-}
-
+    // UUSI: agentti otti keissin -> nollataan botin "epävarmuus"-tila
+    conversation.uncertainCount = 0;
+    conversation.handoffConfirmPending = false;
+  }
 
   return message;
 }

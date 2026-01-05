@@ -1,14 +1,19 @@
 // src/utils/conversationQueue.js
-const chains = new Map(); // key (conversationId) -> Promise chain
+const chains = new Map(); // key -> Promise chain
 
-export function enqueueConversation(conversationId, taskFn) {
-  const prev = chains.get(conversationId) || Promise.resolve();
+export function enqueueConversation(key, taskFn) {
+  const k = String(key || "unknown");
 
-  // Ketjutetaan aina perään, ja varmistetaan että chain ei "katkea" virheeseen
+  const prev = chains.get(k) || Promise.resolve();
+
   const next = prev
-    .catch(() => {}) // swallow, ettei yksittäinen virhe blokkaa ketjua
-    .then(() => taskFn());
+    .catch(() => {})      // swallow, ettei yksittäinen virhe blokkaa ketjua
+    .then(taskFn)         // taskFn voi olla async
+    .finally(() => {
+      // siivoa vain jos ketju ei ole vaihtunut sillä välin
+      if (chains.get(k) === next) chains.delete(k);
+    });
 
-  chains.set(conversationId, next);
+  chains.set(k, next);
   return next;
 }
