@@ -6,7 +6,7 @@ import {
 } from "../services/conversationStore.js";
 import { handleIncomingCustomerMessage } from "../services/botService.js";
 import { sendTextMessage } from "../services/whatsappService.js";
-import { enqueueConversation } from "../utils/conversationQueue.js";
+import { enqueueConversation } from "../../utils/conversationQueue.js";
 import { isDuplicateWaMessageId } from "../services/conversationStore.js";
 
 
