@@ -3,6 +3,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import Fuse from "fuse.js";
 import { config } from "../config.js";
+import { FUSE_THRESHOLD } from "./faqConstants.js";
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -71,6 +73,31 @@ function normalize(text = "") {
   return t;
 }
 
+const LOW_INFO_WORDS = new Set([
+  "what", "who", "why", "when", "where", "how",
+  "ok", "okay", "yes", "no", "pls", "please",
+  "hi", "hey", "hello", "helloo", "yo",
+  "huh", "wtf"
+]);
+
+function isLowInformationQuery(qNorm) {
+  if (!qNorm) return true;
+
+  const tokens = qNorm.split(" ").filter(Boolean);
+
+  // 1) liian lyhyt (esim. "what", "hi")
+  if (tokens.length === 1 && (tokens[0].length <= 4 || LOW_INFO_WORDS.has(tokens[0]))) {
+    return true;
+  }
+
+  // 2) vain kysymyssanoja / täytesanoja
+  const meaningful = tokens.filter((t) => !LOW_INFO_WORDS.has(t) && t.length >= 3);
+  if (meaningful.length === 0) return true;
+
+  return false;
+}
+
+
 // Simple string similarity: overlap of words (0..1) (fallback)
 function stringSimilarity(a, b) {
   const aNorm = normalize(a);
@@ -95,7 +122,7 @@ function getFuse() {
   fuse = new Fuse(faqItems, {
     includeScore: true,     // Fuse score: lower is better
     ignoreLocation: true,
-    threshold: 0.45,        // 0.35–0.55 hyvä alue. Pienempi = tiukempi
+    threshold: FUSE_THRESHOLD,      // 0.35–0.55 hyvä alue. Pienempi = tiukempi
     distance: 200,
     minMatchCharLength: 2,
     keys: [
@@ -175,6 +202,11 @@ export async function findBestFaqMatch(userQuestion) {
   const q = normalize(userQuestion || "");
   if (!q) return { faq: null, score: 0 };
 
+    if (isLowInformationQuery(q)) {
+    return { faq: null, score: 0 };
+  }
+
+
   // 1) Primary: Fuse fuzzy search
   const f = getFuse();
   let bestFuseItem = null;
@@ -241,6 +273,11 @@ export async function findTopFaqCandidates(userQuestion, limit = 10) {
 
   const q = normalize(userQuestion || "");
   if (!q) return [];
+
+    if (isLowInformationQuery(q)) {
+    return [];
+  }
+
 
   const safeLimit = Math.max(1, Math.min(Number(limit) || 10, 25));
 

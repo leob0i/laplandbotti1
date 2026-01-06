@@ -35,7 +35,7 @@ export const config = {
   FAQ_FILE_PATH: process.env.FAQ_FILE_PATH || "./data/faq.json",
 
   // Confidence threshold for FAQ match (string similarity)
-  CONFIDENCE_THRESHOLD: Number(process.env.CONFIDENCE_THRESHOLD ?? 0.85),
+  CONFIDENCE_THRESHOLD: Number(process.env.CONFIDENCE_THRESHOLD ?? 0.40),
 
   // Kuinka monen minuutin jälkeen botti saa ottaa keissin takaisin HUMAN-tilasta.
   // Jos arvo on tyhjä tai 0, botti ei ota keisseja takaisin.

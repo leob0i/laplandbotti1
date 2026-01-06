@@ -2,6 +2,10 @@ import fs from "node:fs";
 import path from "node:path";
 import Fuse from "fuse.js";
 import { config } from "../config.js";
+export { findBestFaqMatch, findTopFaqCandidates } from "./faqService.js";
+import { FUSE_THRESHOLD } from "./faqConstants.js";
+
+
 
 let fuse = null;
 let faqCache = null;
@@ -30,7 +34,7 @@ function buildFuse() {
   fuse = new Fuse(faq, {
     includeScore: true,       // lower = better
     ignoreLocation: true,
-    threshold: 0.42,          // säädä: 0.35–0.50
+    threshold: FUSE_THRESHOLD,      // säädä: 0.35–0.50
     distance: 200,
     keys: [
       { name: "question", weight: 0.7 },
