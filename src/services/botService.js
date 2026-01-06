@@ -1,6 +1,5 @@
 // src/services/botService.js
 import { isBotActiveNow } from "./timeService.js";
-import { findBestFaqMatch, findTopFaqCandidates } from "./faqService.js";
 import { sendTextMessage } from "./whatsappService.js";
 import { addMessage, updateConversationStatus } from "./conversationStore.js";
 import { config } from "../config.js";
