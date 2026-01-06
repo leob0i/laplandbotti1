@@ -8,6 +8,8 @@ import { handleIncomingCustomerMessage } from "../services/botService.js";
 import { sendTextMessage } from "../services/whatsappService.js";
 import { enqueueConversation } from "../../utils/conversationQueue.js";
 import { isDuplicateWaMessageId } from "../services/conversationStore.js";
+import { shouldAutoSilence } from "../../utils/autoSilence.js";
+
 
 
 const router = Router();
@@ -162,10 +164,22 @@ const run = async () => {
   // Tallennetaan aina inboxiin (myös non-text placeholder)
   addMessage(conversation.id, "CUSTOMER", cleanText, messageId);
 
-  // Bottilogiikka ajetaan vain tekstille
-  if (type === "text" && cleanText) {
-    await handleIncomingCustomerMessage(conversation, cleanText);
-  }
+// 1) Hiljennä botti "ok/thanks/kiitos" -kuittauksiin (mutta tallenna viesti silti)
+if (type === "text" && cleanText && shouldAutoSilence(cleanText)) {
+  console.log("[BOT] Auto-silence ACK", {
+    from: customerPhone,
+    queueKey,
+    messageId,
+    text: cleanText,
+  });
+  return; // EI kutsuta handleIncomingCustomerMessagea, EI lähetetä mitään takaisin
+}
+
+// 2) Bottilogiikka ajetaan vain tekstille
+if (type === "text" && cleanText) {
+  await handleIncomingCustomerMessage(conversation, cleanText);
+}
+
 };
 
 // 4) Aja jonon kautta (tai suoraan)

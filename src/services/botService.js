@@ -5,6 +5,9 @@ import { sendTextMessage } from "./whatsappService.js";
 import { addMessage, updateConversationStatus } from "./conversationStore.js";
 import { config } from "../config.js";
 import { rewriteFaqAnswer, decideFaqAnswerFromCandidates } from "./openaiService.js";
+import { fingerprint } from "../../utils/textFingerprint.js";
+
+
 
 function detectLang(text) {
   const t = (text || "").toLowerCase();
@@ -197,16 +200,44 @@ function markHumanOwnershipStart(conversation) {
 
 
 async function sendAndStoreBotMessage(conversation, text) {
+  const msg = String(text || "").trim();
+  if (!msg) return false;
+
+  // estä identtinen peräkkäinen bottiviesti (esim. kun käyttäjä sanoo "ok thanks")
+  const fp = fingerprint(msg);
+  const now = Date.now();
+  const NO_REPEAT_MS = 10 * 60 * 1000; // 10 min
+
+  if (
+    conversation.lastBotFp &&
+    conversation.lastBotFp === fp &&
+    conversation.lastBotFpAt &&
+    now - conversation.lastBotFpAt < NO_REPEAT_MS
+  ) {
+    console.log("[BOT] Suppressed duplicate reply");
+    return true; // käsitellään "jo toimitettuna aiemmin"
+  }
+
+  let sentOk = false;
+
   try {
-    await sendTextMessage(conversation.customerPhone, text);
+    await sendTextMessage(conversation.customerPhone, msg);
+    sentOk = true;
+
+    // merkitään dupe-suoja vasta kun lähetys onnistui
+    conversation.lastBotFp = fp;
+    conversation.lastBotFpAt = now;
   } catch (err) {
     console.error(
       `[Bot] sendTextMessage failed (storing anyway) to ${conversation.customerPhone}:`,
       err?.message || err
     );
   }
-  addMessage(conversation.id, "BOT", text);
+
+  addMessage(conversation.id, "BOT", msg);
+  return sentOk;
 }
+
 
 async function handleUncertain(conversation, messageText, clarifyOverride) {
   const lang = detectLang(messageText);
@@ -245,9 +276,9 @@ async function handleUncertain(conversation, messageText, clarifyOverride) {
       : clarifyText(lang);
 
   try {
-    await sendAndStoreBotMessage(conversation, text);
-    conversation.uncertainCount = next; // kirjataan vasta onnistuneen lähetyksen jälkeen
-  } catch (err) {
+  const sent = await sendAndStoreBotMessage(conversation, text);
+  if (sent) conversation.uncertainCount = next;
+} catch (err) {
     console.error(
       `[Bot] Failed to send clarify message to ${conversation.customerPhone}:`,
       err?.message || err
@@ -348,8 +379,7 @@ const lastAgentDate =
 
 
       try {
-        await sendTextMessage(conversation.customerPhone, humanHandoffText(lang));
-        addMessage(conversation.id, "BOT", humanHandoffText(lang));
+        await sendAndStoreBotMessage(conversation, humanHandoffText(lang));
       } catch (err) {
         console.error(`[Bot] Failed to send human handoff confirm message:`, err?.message || err);
       }
@@ -361,8 +391,7 @@ const lastAgentDate =
       conversation.uncertainCount = 0;
 
       try {
-        await sendTextMessage(conversation.customerPhone, stayWithBotText(lang));
-        addMessage(conversation.id, "BOT", stayWithBotText(lang));
+        await sendAndStoreBotMessage(conversation, stayWithBotText(lang));
       } catch (err) {
         console.error(`[Bot] Failed to send stay-with-bot message:`, err?.message || err);
       }
@@ -371,8 +400,7 @@ const lastAgentDate =
 
     // Jos vastaus ei ole selkeä kyllä/ei -> kysytään sama varmistus uudelleen
     try {
-      await sendTextMessage(conversation.customerPhone, humanConfirmText(lang));
-      addMessage(conversation.id, "BOT", humanConfirmText(lang));
+      await sendAndStoreBotMessage(conversation, humanConfirmText(lang));
     } catch (err) {
       console.error(`[Bot] Failed to send human confirm prompt:`, err?.message || err);
     }
@@ -385,8 +413,7 @@ const lastAgentDate =
     conversation.handoffConfirmPending = true;
 
     try {
-      await sendTextMessage(conversation.customerPhone, humanConfirmText(lang));
-      addMessage(conversation.id, "BOT", humanConfirmText(lang));
+      await sendAndStoreBotMessage(conversation, humanConfirmText(lang));
     } catch (err) {
       console.error(`[Bot] Failed to send human confirm prompt:`, err?.message || err);
     }
@@ -399,9 +426,9 @@ const lastAgentDate =
     const text = greetingReply(lang);
 
     try {
-      await sendAndStoreBotMessage(conversation, text);
-      conversation.uncertainCount = 0; // tervehdys ei ole "epävarma"
-    } catch (err) {
+  const sent = await sendAndStoreBotMessage(conversation, text);
+  if (sent) conversation.uncertainCount = 0;
+} catch (err) {
       console.error(
         `[Bot] Failed to send greeting to ${conversation.customerPhone}:`,
         err?.message || err
@@ -477,12 +504,9 @@ const hasIds = Array.isArray(decision?.faqIdsUsed) && decision.faqIdsUsed.length
   );
 
   try {
-    await sendTextMessage(conversation.customerPhone, replyText);
-    console.log(
-      `[Bot] Sent decider reply to ${conversation.customerPhone} for conversation ${conversation.id}.`
-    );
-    conversation.uncertainCount = 0;
-  } catch (err) {
+  const sent = await sendAndStoreBotMessage(conversation, replyText);
+  if (sent) conversation.uncertainCount = 0;
+} catch (err) {
     console.error(
       `[Bot] Failed to send decider reply to ${conversation.customerPhone}:`,
       err?.message || err
@@ -490,7 +514,6 @@ const hasIds = Array.isArray(decision?.faqIdsUsed) && decision.faqIdsUsed.length
     return;
   }
 
-  addMessage(conversation.id, "BOT", replyText);
   console.log(
     `[Bot] Conversation ${conversation.id} remains in AUTO mode after decider reply.`
   );
@@ -516,8 +539,7 @@ if (faq && typeof score === "number" && score >= SOFT_FALLBACK_SCORE) {
       : String(faq.answer || "").trim();
 
     if (replyText) {
-      await sendTextMessage(conversation.customerPhone, replyText);
-      addMessage(conversation.id, "BOT", replyText);
+      await sendAndStoreBotMessage(conversation, replyText);
       conversation.uncertainCount = 0;
       return;
     }
@@ -573,8 +595,7 @@ if (
       );
 
       try {
-        await sendTextMessage(conversation.customerPhone, replyText);
-        addMessage(conversation.id, "BOT", replyText);
+        await sendAndStoreBotMessage(conversation, replyText);
         conversation.uncertainCount = 0;
         return;
       } catch (err) {
@@ -628,12 +649,10 @@ if (
 
   // 5. Lähetä vastaus WhatsAppiin
   try {
-    await sendTextMessage(conversation.customerPhone, replyText);
+    await sendAndStoreBotMessage(conversation, replyText);
     console.log(
       `[Bot] Sent reply to ${conversation.customerPhone} for conversation ${conversation.id}.`
     );
-
-    // UUSI: onnistunut vastaus -> nollataan epävarmuuslaskuri
     conversation.uncertainCount = 0;
   } catch (err) {
     console.error(
@@ -643,9 +662,6 @@ if (
     // Lähetys epäonnistui → älä pakota statusta, anna agentin/monitoroinnin päättää
     return;
   }
-
-  // 6. Tallenna BOT-viesti
-  addMessage(conversation.id, "BOT", replyText);
 
   // Keskustelu jää AUTO-tilaan (botti saa vastata jatkossakin).
   console.log(
