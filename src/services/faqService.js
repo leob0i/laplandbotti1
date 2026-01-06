@@ -125,10 +125,10 @@ function getFuse() {
     threshold: FUSE_THRESHOLD,      // 0.35–0.55 hyvä alue. Pienempi = tiukempi
     distance: 200,
     minMatchCharLength: 2,
-    keys: [
-  { name: "_q", weight: 0.6 },
-  { name: "_tags", weight: 0.25 },
-  { name: "_a", weight: 0.15 },
+   keys: [
+  { name: "_q", weight: 0.85 },
+  { name: "_tags", weight: 0.15 },
+  // ÄLÄ hae vastauksista (_a). Se aiheuttaa “väärät osumat”.
 ],
 
       
@@ -337,4 +337,9 @@ if (fuseCandidates.length > 0 && looksLikeGuaranteeQuery(q)) {
 
   scored.sort((a, b) => b.score - a.score);
   return scored.slice(0, safeLimit);
+}
+
+export function getFaqById(id) {
+  if (!id) return null;
+  return faqItems.find((x) => x.id === id) || null;
 }

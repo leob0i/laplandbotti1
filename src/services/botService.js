@@ -6,6 +6,16 @@ import { addMessage, updateConversationStatus } from "./conversationStore.js";
 import { config } from "../config.js";
 import { rewriteFaqAnswer, decideFaqAnswerFromCandidates } from "./openaiService.js";
 import { fingerprint } from "../../utils/textFingerprint.js";
+import {
+  isQuestion,
+  looksLikeIntroOrBooking,
+  extractFirstName,
+  isShortClarifier,
+} from "../../utils/messageHeuristics.js";
+import { findBestFaqMatch, findTopFaqCandidates, getFaqById } from "./faqService.js";
+
+
+
 
 
 
@@ -215,7 +225,8 @@ async function sendAndStoreBotMessage(conversation, text) {
     now - conversation.lastBotFpAt < NO_REPEAT_MS
   ) {
     console.log("[BOT] Suppressed duplicate reply");
-    return true; // käsitellään "jo toimitettuna aiemmin"
+return false; // ei lähetetty nyt -> ei state-muutoksia kutsujassa
+
   }
 
   let sentOk = false;
@@ -368,35 +379,44 @@ const lastAgentDate =
   if (conversation.handoffConfirmPending) {
     const lang = detectLang(messageText);
 
-    if (isYes(messageText)) {
-      conversation.handoffConfirmPending = false;
-      conversation.uncertainCount = 0;
+  if (isYes(messageText)) {
+  conversation.handoffConfirmPending = false;
 
-      updateConversationStatus(conversation.id, "HUMAN");
-      conversation.status = "HUMAN";
+  updateConversationStatus(conversation.id, "HUMAN");
+  conversation.status = "HUMAN";
 
-      markHumanOwnershipStart(conversation);
+  markHumanOwnershipStart(conversation);
+
+  try {
+    const sent = await sendAndStoreBotMessage(conversation, humanHandoffText(lang));
+    if (sent) conversation.uncertainCount = 0;
+  } catch (err) {
+    console.error(
+      `[Bot] Failed to send human handoff confirm message:`,
+      err?.message || err
+    );
+  }
+  return;
+}
 
 
-      try {
-        await sendAndStoreBotMessage(conversation, humanHandoffText(lang));
-      } catch (err) {
-        console.error(`[Bot] Failed to send human handoff confirm message:`, err?.message || err);
-      }
-      return;
-    }
+if (isNo(messageText)) {
+  conversation.handoffConfirmPending = false;
 
-    if (isNo(messageText)) {
-      conversation.handoffConfirmPending = false;
-      conversation.uncertainCount = 0;
+  try {
+    const sent = await sendAndStoreBotMessage(conversation, stayWithBotText(lang));
+    if (sent) conversation.uncertainCount = 0;
+  } catch (err) {
+    console.error(
+      `[Bot] Failed to send stay-with-bot message:`,
+      err?.message || err
+    );
+  }
+  return;
+}
 
-      try {
-        await sendAndStoreBotMessage(conversation, stayWithBotText(lang));
-      } catch (err) {
-        console.error(`[Bot] Failed to send stay-with-bot message:`, err?.message || err);
-      }
-      return;
-    }
+
+    
 
     // Jos vastaus ei ole selkeä kyllä/ei -> kysytään sama varmistus uudelleen
     try {
@@ -437,6 +457,44 @@ const lastAgentDate =
     return;
   }
 
+// 2.75) Professional handling: short clarifiers + intro/booking statements
+let userQuestion = String(messageText || "").trim();
+
+// 1) Lyhyet tarkennukset liitetään edelliseen kysymykseen (konteksti)
+if (isShortClarifier(userQuestion) && conversation?.lastUserQuestionText) {
+  userQuestion = `${String(conversation.lastUserQuestionText).trim()} ${userQuestion}`.trim();
+}
+
+// 2) Intro/statement ei saa mennä decideriin (ei ole kysymys)
+const questionLike = isQuestion(userQuestion);
+
+if (!questionLike && looksLikeIntroOrBooking(userQuestion)) {
+  const name = extractFirstName(userQuestion);
+  if (name) conversation.customerName = name;
+
+  const who = conversation.customerName ? ` ${conversation.customerName}` : "";
+
+  const ack = `Hello${who}. Thanks for the details. How can we help with your aurora hunt booking?`;
+
+  try {
+    await sendAndStoreBotMessage(conversation, ack);
+  } catch (err) {
+    console.error(
+      `[Bot] Failed to send intro/booking ack to ${conversation.customerPhone}:`,
+      err?.message || err
+    );
+  }
+  return;
+}
+
+// 3) Tallenna “viimeisin kysymys” kontekstia varten (vain jos tämä oli oikeasti kysymys)
+if (questionLike) {
+  conversation.lastUserQuestionText = userQuestion;
+  conversation.lastUserQuestionAt = Date.now();
+}
+
+
+
   // 2.8) Tallennetaan "merkityksellinen" viimeisin käyttäjäviesti follow-up-kontekstia varten.
   // Huom: Tätä EI tehdä greeting/handoffConfirmPending/humanRequest -poluissa, koska niistä palataan jo aiemmin.
   const prevMeaningfulText = conversation.lastMeaningfulUserText || null;
@@ -444,10 +502,26 @@ const lastAgentDate =
   conversation.lastUserAt = new Date();
 
   // Follow-up + intent-boost -hakuteksti (ei muuta HUMAN/coexistence-logiikkaa)
-  const faqQueryText = buildFaqQueryText(messageText, prevMeaningfulText);
+  const faqQueryText = buildFaqQueryText(userQuestion, prevMeaningfulText);
+
   console.log(
     `[Bot] FAQ query for ${conversation.id}: "${faqQueryText}" (orig="${messageText}")`
   );
+
+  const DURATION_RE = /\b(how long|duration|how many hours|length|take|kauanko|kesto|kuinka kauan)\b/i;
+
+if (DURATION_RE.test(userQuestion)) {
+  const durationFaq = getFaqById("aurora_duration");
+  if (durationFaq?.answer) {
+    try {
+      const sent = await sendAndStoreBotMessage(conversation, durationFaq.answer);
+      if (sent) conversation.uncertainCount = 0;
+    } catch (err) {
+      console.error(`[Bot] Failed to send duration reply:`, err?.message || err);
+    }
+    return;
+  }
+}
 
 
   // 3. Yritä FAQ-match
