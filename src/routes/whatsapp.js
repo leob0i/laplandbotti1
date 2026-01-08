@@ -9,6 +9,8 @@ import { sendTextMessage } from "../services/whatsappService.js";
 import { enqueueConversation } from "../../utils/conversationQueue.js";
 import { isDuplicateWaMessageId } from "../services/conversationStore.js";
 import { shouldAutoSilence } from "../../utils/autoSilence.js";
+import { bufferIncomingText } from "../../utils/inboundBuffer.js";
+
 
 
 
@@ -177,8 +179,30 @@ if (type === "text" && cleanText && shouldAutoSilence(cleanText)) {
 
 // 2) Bottilogiikka ajetaan vain tekstille
 if (type === "text" && cleanText) {
-  await handleIncomingCustomerMessage(conversation, cleanText);
+  bufferIncomingText(
+    queueKey,
+    cleanText,
+    { from: customerPhone, messageId, type },
+    async (combinedText) => {
+      const job = async () => {
+        // Hae conversation tuoreena (varmuuden vuoksi)
+        const convo = findOrCreateConversationByPhone(queueKey);
+        if (!convo) return;
+
+        await handleIncomingCustomerMessage(convo, combinedText);
+      };
+
+      // Aja samaa per-user queue:ta pitkin, jotta järjestys säilyy
+      if (config.ENABLE_PER_USER_QUEUE) {
+        await enqueueConversation(queueKey, job);
+      } else {
+        await job();
+      }
+    },
+    1200 // debounce window (ms)
+  );
 }
+
 
 };
 
