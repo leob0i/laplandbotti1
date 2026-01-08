@@ -183,6 +183,70 @@ function buildFaqQueryText(messageText, prevMeaningfulText) {
   return q;
 }
 
+function looksLikeMultiPartQuestion(text = "") {
+  const t = String(text || "").toLowerCase();
+
+  // jos kaksi kysymysmerkkiä -> lähes varmasti moniosainen
+  if ((text.match(/\?/g) || []).length >= 2) return true;
+
+  // selkeästi jaettu riveihin
+  if (text.includes("\n")) {
+    const nonEmptyLines = text.split("\n").map(s => s.trim()).filter(Boolean);
+    if (nonEmptyLines.length >= 2) return true;
+  }
+
+  // pickup + prepare samassa viestissä (sun ydincase)
+  const pickupHints = ["pickup", "pick up", "pick-up", "what time", "meeting point", "hotel"];
+  const prepHints = ["prepare", "bring", "wear", "clothes", "warm", "food", "snack", "drinks", "need"];
+
+  const hasPickup = pickupHints.some(k => t.includes(k));
+  const hasPrep = prepHints.some(k => t.includes(k));
+
+  if (hasPickup && hasPrep) return true;
+
+  // "and" voi olla myös moniosainen, mutta pidetään konservatiivisena:
+  // vain jos sisältää myös kysymyssanan
+  if (t.includes(" and ") && /\b(what|when|where|how|should|can|do|is|are)\b/i.test(t)) return true;
+
+  return false;
+}
+
+function splitMultiPartQuestions(text = "") {
+  const raw = String(text || "").trim();
+  if (!raw) return [];
+
+  // pilkotaan: rivit + "and" / "&"
+  const parts = raw
+    .split(/\n+/)
+    .flatMap(line => line.split(/\s+(?:and|&)\s+/i))
+    .map(s => s.trim())
+    .filter(Boolean);
+
+  // varmistetaan että osat näyttävät kysymyksiltä (lisää ? jos puuttuu)
+  return parts.map(p => {
+    const looksQuestion =
+      p.includes("?") ||
+      /\b(what|when|where|how|should|can|do|is|are)\b/i.test(p);
+
+    if (looksQuestion && !p.includes("?")) return `${p}?`;
+    return p;
+  });
+}
+
+function uniqueFaqMatchesById(matches = []) {
+  const out = [];
+  const seen = new Set();
+  for (const m of matches) {
+    const id = m?.faq?.id;
+    if (!id) continue;
+    if (seen.has(id)) continue;
+    seen.add(id);
+    out.push(m);
+  }
+  return out;
+}
+
+
 
 function humanConfirmText(lang) {
   return lang === "fi"
@@ -520,6 +584,57 @@ if (questionLike) {
     `[Bot] FAQ query for ${conversation.id}: "${faqQueryText}" (orig="${messageText}")`
   );
 
+    // 2.85) Multi-part question handling (pickup + prepare, or multiple questions)
+  const lang = detectLang(messageText);
+  let forceDecider = false;
+
+  if (looksLikeMultiPartQuestion(userQuestion)) {
+    const parts = splitMultiPartQuestions(userQuestion);
+
+    if (parts.length >= 2) {
+      // haetaan paras FAQ jokaiselle osalle erikseen
+      const partMatches = [];
+      for (const part of parts) {
+        const partQuery = buildFaqQueryText(part, prevMeaningfulText);
+        const { faq: partFaq, score: partScore } = await findBestFaqMatch(partQuery);
+
+        if (partFaq) {
+          partMatches.push({ faq: partFaq, score: partScore, part, partQuery });
+        }
+      }
+
+      // pidetään vain vahvat osumat (sama kynnys kuin normaalisti)
+      const strong = partMatches.filter(m => typeof m.score === "number" && m.score >= config.CONFIDENCE_THRESHOLD);
+
+      const uniqueStrong = uniqueFaqMatchesById(strong);
+
+      // Jos saatiin vähintään 2 eri FAQ:ta, vastataan molempiin yhdellä viestillä (ei OpenAI:ta)
+      if (uniqueStrong.length >= 2) {
+        const header = lang === "fi" ? "Tässä tiedot:" : "Here’s the info:";
+        const combined =
+          header +
+          "\n\n" +
+          uniqueStrong.map(m => `• ${String(m.faq.answer || "").trim()}`).join("\n\n");
+
+        try {
+          const sent = await sendAndStoreBotMessage(conversation, combined);
+          if (sent) conversation.uncertainCount = 0;
+        } catch (err) {
+          console.error(`[Bot] Failed to send multi-part combined reply:`, err?.message || err);
+        }
+        return;
+      }
+
+      // Muuten: älä vastaa vain yhdellä FAQ:lla (se aiheuttaa juuri sun ongelman),
+      // vaan pakota decideriin jotta se voi yhdistää / kattaa molemmat osat.
+      forceDecider = true;
+      console.log(
+        `[Bot] Multi-part detected but not enough strong FAQ matches -> forcing OpenAI decider for ${conversation.id}.`
+      );
+    }
+  }
+
+
   const DURATION_RE = /\b(how long|duration|how many hours|length|take|kauanko|kesto|kuinka kauan)\b/i;
 
 if (DURATION_RE.test(userQuestion)) {
@@ -545,7 +660,8 @@ if (DURATION_RE.test(userQuestion)) {
     )}, faqId=${faq?.id}`
   );
 
- if (!faq || score < config.CONFIDENCE_THRESHOLD) {
+if (forceDecider || !faq || score < config.CONFIDENCE_THRESHOLD) {
+
   console.log(
     `[Bot] Score too low or no FAQ (score=${score.toFixed(
       3
