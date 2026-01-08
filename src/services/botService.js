@@ -49,8 +49,8 @@ function clarifyText(lang) {
 
 function handoffText(lang) {
   return lang === "fi"
-    ? "Kiitos. En ole tästä riittävän varma FAQ:n perusteella, joten ohjaan tämän ihmiselle. Saat vastauksen heti kun ihminen ehtii mukaan."
-    : "Thanks. I’m not confident based on the FAQ, so I’m handing this over to a human. You’ll get a reply as soon as a person joins.";
+    ? "TÄSSÄ KOHTAA BOTTI HILJENEE JA ODOTTAA ETTÄ IHMINEN VASTAA. TESTI VAIHEESSA BOTTI KUITENIKN PALAA NOIN 1MIN SISÄLLÄ TAKAISIN. TUOTANNOSSA ESIM 10/UUDENVIESTIN TAI BOTTI EI ENÄÄN PALAA TAKAISIN.)"
+    : "TÄSSÄ KOHTAA BOTTI HILJENEE JA ODOTTAA ETTÄ IHMINEN VASTAA. TESTI VAIHEESSA BOTTI KUITENIKN PALAA NOIN 1MIN SISÄLLÄ TAKAISIN. TUOTANNOSSA ESIM 10/UUDENVIESTIN TAI BOTTI EI ENÄÄN PALAA TAKAISIN.)";
 }
 
 function isHumanRequest(text) {

@@ -262,7 +262,7 @@
   {
     "id": "aurora_best_time",
     "question": "When is the best time to see the Northern Lights?",
-    "answer": "According to the site’s FAQ, the best time to see the Northern Lights is from September to March. The solar activity is noted as being strongest during the spring period. Outside these months it is usually too bright in Lapland for reliable aurora viewing.",
+    "answer": "The best time to see the Northern Lights is from September to March. The solar activity is noted as being strongest during the spring period. Outside these months it is usually too bright in Lapland for reliable aurora viewing.",
     "tags": [
       "best time northern lights",
       "best month to see aurora",
@@ -281,7 +281,7 @@
   {
     "id": "aurora_included",
     "question": "What is included in an aurora hunt tour?",
-    "answer": "The FAQ states that an aurora hunt includes transportation and pickup within a 10 km range of Rovaniemi city center, a local guide, and hot drinks and snacks. In the 'We go the extra mile' section they add that you can expect a personalised small-group experience, expert local guidance, a data-driven approach where decisions are based on performance and real-time information, pickup and return transport, hot drinks plus traditional snacks, professional aurora photography and flexible tour duration.",
+    "answer": "our aurora hunt includes transportation and pickup within a 10 km range of Rovaniemi city center, a local guide, and hot drinks and snacks.  You can expect a personalised experience, expert local guidance, a data-driven approach where decisions are based on performance and real-time information, pickup and return transport, hot drinks plus traditional snacks, professional aurora photography, and flexible tour duration.",
     "tags": [
       "what is included",
       "what's included",
@@ -337,7 +337,7 @@
   {
   "id": "aurora_duration",
   "question": "How long do aurora hunt tours last?",
-  "answer": "The FAQ explains that aurora hunts typically last 3–5 hours, but they can sometimes last up to 12 hours if cloud coverage is high and the guides need to drive far away. They mention that the furthest they drove in the previous season was 380 km one way. On the homepage, the Group Tour is presented as up to about 5 hours, while the Small Group Tour is listed as 5–12 hours and is described as having no time or distance limits. Because the tour adapts to conditions, we cannot guarantee an exact return time. If you have an early flight or a strict deadline, please tell us in advance so we can advise the best option.",
+  "answer": "Aurora hunts typically last 3–5 hours, but they can sometimes last up to even 12 hours if cloud coverage is high and we need to drive far away.  Usually Group Tour is up to about 5 hours, while the Small Group Tour can be 5–12 hours and is described as having no time or distance limits. Because the tour adapts to conditions, we cannot guarantee an exact return time. If you have an early flight or a strict deadline, please tell us in advance so we can advise the best option. ",
   "tags": [
     "tour length",
     "tour duration",
@@ -352,7 +352,6 @@
     "no distance limit small group",
     "how late do we get back",
     "return time to hotel",
-    "380 km one way",
     "sure and the tour lasts for 8 hours",
     "does the tour last 8 hours",
     "is it 8 hours",
@@ -384,7 +383,7 @@
   {
     "id": "aurora_what_to_bring",
     "question": "What should I bring on an aurora hunt?",
-    "answer": "The FAQ recommends bringing a good attitude, warm clothes and possibly some extra food, noting that Lapland Explorers offers light snacks and warm drinks on the hunts. In the 'We go the extra mile' section they specify that to stay warm and comfortable you should bring your passport or ID, warm layers, a hat, gloves and waterproof outerwear. Good winter footwear and extra layers are strongly implied by the description of long nights outdoors in Arctic conditions.",
+    "answer": "We recommend bringing a good attitude, warm clothes, and possibly some extra food, and we note that we offer light snacks and warm drinks on the hunts. We specify that to stay warm and comfortable you should bring warm layers, a hat, gloves, and waterproof outerwear. Passport or ID-card is also required. Good winter footwear and extra layers are strongly implied by the description of long nights outdoors in Arctic conditions. ",
     "tags": [
       "what to bring",
       "what should i bring",
@@ -522,7 +521,7 @@
   {
     "id": "aurora_how_far_drive",
     "question": "How far can you drive during an aurora hunt?",
-    "answer": "In the FAQ, Lapland Explorers notes that hunts can last up to 12 hours when cloud coverage is high and they need to drive far away, mentioning that the furthest they drove in the previous season was 380 km one way. The Small Group Tour description adds that there are no time or distance limits, and that guides will go wherever the aurora appears, even to Norway when that is where clear skies are. Guest reviews describe nights where the team drove deep into Swedish Lapland to find clear skies, which matches this long-distance, chase-style approach.",
+    "answer": "Aurora hunts can last up to 12 hours when cloud coverage is high and they need to drive far away if needed.  The Small Group Tour there are no time or distance limits, and that guides will go wherever the aurora appears, even to Norway when that is where clear skies are. Guest reviews describe nights where the team drove deep into Swedish Lapland to find clear skies, which matches this long-distance, chase-style approach. ",
     "tags": [
       "how far do you drive",
       "how far can you drive",
@@ -600,7 +599,7 @@
   {
     "id": "pricing_per_person",
     "question": "What is the price per person for your Northern Lights tours?",
-    "answer": "Prices depend on the tour type (Group Tour vs. Small Group Guaranteed) and the date. For the exact per-person price, please check the booking page for your chosen tour/date or contact us at info@laplandexplorers.com / +358 40 1824400.",
+    "answer": "Prices depend on the tour type (Group Tour vs. Small Group Guaranteed) and the date. For the exact per-person price, please check the booking page for your chosen tour/date or contact us at info@laplandexplorers.com /call: +358 40 1824400.",
     "tags": [
       "price per person",
       "cost per person",
@@ -620,27 +619,7 @@
       "hinnoittelu"
     ]
   },
-  {
-    "id": "multiple_nights_booking",
-    "question": "Can I book multiple nights to increase my chances of seeing the aurora?",
-    "answer": "Yes—each aurora hunt is booked for a specific date/night. If you want to increase your chances, you can book multiple nights during your stay. If you want help choosing dates/tour types, contact us and we’ll guide you.",
-    "tags": [
-      "book multiple nights",
-      "book multiple tours",
-      "book more than one night",
-      "multiple nights aurora hunt",
-      "increase chances multiple tours",
-      "how many nights should i book",
-      "can i book two nights",
-      "can i book several nights",
-      "choose number of nights",
-      "aurora hunt several nights",
-      "varata useampi ilta",
-      "montako iltaa voi varata",
-      "revontuliretki useana päivänä",
-      "lisää todennäköisyyttä useampi retki"
-    ]
-  },
+  
   {
     "id": "large_group_10_people_request",
     "question": "We’re a group of 10 (including kids/teens). Can we go together?",
