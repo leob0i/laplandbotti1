@@ -1,3 +1,6 @@
+console.log("[Heuristics] signature=messageHeuristics@2026-01-08-A path=", import.meta.url);
+
+
 // utils/messageHeuristics.js
 export function normalizeLite(s = "") {
   return String(s).trim().toLowerCase();

@@ -12,6 +12,11 @@ import {
 } from "./services/conversationStore.js";
 import { handleIncomingCustomerMessage } from "./services/botService.js";
 
+console.log("[Build] RENDER_GIT_COMMIT =", process.env.RENDER_GIT_COMMIT || "N/A");
+console.log("[Build] RENDER_SERVICE_NAME =", process.env.RENDER_SERVICE_NAME || "N/A");
+console.log("[Build] startedAt =", new Date().toISOString());
+
+
 const app = express();
 
 // JSON-bodyjen käsittely
