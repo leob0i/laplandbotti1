@@ -10,7 +10,9 @@ import {
   looksLikeIntroOrBooking,
   extractFirstName,
   isShortClarifier,
+  isAckOnly,
 } from "../../utils/messageHeuristics.js";
+
 import { findBestFaqMatch, findTopFaqCandidates, getFaqById } from "./faqService.js";
 
 
@@ -455,6 +457,17 @@ if (isNo(messageText)) {
     }
     return;
   }
+
+    // 2.74) ACK-only -> pysy hiljaa (ei yhdistelyä, ei FAQ/decideria, ei state-muutoksia)
+  if (isAckOnly(messageText)) {
+    console.log("[BOT] Auto-silence ACK", {
+      from: conversation.customerPhone,
+      queueKey: conversation.customerPhone,
+      text: String(messageText || "").trim(),
+    });
+    return;
+  }
+
 
 // 2.75) Professional handling: short clarifiers + intro/booking statements
 let userQuestion = String(messageText || "").trim();
