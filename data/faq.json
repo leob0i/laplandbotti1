@@ -185,7 +185,7 @@
   {
     "id": "aurora_group_tour_details",
     "question": "What is included in the Guaranteed Northern Lights Group Tour with Photos?",
-    "answer": "The Guaranteed Northern Lights Group Tour with Photos is presented as a budget-friendly option that still uses the same local aurora experts as the small-group tour. The tour is marked as very easy and lasts up to around 5 hours. It includes pickup and return transport in the Rovaniemi area, guidance from a local Northern Lights expert, warm drinks and snacks, and professional photos of your night under the stars. The description also notes that if conditions look poor, Lapland Explorers will contact you beforehand so you can choose between a full refund or switching to the more flexible small-group tour. The tour is covered by the same guaranteed policy as their other aurora hunts.",
+    "answer": "The Guaranteed Northern Lights Group Tour with Photos is a budget-friendly option that still uses the same local aurora experts as the small-group tour. The tour is marked as very easy and lasts up to around 5-6 hours. It includes pickup and return transport in the Rovaniemi area, guidance from a local Northern Lights expert, warm drinks and snacks, and professional photos of your night under the stars. The description also notes that if conditions look poor, Lapland Explorers will contact you beforehand so you can choose between a full refund or switching to the more flexible small-group tour. The tour is covered by the same guaranteed policy as their other aurora hunts.",
     "tags": [
       "group tour details",
       "group aurora tour",
@@ -412,41 +412,13 @@
   {
     "id": "aurora_refund_reschedule_policy",
     "question": "What happens if the weather is bad or we don’t see the Northern Lights? Do you offer refunds or rescheduling?",
-    "answer": "In the 'Fair Refund Policy' section, Lapland Explorers explains that they avoid going out when conditions look very poor, and when they do decide to go it is because they are confident you will see the aurora. If conditions look poor, they will contact you beforehand so you can choose between a full refund or switching to the more flexible small-group option. If no Northern Lights are seen on a Guaranteed Aurora Hunt, the FAQ states that they will either give you a full refund or reschedule the hunt for a better day (if there is availability). This is summarised on the site as a 'no aurora, no pay' refund policy. Rescheduling is always subject to availability and the applicable booking terms (e.g., booking platform rules).",
+    "answer": "We avoid going on hunt if conditions look very poor, and when they do decide to go it is because they are confident you will see the aurora. If conditions look poor, they will contact you beforehand so you can choose between a full refund or switching to the more flexible small-group option. If no Northern Lights are seen on a Guaranteed Aurora Hunt, the FAQ states that they will either give you a full refund or reschedule the hunt for a better day (if there is availability). This is summarised on the site as a 'no aurora, no pay' refund policy. Rescheduling is always subject to availability and the applicable booking terms (e.g., booking platform rules).",
     "tags": [
       "refund policy",
       "fair refund policy",
       "no aurora no pay",
-      "guaranteed aurora hunt refund",
-      "what if no aurora",
-      "what if we see nothing",
-      "do you refund if no lights",
-      "money back guarantee",
-      "full refund",
-      "reschedule if no lights",
-      "switch to small group option",
-      "bad weather policy",
-      "conditions look poor",
-      "cancel due to weather",
-      "revontulet ei näy refund",
-      "saako rahat takaisin",
-      "mitä jos sää huono",
-      "peruutus huonon sään takia",
-      "uudelleenvaraus",
-      "täysi hyvitys",
-      "takuu revontulista",
-       "reschedule",
-    "change date",
-    "move to tomorrow",
-    "switch to another day",
-    "better day for aurora",
-    "forecast tomorrow",
-    "can we change the date",
-    "siirtää päivää",
-    "siirtää huomiseen",
-    "uudelleenvaraus huomiselle",
-    "voiko vaihtaa päivää",
-    "mikä päivä parempi"
+      "our policy",
+      "no aurora no pay"
     ]
   },
   {
@@ -594,29 +566,6 @@
     "change route",
     "reitti muuttuu",
     "pysähdykset riippuu säästä"
-    ]
-  },
-  {
-    "id": "pricing_per_person",
-    "question": "What is the price per person for your Northern Lights tours?",
-    "answer": "Prices depend on the tour type (Group Tour vs. Small Group Guaranteed) and the date. For the exact per-person price, please check the booking page for your chosen tour/date or contact us at info@laplandexplorers.com /call: +358 40 1824400.",
-    "tags": [
-      "price per person",
-      "cost per person",
-      "how much does it cost",
-      "how much is the tour",
-      "tour price rovaniemi",
-      "aurora tour cost",
-      "pricing lapland explorers",
-      "group tour price",
-      "small group price",
-      "book and see price",
-      "check booking page price",
-      "contact for price",
-      "hinta per henkilö",
-      "paljonko maksaa",
-      "revontuliretki hinta",
-      "hinnoittelu"
     ]
   },
   
@@ -1021,7 +970,7 @@
   },
   {
     "id": "group_tour_bad_conditions_contact_beforehand",
-    "question": "What happens if the aurora forecast or weather looks poor for the Group Tour?",
+    "question": "What happens if the aurora forecast or weather looks poor for Tour?",
     "answer": "If conditions look poor, we contact you before the tour so you can choose between a full refund or switching to our more flexible Small Group tour instead. We aim to be transparent and avoid taking you out when the chances are low.",
     "tags": [
       "bad weather group tour",
@@ -1034,21 +983,6 @@
       "mitä jos ennuste huono",
       "ilmoitatteko etukäteen",
       "täysi hyvitys"
-    ]
-  },
-  {
-    "id": "group_tour_refund_options",
-    "question": "Can I get a refund for the Group Tour if the conditions are bad?",
-    "answer": "Yes. If conditions look poor, we will inform you beforehand and you can choose a full refund or switch to the Small Group tour for more flexible routing.",
-    "tags": [
-      "group tour refund",
-      "refund group tour",
-      "full refund group tour",
-      "bad conditions refund",
-      "switch tour instead of refund",
-      "ryhmäretki hyvitys",
-      "rahat takaisin ryhmäretki",
-      "peruutus huonon sään takia"
     ]
   },
   {
@@ -1082,8 +1016,8 @@
   },
   {
     "id": "group_tour_guarantee_if_no_lights",
-    "question": "What if we don’t see the Northern Lights on the Guaranteed Group Tour?",
-    "answer": "On a guaranteed hunt, we follow the 'no aurora, no pay' approach. If no Northern Lights are seen, we offer a solution such as a refund or a new attempt (rescheduling) depending on availability and the situation.",
+    "question": "What if we don’t see the Northern Lights on hunt Tour?",
+    "answer": "We follow the 'no aurora, no pay' approach. If no Northern Lights are seen, we offer a solution such as a refund or a new attempt (rescheduling) depending on availability and the situation.",
     "tags": [
   "guarantee policy",
   "is it guaranteed",
@@ -1282,8 +1216,8 @@
       "guarantee explanation",
       "refund policy aurora",
       "reschedule policy aurora",
-      "mitä tarkoittaa no aurora no pay",
-      "taattu tai korvaus",
+      "what if no auroras",
+      "can't see northen lights",
       "guaranteed aurora meaning",
     "what does guaranteed mean",
     "no aurora no pay",
@@ -1547,7 +1481,7 @@
   {
     "id": "max_group_size_8_participants",
     "question": "How many people are on the tour? Is there a group size limit?",
-    "answer": "The tour is limited to a maximum of 8 participants.",
+    "answer": "The small group tour is limited to a maximum of 8 participants. Private hunt tour have no group size limit.",
     "tags": [
       "max 8 participants",
       "group size limit",
@@ -2098,15 +2032,13 @@
   "question": "Do you do pick-ups outside Rovaniemi (for example 19–40 km away)?",
   "answer": "Standard pick-ups are typically within about a 10 km range of Rovaniemi city center. If you are farther away (for example 19–40 km), pick-up may still be possible for an extra fee depending on distance and schedule, and we confirm it case-by-case. Please share your hotel name and location/address so we can confirm the best option (pick-up or an agreed meeting point in Rovaniemi).",
   "tags": [
-    "pickup",
-    "pick up",
-    "hotel pickup",
+    "pickup far away",
+    "pick up far",
+    "hotel pickup far",
     "outside rovaniemi",
     "outside 10 km",
-    "19 km",
     "19km",
     "40 km",
-    "40km",
     "extra fee",
     "additional cost",
     "supplement",
@@ -2199,6 +2131,163 @@
       "osittainen hyvitys",
       "kuitti"
     ]
+  },
+
+
+
+
+
+
+
+
+  {
+    "id": "aurora_small_group_pricing_seasonal",
+    "question": "What does the Guaranteed Northern Light Hunt Small Group Tour cost in different seasons?",
+    "answer": "Price per person: December 229€/person. January–March 199€/person.",
+    "tags": ["aurora small group price", "small group price", "aurora hunt price of small group", "rovaniemi"]
+  },
+  {
+    "id": "aurora_bus_tour_pricing_seasonal",
+    "question": "What does the Guaranteed Northern Light Hunt Bus Tour cost in different seasons?",
+    "answer": "Price per person: December 149€/person; January–March 109€/person.",
+    "tags": ["buss tour price", "buss price"]
+  },
+  {
+    "id": "ranua_zoo_private_price",
+    "question": "What is the price for the Private Ranua Zoo Tour with a local guide?",
+    "answer": "Price: 699€.",
+    "tags": [ "wildlife park price", "zoo price"]
+  },
+  {
+    "id": "private_forest_campfire_price",
+    "question": "What is the price for the Private Forest Campfire Experience?",
+    "answer": "Price: 899€.",
+    "tags": ["private camp fire price", "campfire price"]
+  },
+  {
+    "id": "activity_park_family_price",
+    "question": "What is the price for the Activity Park day trip (family package)?",
+    "answer": "Price for 2 Adults and 2 Children: 1150€ (includes meal, 500 meter reindeer ride and transportation from Rovaniemi).",
+    "tags": ["activity park price", "activity park", "ranua"]
+  },
+  {
+    "id": "santas_husky_rides_price_range",
+    "question": "What is the price range for Santa's Husky Rides?",
+    "answer": "Price: 60–290€/person depending on how long the ride is and whether it is shared/self-driving.",
+    "tags": ["husky price", "husky", "husky ride"]
+  },
+  {
+    "id": "chauffeur_service_pricing",
+    "question": "How is the chauffeur service priced?",
+    "answer": "Pricing depends on the time of the month and location (vehicles may vary).",
+    "tags": ["chauffeur"]
+  },
+  {
+    "id": "transportation_pricing_quote_based",
+    "question": "How is transportation (e.g., airport transfers) priced?",
+    "answer": "Pricing depends on the time of the month and location; pricing is given once a request is received.",
+    "tags": ["pricing of transportation", "airport transfer"]
+  },
+  {
+    "id": "santa_claus_village_no_entry_tickets",
+    "question": "Are there entry tickets for Santa Claus Village?",
+    "answer": "No entry tickets.",
+    "tags": ["santa claus village", "entry fee"]
+  },
+  {
+    "id": "on_request_products_pricing",
+    "question": "Can you arrange custom experiences and how is pricing handled?",
+    "answer": "On request we can offer almost anything in Rovaniemi; pricing can be discussed for these on-demand products.",
+    "tags": ["custom", "on request"]
+  },
+  {
+    "id": "aurora_bus_tour_pricing_and_details",
+    "question": "What is the Guaranteed Northern Lights Bus Tour, and what does it cost in different seasons?",
+    "answer": "The Guaranteed Northern Lights Bus Tour is a 57-seater coach tour with a 6-hour time limit and a maximum of 54 passengers. It includes a money-back guarantee and professional photos. Meeting time is between 18:00 and 21:00 at the meeting pont. Bus tour don't include hotel pickup.",
+    "tags": [
+      "bus tour",
+      "coach tour",
+      "57 seater",
+      "54 passengers",
+      "big buss"
+    ]
+  },
+  {
+    "id": "private_guaranteed_northern_lights_hunt_overview",
+    "question": "What is the Private Guaranteed Northern Lights Hunt?",
+    "answer": "The Private Guaranteed Northern Lights Hunt is a premium private aurora-hunting product with a private ride (Mercedes Sprinter or minivan). It includes professional photos and follows a money-back guarantee / reschedule approach if the aurora is not seen. Typical duration is 5–12 hours, and food or champagne can be arranged on request.",
+    "tags": [
+      "private guaranteed northern lights",
+      "private hunt"
+    ]
+  },
+  {
+    "id": "activity_private_forest_campfire_experience_pricing",
+    "question": "What is the Private Forest Campfire Experience?",
+    "answer": "The Private Forest Campfire Experience is a 5-hour private experience near Rovaniemi that includes sauna, a campfire and traditional flamed salmon. The price shown is 899€.",
+    "tags": [
+      "private forest campfire",
+      "private campfire experience",
+      "sauna",
+      "flamed salmon"
+    ]
+  },
+  {
+    "id": "activity_lapland_activity_park_ranua_pricing",
+    "question": "What is the Lapland Activity Park experience?",
+    "answer": "The Activity Park at Lapland (Ranua) is a private experience that includes transfer from accommodation in Rovaniemi. The price shown is 1,150€ for 2 adults + 2 children, including meal and transport (noted as max 100 km one way). The description lists seasonal activities such as reindeer sleigh ride (500 m), animal feeding, sauna, ice skating, snowmobile and other activities (season-dependent).",
+    "tags": [
+      "lapland activity park",
+      "ranua activity park",
+      "reindeer sleigh",
+      "animal feeding",
+      "activity park"
+    ]
+  },
+  {
+    "id": "santas_husky_rides_pricing_range",
+    "question": "What are Santa’s Husky Rides and what is the price range?",
+    "answer": "Santa’s Husky Rides are shared husky rides with self-driving options, with ride lengths as 1–18 km. The price range shown is 60–290€ per person depending on the length and whether it is shared/self-driving. Winter clothing is included, and pickup & drop-off is included as within 10 km. Photos are taken with your own device/phone.",
+    "tags": [
+      "husky rides",
+      "santa husky rides",
+      "dog rides",
+      "husky shed"
+    ]
+  },
+  {
+    "id": "santa_claus_village_visit_no_entry_tickets",
+    "question": "Do you need entry tickets for Santa Claus Village Visit?",
+    "answer": "The price list notes that Santa Claus Village Visit does not require entry tickets.",
+    "tags": [
+      "santa claus village",
+      "no entry tickets",
+      "tickets",
+      "visit"
+    ]
+  },
+  {
+    "id": "chauffeur_service_pricing_depends_month_location",
+    "question": "Do you offer chauffeur service and how is it priced?",
+    "answer": "Chauffeur service is listed, with pricing described as depending on the time of the month and the location.",
+    "tags": [
+      "chauffeur service",
+      "pricing depends",
+      "time of month",
+      "location",
+      "transport"
+    ]
+  },
+  {
+    "id": "transportation_service_pricing_depends_month_location",
+    "question": "Do you offer transportation services (e.g., airport transport) and how is it priced?",
+    "answer": "Transportation services (including airport transportation) are listed, with pricing depending on the time of the month and the location. Pricing is provided after a request. The list also notes transport anywhere within Lapland and that Helsinki–Rovaniemi transportation is possible.",
+    "tags": [
+      "private transportation",
+      "private airport transport"
+    ]
   }
+
+
 ]
 
