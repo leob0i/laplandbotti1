@@ -658,8 +658,7 @@
       "family friendly northern lights",
       "8 hour bbq tour",
       "christmas and aurora",
-      "family activities rovaniemi",
-      "perhe revontuli grillaus"
+      "family activities rovaniemi"
     ]
   },
   {
@@ -1200,12 +1199,19 @@
     "question": "What does 'no aurora, no pay' mean?",
     "answer": "'No aurora, no pay' means that if you join a guaranteed Northern Lights hunt and no Northern Lights are seen, you are not left with a failed experience. We will offer compensation in the form of a new attempt (rescheduling) or a full refund, depending on availability and the situation.",
     "tags": [
+      "no aurora",
+      "no northern lights",
+      "no visible aurora",
+       "aurora not visible",
       "no aurora no pay meaning",
       "what does no aurora no pay mean",
       "guarantee explanation",
       "refund policy aurora",
+       "what if we don't see the northern lights",
       "reschedule policy aurora",
       "what if no auroras",
+      "not see northern lights",
+      "what happens if no aurora",
       "can't see northen lights",
       "guaranteed aurora meaning",
     "what does guaranteed mean",
@@ -1216,10 +1222,7 @@
     "getyourguide guarantee",
     "gyg booking",
     "mitä taattu tarkoittaa",
-    "no aurora no pay selitys",
-    "saako hyvityksen jos ei näy",
-    "koskeeko kaikkia retkiä",
-    "getyourguide varaus"
+    "no aurora no pay selitys"
     ]
   },
   {
