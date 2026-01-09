@@ -563,9 +563,20 @@ if (conversation?.expectingPickupLocation) {
 
 
 // 1) Lyhyet tarkennukset liitetään edelliseen kysymykseen (konteksti)
-if (isShortClarifier(userQuestion) && conversation?.lastUserQuestionText) {
+//    Vain jos viesti EI ole uusi kysymys ja edellinen kysymys on tuore (esim. 3 min).
+const lastQRecent =
+  conversation?.lastUserQuestionAt &&
+  Date.now() - conversation.lastUserQuestionAt < 3 * 60 * 1000;
+
+if (
+  lastQRecent &&
+  conversation?.lastUserQuestionText &&
+  isShortClarifier(userQuestion) &&
+  !isQuestion(userQuestion)
+) {
   userQuestion = `${String(conversation.lastUserQuestionText).trim()} ${userQuestion}`.trim();
 }
+
 
 // 2) Intro/statement ei saa mennä decideriin (ei ole kysymys)
 const questionLike = isQuestion(userQuestion);

@@ -71,6 +71,7 @@ export function isAckOnly(text = "") {
     "okay",
     "okey",
     "ok ok",
+    "okke",
     "thanks",
     "thank you",
     "thx",
