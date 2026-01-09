@@ -37,7 +37,8 @@ app.post("/debug/mock-message", async (req, res) => {
   const conversation = findOrCreateConversationByPhone(phone);
   addMessage(conversation.id, "CUSTOMER", text);
 
-  await handleIncomingCustomerMessage(conversation, text);
+  await handleIncomingCustomerMessage(conversation, text, { type: "text" });
+
 
   return res.json({ ok: true, conversationId: conversation.id });
 });

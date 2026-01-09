@@ -11,6 +11,7 @@ import {
   extractFirstName,
   isShortClarifier,
   isAckOnly,
+  looksLikePickupLocation,
 } from "../../utils/messageHeuristics.js";
 
 import { findBestFaqMatch, findTopFaqCandidates, getFaqById } from "./faqService.js";
@@ -208,6 +209,36 @@ function markHumanOwnershipStart(conversation) {
   conversation.lastAgentReplyAt = new Date();
 }
 
+function pickupLocationHandoffText(lang = "en") {
+  if (lang === "fi") {
+    return "Kiitos! Saimme noutopaikan. Tiimimme vahvistaa noutoajan/-järjestelyt ja mahdollisen lisämaksun pian.";
+  }
+  return "Thanks! We’ve received your pick-up location. Our team will confirm the pick-up details (and any possible extra fee) shortly.";
+}
+
+// Asetetaan "odotetaan pickup-osoitetta" vain, kun botti selvästi pyytää hotellin/osoitteen pickupia varten.
+function maybeMarkExpectingPickupLocation(conversation, botText) {
+  if (!conversation) return;
+
+  const t = String(botText || "").toLowerCase();
+
+  const asksEn =
+    t.includes("hotel name and location") ||
+    t.includes("provide your hotel name and location") ||
+    ((t.includes("pickup") || t.includes("pick-up")) &&
+      (t.includes("hotel") || t.includes("address") || t.includes("location")) &&
+      (t.includes("please provide") || t.includes("provide") || t.includes("send") || t.includes("share")));
+
+  const asksFi =
+    /(kerro|anna).*(hotellin|nouto).*(nimi|osoite|sijainti)/.test(t) ||
+    t.includes("hotellin nimi ja sijainti");
+
+  if (asksEn || asksFi) {
+    conversation.expectingPickupLocation = true;
+    conversation.expectingPickupLocationAt = Date.now();
+  }
+}
+
 
 
 async function sendAndStoreBotMessage(conversation, text) {
@@ -247,6 +278,8 @@ return false; // ei lähetetty nyt -> ei state-muutoksia kutsujassa
   }
 
   addMessage(conversation.id, "BOT", msg);
+  if (sentOk) maybeMarkExpectingPickupLocation(conversation, msg);
+
   return sentOk;
 }
 
@@ -306,7 +339,8 @@ async function handleUncertain(conversation, messageText, clarifyOverride) {
  * - huomioi aukioloajat
  * - käyttää FAQ-matchausta + OpenAI-rewritea
  */
-export async function handleIncomingCustomerMessage(conversation, messageText) {
+export async function handleIncomingCustomerMessage(conversation, messageText, meta = {}) {
+
   if (!conversation || !conversation.id) {
     console.warn(
       "[Bot] handleIncomingCustomerMessage called without valid conversation"
@@ -471,6 +505,62 @@ if (isNo(messageText)) {
 
 // 2.75) Professional handling: short clarifiers + intro/booking statements
 let userQuestion = String(messageText || "").trim();
+
+// 2.751) Pickup-osoite / linkki / kuva -> HUMAN (vain jos botti on juuri pyytänyt pickup-lokaatiota)
+if (conversation?.expectingPickupLocation) {
+  const ageMs = Date.now() - (conversation.expectingPickupLocationAt || 0);
+  const fresh = ageMs >= 0 && ageMs <= 2 * 60 * 60 * 1000; // 2h TTL
+
+  if (!fresh) {
+    conversation.expectingPickupLocation = false;
+    conversation.expectingPickupLocationAt = 0;
+  } else {
+    const msgType = String(meta?.type || "text").toLowerCase();
+    const lang = detectLang(messageText);
+
+    // Ei-tekstiviesti (image/document/video/audio/sticker...) -> HUMAN heti
+    if (msgType !== "text") {
+      updateConversationStatus(conversation.id, "HUMAN");
+      conversation.status = "HUMAN";
+      conversation.uncertainCount = 0;
+
+      conversation.expectingPickupLocation = false;
+      conversation.expectingPickupLocationAt = 0;
+
+      markHumanOwnershipStart(conversation);
+
+      try {
+        await sendAndStoreBotMessage(conversation, pickupLocationHandoffText(lang));
+      } catch (err) {
+        console.error(`[Bot] Failed to send pickup-location handoff message:`, err?.message || err);
+      }
+      return;
+    }
+
+    // Teksti: jos näyttää pickup-osoitteelta TAI sisältää linkin -> HUMAN heti
+    if (looksLikePickupLocation(userQuestion)) {
+      conversation.pickupLocationText = userQuestion;
+      conversation.pickupLocationAt = Date.now();
+
+      updateConversationStatus(conversation.id, "HUMAN");
+      conversation.status = "HUMAN";
+      conversation.uncertainCount = 0;
+
+      conversation.expectingPickupLocation = false;
+      conversation.expectingPickupLocationAt = 0;
+
+      markHumanOwnershipStart(conversation);
+
+      try {
+        await sendAndStoreBotMessage(conversation, pickupLocationHandoffText(lang));
+      } catch (err) {
+        console.error(`[Bot] Failed to send pickup-location handoff message:`, err?.message || err);
+      }
+      return;
+    }
+  }
+}
+
 
 // 1) Lyhyet tarkennukset liitetään edelliseen kysymykseen (konteksti)
 if (isShortClarifier(userQuestion) && conversation?.lastUserQuestionText) {

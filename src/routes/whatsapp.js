@@ -177,6 +177,18 @@ if (type === "text" && cleanText && shouldAutoSilence(cleanText)) {
   return; // EI kutsuta handleIncomingCustomerMessagea, EI lähetetä mitään takaisin
 }
 
+// 1.5) NON-TEXT (image/document/link preview etc.)
+// -> Ajetaan botService VAIN jos botti odottaa pickup-osoitetta,
+// jotta kuva/dokumentti vie varmasti HUMANiin pickup-tilanteessa.
+// Muuten ei tehdä mitään (ettei non-text aiheuta FAQ/decider-sekoilua).
+if (type !== "text") {
+  if (conversation?.expectingPickupLocation) {
+    await handleIncomingCustomerMessage(conversation, cleanText, { type });
+  }
+  return;
+}
+
+
 // 2) Bottilogiikka ajetaan vain tekstille
 if (type === "text" && cleanText) {
   bufferIncomingText(
@@ -189,7 +201,8 @@ if (type === "text" && cleanText) {
         const convo = findOrCreateConversationByPhone(queueKey);
         if (!convo) return;
 
-        await handleIncomingCustomerMessage(convo, combinedText);
+       await handleIncomingCustomerMessage(convo, combinedText, { type: "text" });
+
       };
 
       // Aja samaa per-user queue:ta pitkin, jotta järjestys säilyy
