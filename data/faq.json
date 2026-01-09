@@ -319,18 +319,15 @@
       "is dinner included",
       "is food included",
       "light snacks",
+      "is there any food serving",
+      "are snacks included on tours",
       "traditional snacks",
       "lappish snacks",
       "hot drink aurora tour",
       "can i bring my own food",
       "bring extra food",
-      "revontuliretki eväät",
-      "onko tarjolla juotavaa",
-      "kuumat juomat",
-      "välipalat retkellä",
-      "tarjoilut revontuliretki",
-      "mitä kaikkea syötävää retki sisältää",
-      "tarjoilu",
+      "is there any food",
+      "any snacks on tour",
       "snacks for tour"
     ]
   },
@@ -352,7 +349,6 @@
     "no distance limit small group",
     "how late do we get back",
     "return time to hotel",
-    "sure and the tour lasts for 8 hours",
     "does the tour last 8 hours",
     "is it 8 hours",
     "8hours",
@@ -361,21 +357,17 @@
     "depends on how far we drive",
     "sometimes we wait for northern lights",
     "kauanko retki kestää",
-    "kesto 3-5 tuntia",
+    "when will we arrive back to the hotel",
     "voiko kestää 12 tuntia",
-    "onko 8 tuntia",
-    "kestääkö 8h",
+    "when do you usually return",
     "return time",
     "what time do we get back",
-    "back by 1am",
-    "back by 2am",
     "need to be back early",
     "early flight",
     "airport in the morning",
     "paluu aika",
     "mihin aikaan palataan",
-    "pitää olla takaisin klo 1",
-    "pitää olla takaisin klo 2",
+    "Aurora tours what time back to hotel",
     "aikainen lento"
   ]
 },
@@ -389,6 +381,7 @@
       "what should i bring",
       "what should i wear",
       "what to wear",
+      "do i need to bring my passport",
       "clothing recommendations",
       "warm clothes",
       "warm layers",
@@ -397,10 +390,8 @@
       "bring extra food",
       "packing list aurora tour",
       "aurora tour packing list",
-      "revontuliretki varusteet",
-      "mitä mukaan",
-      "mitä päälle",
-      "what to wear",
+      "id card required",
+      "passport or id card required",
       "how cold is it",
       "winter boots",
       "thermal layers",
@@ -417,8 +408,7 @@
       "refund policy",
       "fair refund policy",
       "no aurora no pay",
-      "our policy",
-      "no aurora no pay"
+      "our policy"
     ]
   },
   {
@@ -501,7 +491,6 @@
       "long drives possible",
       "do you chase clear skies",
       "drive far for aurora",
-      "380 km one way",
       "up to 12 hours",
       "no distance limit small group",
       "go to norway",
@@ -760,7 +749,7 @@
   {
     "id": "guide_jasmin",
     "question": "Who is Jasmin?",
-    "answer": "Jasmin is introduced as 'Aurora Sage'. The description says she treats every aurora hunt like a promise to keep: if there is any chance of seeing the lights, she is checking forecasts, scanning the sky and pushing onward. Her profile emphasises commitment and careful monitoring of conditions.",
+    "answer": "Jasmin is introduced as 'Aurora Sage'. She treats every aurora hunt like a promise to keep: if there is any chance of seeing the lights, she is checking forecasts, scanning the sky and pushing onward. Her profile emphasises commitment and careful monitoring of conditions.",
     "tags": [
       "jasmin guide",
       "aurora sage",
@@ -1443,11 +1432,7 @@
       "hyvitys jos ei näy",
       "vapaaehtoinen maksu",
       "polttoaine välipalat",
-       "voluntary fee",
-    "optional contribution",
-    "fuel snacks optional",
-    "vapaaehtoinen maksu",
-    "vapaaehtoinen osallistumismaksu"
+    "optional contribution"
     ]
   },
 
@@ -1457,7 +1442,6 @@
     "answer": "Yes. Tour duration may vary depending on aurora activity and weather. Departure time ranges between 17:00 and 21:00 and is determined on the day to maximize aurora visibility. The itinerary and stops are flexible and may change based on safety, weather, and aurora forecasts.",
     "tags": [
       "tour duration may vary",
-      "2 to 10 hours",
       "flexible itinerary",
       "departure time 17 to 21",
       "weather dependent",
@@ -1544,19 +1528,17 @@
     "tags": [
       "required clothing",
       "winter clothing required",
+      "do you provide winter clothing",
       "insulated jacket trousers",
       "hat gloves thermal layers",
       "snow boots",
       "refusal without refund",
-      "pukeutuminen",
-      "talvivaatteet",
-      "lämpimät varusteet",
-      "ei pääse mukaan ilman hyvitystä",
+      "is winter clothing provided",
+      "clothing rental",
        "not dressed warmly enough",
     "refuse participation",
     "not warm clothing",
-    "jos ei ole tarpeeksi lämpimät vaatteet",
-    "voidaanko evätä osallistuminen"
+    "rent winter clothing"
     ]
   },
 
@@ -2159,24 +2141,6 @@
     "tags": [ "wildlife park price", "zoo price"]
   },
   {
-    "id": "private_forest_campfire_price",
-    "question": "What is the price for the Private Forest Campfire Experience?",
-    "answer": "Price: 899€.",
-    "tags": ["private camp fire price", "campfire price"]
-  },
-  {
-    "id": "activity_park_family_price",
-    "question": "What is the price for the Activity Park day trip (family package)?",
-    "answer": "Price for 2 Adults and 2 Children: 1150€ (includes meal, 500 meter reindeer ride and transportation from Rovaniemi).",
-    "tags": ["activity park price", "activity park", "ranua"]
-  },
-  {
-    "id": "santas_husky_rides_price_range",
-    "question": "What is the price range for Santa's Husky Rides?",
-    "answer": "Price: 60–290€/person depending on how long the ride is and whether it is shared/self-driving.",
-    "tags": ["husky price", "husky", "husky ride"]
-  },
-  {
     "id": "chauffeur_service_pricing",
     "question": "How is the chauffeur service priced?",
     "answer": "Pricing depends on the time of the month and location (vehicles may vary).",
@@ -2187,12 +2151,6 @@
     "question": "How is transportation (e.g., airport transfers) priced?",
     "answer": "Pricing depends on the time of the month and location; pricing is given once a request is received.",
     "tags": ["pricing of transportation", "airport transfer"]
-  },
-  {
-    "id": "santa_claus_village_no_entry_tickets",
-    "question": "Are there entry tickets for Santa Claus Village?",
-    "answer": "No entry tickets.",
-    "tags": ["santa claus village", "entry fee"]
   },
   {
     "id": "on_request_products_pricing",
@@ -2252,7 +2210,9 @@
       "husky rides",
       "santa husky rides",
       "dog rides",
-      "husky shed"
+      "husky shed",
+      "huskys",
+      "huskeys"
     ]
   },
   {
