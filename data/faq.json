@@ -403,7 +403,7 @@
   {
     "id": "aurora_refund_reschedule_policy",
     "question": "What happens if the weather is bad or we don’t see the Northern Lights? Do you offer refunds or rescheduling?",
-    "answer": "We avoid going on hunt if conditions look very poor, and when they do decide to go it is because they are confident you will see the aurora. If conditions look poor, they will contact you beforehand so you can choose between a full refund or switching to the more flexible small-group option. If no Northern Lights are seen on a Guaranteed Aurora Hunt, the FAQ states that they will either give you a full refund or reschedule the hunt for a better day (if there is availability). This is summarised on the site as a 'no aurora, no pay' refund policy. Rescheduling is always subject to availability and the applicable booking terms (e.g., booking platform rules).",
+    "answer": "We won’t go out if conditions look very poor. If they do look poor, we’ll contact you in advance so you can choose a full refund or switch to the more flexible small-group option. On a Guaranteed Aurora Hunt, if no Northern Lights are seen, you’ll get a full refund or a reschedule (subject to availability and booking terms). Please note that auroras can be faint and look different in photos. Half moon or brighter: only the camera guarantee applies—if aurora is visible on camera, it counts as successful (no eye guarantee). ",
     "tags": [
       "refund policy",
       "fair refund policy",
@@ -414,7 +414,7 @@
   {
     "id": "aurora_tour_step_by_step",
     "question": "How does a typical Northern Lights hunt work step by step?",
-    "answer": "The 'Tour Step by step' section explains that each night is different, but a typical hunt follows a clear structure. First, you are picked up from your hotel in Rovaniemi; the team will contact you with the exact pickup time based on the weather, usually between 17:00 and 21:00. Second, you take a scenic drive into the wilderness while the guide uses live aurora data and weather maps to select the best possible viewing spot. Third, you wait for the aurora: a small campfire is made, you enjoy Lappish snacks and hot drinks and can stay warm in the vehicle. Fourth, when the lights appear, your guide helps you enjoy the show and takes photos of you under the aurora. Finally, you are driven back to Rovaniemi; depending on the conditions, this might be after around 2 hours or after a much longer chase.",
+    "answer": "The 'Tour Step by step' section explains that each night is different, but a typical hunt follows a clear structure. First, you are picked up from your hotel in Rovaniemi; the team will contact you with the exact pickup time based on the weather, usually between 16:00 and 22:00. Second, you take a scenic drive into the wilderness while the guide uses live aurora data and weather maps to select the best possible viewing spot. Third, you wait for the aurora: a small campfire is made, you enjoy Lappish snacks and hot drinks and can stay warm in the vehicle. Fourth, when the lights appear, your guide helps you enjoy the show and takes photos of you under the aurora. Finally, you are driven back to Rovaniemi; depending on the conditions, this might be after around 2 hours or after a much longer chase.",
     "tags": [
       "how tour works",
       "step by step aurora hunt",
@@ -444,7 +444,7 @@
  {
   "id": "aurora_pickup_and_return",
   "question": "Where and when do you pick up guests for the aurora tour?",
-  "answer": "We offer hotel pick-up and return transport in the Rovaniemi area. Standard pick-ups are within about a 10 km range of Rovaniemi city center. If you are farther away (for example 19 km), pick-up may still be possible for an extra fee depending on distance and schedule—we confirm feasibility case-by-case. Please tell us your hotel name and location/address, and we will confirm the best option (pick-up or an agreed meeting point in Rovaniemi). The exact pick-up time is confirmed on the day based on weather and the planned route, usually between 17:00 and 21:00 (many nights start around 19:00).",
+  "answer": "We offer hotel pick-up and return transport in the Rovaniemi area. Pickup depends on the selected option: for the Small-Group Tour, pick-up and drop-off are provided directly from your accommodation within about a 10 km range of Rovaniemi city center. For the Bus Tour, pick-up and drop-off take place at the selected meeting point in Rovaniemi (Rovakatu 25–27, Lapland Explorers Office). If you are farther away, pick-up may still be possible for an extra fee depending on distance and schedule. We confirm feasibility case-by-case. Please tell us your hotel name and location/address, and we will confirm the best option (pick-up or an agreed meeting point in Rovaniemi). The exact pick-up/meeting time is confirmed on the day based on weather, forecast, and the planned route, usually between 16:00 and 22:00.",
   "tags": [
     "pickup",
     "pick up",
@@ -1197,7 +1197,7 @@
   {
     "id": "no_aurora_no_pay_explained_en",
     "question": "What does 'no aurora, no pay' mean?",
-    "answer": "'No aurora, no pay' means that if you join a guaranteed Northern Lights hunt and no Northern Lights are seen, you are not left with a failed experience. We will offer compensation in the form of a new attempt (rescheduling) or a full refund, depending on availability and the situation.",
+    "answer": "“No aurora, no pay” means if no Northern Lights are seen on a guaranteed hunt, we’ll offer a reschedule or full refund (depending on availability).Auroras can be faint and look different in photos. Half moon or brighter: only the camera guarantee applies—if aurora is visible on camera, it counts as successful (no eye guarantee).",
     "tags": [
       "no aurora",
       "no northern lights",
@@ -1272,7 +1272,7 @@
   {
     "id": "what_counts_as_no_aurora_en",
     "question": "What counts as 'no aurora' for the guarantee?",
-    "answer": "In simple terms, 'no aurora' means you did not see the Northern Lights during the hunt. If the night is unsuccessful due to conditions and no aurora is seen, we follow the 'no aurora, no pay' policy and offer compensation (new attempt or refund depending on availability and the situation).",
+    "answer": "“No aurora” means you didn’t see Northern Lights during the hunt. If none are seen, we follow “no aurora, no pay” and offer a retry or refund depending on availability.Auroras are natural and can be faint to the naked eye, often looking different in photos. Half moon or brighter: only the camera guarantee applies—if aurora is visible on camera, it counts as a successful hunt (no eye guarantee).",
     "tags": [
       "what counts as no aurora",
       "definition of no aurora",
@@ -1442,7 +1442,7 @@
   {
     "id": "tour_duration_variation_terms",
     "question": "Can the tour duration vary?",
-    "answer": "Yes. Tour duration may vary depending on aurora activity and weather. Departure time ranges between 17:00 and 21:00 and is determined on the day to maximize aurora visibility. The itinerary and stops are flexible and may change based on safety, weather, and aurora forecasts.",
+    "answer": "Yes. Tour duration may vary depending on aurora activity and weather. Departure time ranges between 16:00 and 22:00 and is determined on the day to maximize aurora visibility. The itinerary and stops are flexible and may change based on safety, weather, and aurora forecasts.",
     "tags": [
       "tour duration may vary",
       "flexible itinerary",
@@ -2249,7 +2249,79 @@
       "private transportation",
       "private airport transport"
     ]
-  }
+  },
+
+  {
+  "id": "aurora_guarantee_camera_vs_naked_eye_rules",
+  "question": "How does your money-back guarantee work (naked eye vs camera)?",
+  "answer": "Our promise is a real money-back guarantee: if we don’t see the Northern Lights with the naked eye or on camera, you’ll receive a full refund. Please note an important exception on bright moon nights: with half moon or brighter, Northern Lights may not be visible to the naked eye and only our camera guarantee applies—if the lights are visible on camera, it is counted as a successful observation (no eye guarantee).",
+  "tags": [
+    "money-back guarantee",
+    "no northern lights no payment",
+    "no aurora no pay",
+    "refund guarantee",
+    "naked eye vs camera",
+    "camera guarantee",
+    "half moon",
+    "bright moon",
+    "moonlight",
+    "what counts as successful",
+    "guarantee rules"
+  ]
+},
+
+{
+  "id": "tour_rules_smoking_alcohol_drugs",
+  "question": "Is smoking, alcohol, or drugs allowed during the tour?",
+  "answer": "No. Smoking in the vehicle is not allowed, and alcohol and drugs are not allowed on the tour.",
+  "tags": [
+    "smoking",
+    "smoke",
+    "smoking in vehicle",
+    "alcohol",
+    "drugs",
+    "rules",
+    "not allowed",
+    "can we drink",
+    "can i smoke"
+  ]
+},
+
+{
+  "id": "bus_tour_meeting_point_rovakatu",
+  "question": "Where is the meeting point for the Bus Tour?",
+  "answer": "The meeting point is Rovakatu 25–27 (Lapland Explorers Office) in Rovaniemi. For the Bus Tour, pickup and drop-off are handled at the selected meeting point in Rovaniemi.",
+  "tags": [
+    "meeting point",
+    "rovakatu 25-27",
+    "lapland explorers office",
+    "bus tour meeting point",
+    "where to meet",
+    "address",
+    "drop off bus"
+  ]
+},
+{
+  "id": "pickup_time_tour_day_email",
+  "question": "I have a booking today — what time will you pick us up?",
+  "answer": "Your pick-up time and the exact pick-up location are sent by email on the morning of your tour day (typically between 10:00 and 15:00). Please check your inbox and also your spam/junk folder. If you can’t find the email, you can call us: +358401824400, and we will confirm the pick-up details.",
+  "tags": [
+    "booking today",
+    "today booking",
+    "pickup time",
+    "pick up time",
+    "pickup",
+    "pick up",
+    "what time pick up",
+    "when will you pick us up",
+    "pickup location",
+    "pick up location",
+    "email pickup time",
+    "tour day email",
+    "didn't get email",
+    "where is my pickup info"
+  ]
+}
 
 
 ]

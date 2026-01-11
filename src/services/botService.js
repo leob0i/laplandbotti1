@@ -13,7 +13,7 @@ import {
   isAckOnly,
   looksLikePickupLocation,
 } from "../../utils/messageHeuristics.js";
-
+import { routeIntent } from "./intentRouter.js";
 import { findBestFaqMatch, findTopFaqCandidates, getFaqById } from "./faqService.js";
 
 
@@ -475,32 +475,8 @@ if (isNo(messageText)) {
     return;
   }
 
-    // 2.7) Pelkkä tervehdys -> vastaa ammattimaisesti (ei FAQ/OpenAI)
-  if (isGreeting(messageText)) {
-    const lang = detectLang(messageText);
-    const text = greetingReply(lang);
 
-    try {
-  const sent = await sendAndStoreBotMessage(conversation, text);
-  if (sent) conversation.uncertainCount = 0;
-} catch (err) {
-      console.error(
-        `[Bot] Failed to send greeting to ${conversation.customerPhone}:`,
-        err?.message || err
-      );
-    }
-    return;
-  }
 
-    // 2.74) ACK-only -> pysy hiljaa (ei yhdistelyä, ei FAQ/decideria, ei state-muutoksia)
-  if (isAckOnly(messageText)) {
-    console.log("[BOT] Auto-silence ACK", {
-      from: conversation.customerPhone,
-      queueKey: conversation.customerPhone,
-      text: String(messageText || "").trim(),
-    });
-    return;
-  }
 
 
 // 2.75) Professional handling: short clarifiers + intro/booking statements
@@ -561,9 +537,34 @@ if (conversation?.expectingPickupLocation) {
   }
 }
 
+function isFaqIneligibleLocal(text = "") {
+  const t = String(text || "").trim();
+  if (!t) return true;
 
-// 1) Lyhyet tarkennukset liitetään edelliseen kysymykseen (konteksti)
-//    Vain jos viesti EI ole uusi kysymys ja edellinen kysymys on tuore (esim. 3 min).
+  const onlyUrl = /^(https?:\/\/\S+|www\.\S+)(\s+(https?:\/\/\S+|www\.\S+))*$/i.test(t);
+
+  const email = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i;
+  const onlyEmail = email.test(t) && t.replace(email, "").replace(/[\s,;:()<>[\]{}"']+/g, "").trim().length === 0;
+
+  const hasLetters = /[A-Za-zÀ-ÖØ-öø-ÿ]/.test(t);
+  const digits = t.replace(/\D/g, "");
+  const onlyPhone = !hasLetters && digits.length >= 7 && /^[\d\s().+-]+$/.test(t);
+  const numericOnly = !hasLetters && digits.length > 0 && /^[\d\s,./:-]+$/.test(t);
+
+  if (onlyUrl || onlyEmail || onlyPhone || numericOnly) return true;
+
+  const tokens = t.split(/\s+/).filter(Boolean);
+  const tooShort = tokens.length <= 2;
+  const hasQMark = t.includes("?");
+  if (tooShort && !hasQMark && !isQuestion(t)) return true;
+
+  return false;
+}
+
+
+// -------------------------
+// (A) Pre-router: short clarifier join (keeps old behavior, but router will see combined text)
+// -------------------------
 const lastQRecent =
   conversation?.lastUserQuestionAt &&
   Date.now() - conversation.lastUserQuestionAt < 3 * 60 * 1000;
@@ -577,45 +578,127 @@ if (
   userQuestion = `${String(conversation.lastUserQuestionText).trim()} ${userQuestion}`.trim();
 }
 
+// -------------------------
+// (B) Intent router (ALL texts, after hard rules)
+// -------------------------
+const prevMeaningfulText = conversation.lastMeaningfulUserText || null;
 
-// 2) Intro/statement ei saa mennä decideriin (ei ole kysymys)
-const questionLike = isQuestion(userQuestion);
+const routed = await routeIntent(userQuestion, {
+  lastUserQuestionText: conversation.lastUserQuestionText || "",
+  prevMeaningfulUserText: prevMeaningfulText || "",
+});
 
-if (!questionLike && looksLikeIntroOrBooking(userQuestion)) {
-  const name = extractFirstName(userQuestion);
-  if (name) conversation.customerName = name;
+const confStr =
+  typeof routed?.confidence === "number" ? routed.confidence.toFixed(2) : "n/a";
 
+console.log(
+  `[Bot] IntentRouter for ${conversation.id}: intent=${routed.intent}, conf=${confStr}, source=${routed._source}, model=${routed._model || "n/a"}`
+);
+
+// Store name if extracted
+if (routed?.extractedName && !conversation.customerName) {
+  conversation.customerName = routed.extractedName;
+} else if (!conversation.customerName) {
+  const n = extractFirstName(userQuestion);
+  if (n) conversation.customerName = n;
+}
+
+const lang = detectLang(messageText);
+
+// Router confidence guardrail:
+// - If model says QUESTION but confidence is low, require heuristic question signal to proceed.
+const MIN_Q_CONF = Number(config.INTENT_ROUTER_MIN_QUESTION_CONF ?? 0.55);
+
+const denylisted = isFaqIneligibleLocal(userQuestion);
+
+const allowQuestion =
+  routed.intent === "QUESTION" &&
+  !denylisted &&
+  (routed.confidence >= MIN_Q_CONF || isQuestion(userQuestion));
+
+if (routed.intent === "QUESTION" && denylisted) {
+  console.log(
+    `[Bot] IntentRouter: QUESTION denied by denylist for ${conversation.id} (text="${userQuestion}")`
+  );
+}
+
+
+// (B1) ACK_ONLY -> silence (no FAQ/decider)
+if (routed.intent === "ACK_ONLY") {
+  console.log("[Bot] IntentRouter: ACK_ONLY -> silence", {
+    from: conversation.customerPhone,
+    id: conversation.id,
+    source: routed._source,
+  });
+  return;
+}
+
+// (B2) STATEMENT / CONTACT_INFO / OTHER -> short ACK (no FAQ/decider)
+if (!allowQuestion) {
   const who = conversation.customerName ? ` ${conversation.customerName}` : "";
 
-  const ack = `Hello${who}. Thanks for the details. How can we help with your aurora hunt booking?`;
+  // Preserve your existing nice greeting behavior
+  if (isGreeting(messageText)) {
+    try {
+      const sent = await sendAndStoreBotMessage(conversation, greetingReply(lang));
+      if (sent) conversation.uncertainCount = 0;
+    } catch (err) {
+      console.error(
+        `[Bot] Failed to send greeting to ${conversation.customerPhone}:`,
+        err?.message || err
+      );
+    }
+    return;
+  }
+
+  // Preserve your existing booking/intro ACK text
+  if (looksLikeIntroOrBooking(userQuestion)) {
+    const ack = `Hello${who}. Thanks for the details. How can we help with your aurora hunt booking?`;
+    try {
+      const sent = await sendAndStoreBotMessage(conversation, ack);
+      if (sent) conversation.uncertainCount = 0;
+    } catch (err) {
+      console.error(
+        `[Bot] Failed to send intro/booking ack to ${conversation.customerPhone}:`,
+        err?.message || err
+      );
+    }
+    return;
+  }
+
+  // Generic non-question ACK (kept short on purpose)
+  const ack =
+    routed.intent === "CONTACT_INFO"
+      ? `Thanks${who}. Noted. What would you like to know about our tours, meeting points, pricing, or bookings?`
+      : `Thanks${who}. What would you like to know about our tours, meeting points, pricing, or bookings?`;
 
   try {
-    await sendAndStoreBotMessage(conversation, ack);
+    const sent = await sendAndStoreBotMessage(conversation, ack);
+    if (sent) conversation.uncertainCount = 0;
   } catch (err) {
     console.error(
-      `[Bot] Failed to send intro/booking ack to ${conversation.customerPhone}:`,
+      `[Bot] Failed to send non-question ACK to ${conversation.customerPhone}:`,
       err?.message || err
     );
   }
   return;
 }
 
-// 3) Tallenna “viimeisin kysymys” kontekstia varten (vain jos tämä oli oikeasti kysymys)
-if (questionLike) {
-  conversation.lastUserQuestionText = userQuestion;
-  conversation.lastUserQuestionAt = Date.now();
-}
+// -------------------------
+// (C) QUESTION only -> now enter FAQ/decider pipeline
+// -------------------------
 
+// Save last question context (QUESTION only)
+conversation.lastUserQuestionText = userQuestion;
+conversation.lastUserQuestionAt = Date.now();
 
+// Save meaningful user msg for follow-up context (QUESTION only)
+conversation.lastMeaningfulUserText = messageText;
+conversation.lastUserAt = new Date();
 
-  // 2.8) Tallennetaan "merkityksellinen" viimeisin käyttäjäviesti follow-up-kontekstia varten.
-  // Huom: Tätä EI tehdä greeting/handoffConfirmPending/humanRequest -poluissa, koska niistä palataan jo aiemmin.
-  const prevMeaningfulText = conversation.lastMeaningfulUserText || null;
-  conversation.lastMeaningfulUserText = messageText;
-  conversation.lastUserAt = new Date();
+// Follow-up + intent-boost -hakuteksti (QUESTION only)
+const faqQueryText = buildFaqQueryText(userQuestion, prevMeaningfulText);
 
-  // Follow-up + intent-boost -hakuteksti (ei muuta HUMAN/coexistence-logiikkaa)
-  const faqQueryText = buildFaqQueryText(userQuestion, prevMeaningfulText);
 
   console.log(
     `[Bot] FAQ query for ${conversation.id}: "${faqQueryText}" (orig="${messageText}")`
