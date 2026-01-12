@@ -1871,7 +1871,7 @@
   {
     "id": "photo_delivery_timeframe_and_channel_master",
     "question": "When will we receive our tour photos, and how will they be sent?",
-    "answer": "Photos are delivered after editing and are typically shared as a download link (often by email). In many cases delivery happens within a few days; depending on workload/season it can take longer (for example around 4–7 days). If you booked via GetYourGuide, the link may also be shared via the GetYourGuide chat depending on the booking flow. We send the link as soon as the photos are ready.",
+    "answer": "Photos are delivered after editing and are typically shared as a download link (often by email). Usually we send photos within 5-7days. depending on workload/season it can take longer (for example around 4–7 days). If you booked via GetYourGuide, the link may also be shared via the GetYourGuide chat depending on the booking flow. We send the link as soon as the photos are ready.",
     "tags": [
       "photos",
       "pictures",
@@ -2164,7 +2164,7 @@
   {
     "id": "aurora_bus_tour_pricing_and_details",
     "question": "What is the Guaranteed Northern Lights Bus Tour, and what does it cost in different seasons?",
-    "answer": "The Guaranteed Northern Lights Bus Tour is a 57-seater coach tour with a 6-hour time limit and a maximum of 54 passengers. It includes a money-back guarantee and professional photos. Meeting time is between 18:00 and 21:00 at the meeting pont. Bus tour don't include hotel pickup.",
+    "answer": "The Guaranteed Northern Lights Bus Tour is a 57-seater coach tour with a 6-hour time limit and a maximum of 54 passengers. It includes a money-back guarantee and professional photos. Meeting time is between 18:00 and 21:00 at the meeting point(Rovanaktu 25-27, Lapland Explorers Office). Bus tour don't include hotel pickup.",
     "tags": [
       "bus tour",
       "coach tour",

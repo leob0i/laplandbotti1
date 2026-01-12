@@ -7,10 +7,10 @@ export function enqueueConversation(key, taskFn) {
   const prev = chains.get(k) || Promise.resolve();
 
   const next = prev
-    .catch(() => {})      // swallow, ettei yksittäinen virhe blokkaa ketjua
-    .then(taskFn)         // taskFn voi olla async
+    .catch(() => {})     // swallow, ettei yksittäinen virhe blokkaa ketjua
+    .then(taskFn)        // taskFn voi olla async
     .finally(() => {
-      // siivoa vain jos ketju ei ole vaihtunut sillä välin
+      // estää Mapin kasvun ikuisesti
       if (chains.get(k) === next) chains.delete(k);
     });
 
